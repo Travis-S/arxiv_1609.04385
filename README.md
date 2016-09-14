@@ -47,6 +47,14 @@ The data files in that directory are sufficient to reproduce Figures 1 through 4
 
 At this time, we are unable to provide code which would use the data to make the figures.
 
+**Images**
+
+Within the ``Images" directory, you will find PDF and SVG files for each image in the paper. If you find them useful, please let me know.
+
+**Making the Paper**
+
+Included in this repository is a Makefile which automates compiling the paper. Typing ``make" in your command line should trigger the compilation process.
+
 Updates
 ------------
 
