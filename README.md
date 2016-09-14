@@ -25,6 +25,9 @@ Quantum state tomography on a d-dimensional system demands resources that grow r
 
 Summary
 ----------
+This paper investigates a problem in _quantum state tomography_, a statistical inference process used to estimate quantum states. The resources required to estimate  a quantum state can grow very quickly, which means we need to find ways of using fewer resources. Some techniques to do so go by the name of ``statistical model selection". In this paper, we investigated how the behavior of a particular model selection technique (based on loglikelihood ratio statistics) behaves in the context of state tomography. This technique relies on a result known as the _Wilks Theorem_. Surprisingly, the Wilks Theorem breaks down in state tomography, in part because the  state space has _boundaries_ which violate some of the assumptions of the Theorem. In turn, this means model selection techniques based on loglikelihood ratio statistics might not work very well.
+
+To help remedy this, we constructed a new theory for loglikelihood ratio statistics and their behavior in state tomography. Numerical simulations verify our theory works reasonably well, and dramatically improves upon the Wilks Theorem. We applied our result to a particular kind of  state tomography (that of states of light), and found our result performs well in predicting some of the properties of loglikelihood ratio statistics. This work lays the foundation for developing a model selection technique based on loglikelihood ratio statistics which is accurate in state tomography.
 
 Use of Code/Data
 ---------
