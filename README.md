@@ -11,7 +11,7 @@ The most recent arXiv version is available [here](????).
 If you find our work useful to you, please consider citing
 
 ```
-@article{scholten2016,
+@article{[citation key],
   title={Behavior of the Maximum Likelihood in Quantum State Tomography},
   author={Scholten, Travis and Blume-Kohout, Robin},
   archivePrefix = {arXiv},
@@ -41,7 +41,7 @@ feel free to [email me](mailto:travisscholten@gmail.com) or open an issue on thi
 
 In the ``Data`` directory, you'll find several csv files which contain some of the data used to generate the figures in our paper. Below is a description of the data files, and the related figures. See ``Data/README_data.md`` for more information, such as descriptions of the data, what it is, as well as variable names.
 
-The data files in that directory are sufficient to reproduce the Figures 1, 2, 3, 4, 7, 8, 9, 10, and 11.
+The data files in that directory are sufficient to reproduce Figures 1 through 4, and 7 through 11.
 
 **Figure Generation Code**
 
@@ -50,7 +50,7 @@ At this time, we are unable to provide code which would use the data to make the
 Updates
 ------------
 
-This repository will be updated each time a new version is posted to the arXiv. I plan to use git tags to keep track of the appropriate versions here. (Thus tag `v1` corresponds to the first version on the arXiv, `v2` to the second, and so on.)
+This repository will be updated each time a new version is posted to the arXiv. I plan to use tags to keep track of the appropriate versions here. (Thus tag `v1` corresponds to the first version on the arXiv, `v2` to the second, and so on.)
 
 License
 ----------
