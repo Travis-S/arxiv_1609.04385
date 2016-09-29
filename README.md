@@ -38,7 +38,7 @@ feel free to [email me](mailto:travisscholten@gmail.com) or open an issue on thi
 
 **Data**
 
-In the ``Data`` directory, you'll find several csv files which contain some of the data used to generate the figures in our paper. See ``Data/README_data.md`` for more information, such as descriptions of the data, what it is, as well as variable names.
+In the ``Data`` directory, you'll find several csv files which contain some of the data used to generate the figures in our paper. See ``Data/README.md`` for more information, such as descriptions of the data, what it is, as well as variable names.
 
 The data files in that directory are sufficient to reproduce Figures 1 through 4,  7 through 11, and 13.
 
