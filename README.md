@@ -1,4 +1,4 @@
-This repository provides the paper source code and some data files for the paper
+This repository provides the paper source code, some data files, and a figure generation notebook for the paper
 
 **Behavior of the Maximum Likelihood in Quantum State Tomography**
 
@@ -44,7 +44,7 @@ The data files in that directory are sufficient to reproduce Figures 1 through 4
 
 **Figure Generation Code**
 
-At this time, we are unable to provide code which would use the data to make the figures.
+The file ``Figure_Generation.ipynb" is a [Jupyter notebook](http://jupyter.org/) which will reproduce Figures 1 through 4, 7 through 11, and 13. NOTE: The notebook currently does not save the figures to the ``Images" directory.
 
 **Images**
 
