@@ -149,7 +149,12 @@ and observe that $\langle\lambda\rangle = \expect{\lambda}_{\mathrm{L}} + \expec
 
 The error of the unconstrained estimate is $\delta = \hat\rho- \rho_{0}$, a normally-distributed \emph{traceless} matrix.  To simplify the analysis, we explicitly drop the $\Tr(\rho)=1$ constraint and let $\delta$ be $\mathcal{N}(0,\epsilon^2\Id)$ distributed over the $d^2$-dimensional space of Hermitian matrices (a good approximation when $d\gg2$), which makes $\delta$ proportional to an element of the Gaussian Unitary Ensemble (GUE) \cite{Fyodorov2005}.  
 
-Now, to first order in $\epsilon$, elements of $\delta$ in the ``L'' do not affect positivity, so they are unconstrained by the boundary, and behave exactly as expected from classical theory.  Each matrix element $\delta_{jk}$ in the ``L'' has Gaussian fluctuations and so for those elements, $\langle \lambda_{jk} \rangle = 1$. As there are $2rd - r(r+1)$ of them in the ``L", $\expect{\lambda}_{\mathrm{L}} = 2rd - r(r+1)$.
+Now, to first order in $\epsilon$, elements of $\delta$ in the ``L'' do not affect positivity, so they are unconstrained by the boundary, and behave exactly as expected from classical theory. This is because the $\delta_{jk}$ in the ``L'' may be seen as errors which arise due to small unitary perturbations of the true state $\rho_{0}$. Writing $\rhohat = U^{\dagger}\rho_{0}U$, where $U=e^{i\epsilon H}$, we have
+\[\rhohat \approx \rho_{0} + i\epsilon [\rho_{0},H]+\mathcal{O}(\epsilon^{2}).\]
+Then, $\delta \approx i\epsilon [\rho_{0},H]$.
+If $j = k$, then $\delta_{jj} = 0$. Thus, small unitaries cannot create errors in the diagonal matrix elements, at $\mathcal{O}(\epsilon)$. If $j \neq k$, then $\delta_{jk} \neq 0$, in general. So small unitaries \emph{can} introduce errors on off-diagonal elements.
+
+However, if either $\ket{j}$ or $\ket{k}$ (or both) lie within the \emph{kernel} of $\rho_{0}$ (i.e., $\rho_{0}\ket{k}$ or $\rho_{0}\ket{j}$ is equal to 0), then the corresponding $\delta_{jk}$ are zero. The only off-diagonal elements where small unitaries can introduce errors are those which are coherent between the kernel of $\rho_{0}$ and its support. These off-diagonal elements are precisely the ``L", and are  the set $\{\delta_{jk}~|~\langle j | \rho_{0}|j\rangle \neq 0, j\neq k, ~ 0 \leq j,k \leq d - 1\}$. Each $\delta_{jk}$ in the ``L'' has Gaussian fluctuations and so for those elements, $\langle \lambda_{jk} \rangle = 1$. As there are $2rd - r(r+1)$ of them in the ``L", $\expect{\lambda}_{\mathrm{L}} = 2rd - r(r+1)$.
 
 Computing $\expect{\lambda}_{\mathrm{kite}}$ is a bit harder, because the boundary \emph{does} constrain elements in the ``kite''.  Here, we turn to the ``truncation'' algorithm given above for finding $\rhoMLE$, which is most naturally performed in the eigenbasis of $\hat\rho$.  Exact diagonalization of $\hat\rho$ is not feasible analytically, but only the \emph{small} eigenvalues of $\hat\rho$ are critical in truncation.  As long as all the nonzero eigenvalues of $\rho_0$ are much larger than $\epsilon$, the eigenbasis of $\hat\rho$ is accurately approximated by: (1) 
 the eigenvectors of $\rho_0$ on its support; and (2) the eigenvectors of $\delta_{\mathrm{ker}} = \Pi_{\mathrm{ker}}\delta\Pi_{\mathrm{ker}}$, where $\Pi_{\mathrm{ker}}
@@ -322,10 +327,6 @@ q \approx 2\sqrt{N}-\frac{(240r\pi)^{2/5}}{4}N^{1/10}+\frac{(240r\pi)^{4/5}}{80}
 
 This completes our exposition of two significant technical details in the derivation.
 
-%------------THE L-----------------%
-\section{The ``L"}
-\label{app:rationale}
-
 \begin{figure}[h!]
 \includegraphics[width=\columnwidth]{Images/Figure_7.pdf}
  \caption{Contributions of each matrix element of $\rhoMLE$ to $\expect{\lambda}$, for three different $\rho_0$, as computed in numerical simulations for $d=8$.  \textbf{Left}:  The matrix elements of $\rho_0$.  \textbf{Right}:  The average scaled mean-squared-errors of individual matrix elements, $\expect{\lambda_{jk}}$, as defined in Eq. 6.  \textbf{Discussion}:  While the Wilks Theorem predicts that each matrix element should contribute $\approx1$, only those in the ``L'' (see Fig. 3) do so; those in the ``kite'' behave quite differently and (generally) contribute less to $\expect{\lambda}$.
@@ -333,14 +334,6 @@ This completes our exposition of two significant technical details in the deriva
 \label{fig:isocontribs}
 \end{figure}
 
-In the main text, we asserted several properties of matrix elements of $\delta$ which lie in the ``L". Here, we show how those properties arise. To do so, we observe that that the $\delta_{jk}$ in the ``L'' may be seen as errors which arise due to small unitary perturbations of the true state $\rho_{0}$. Writing $\rhohat = U^{\dagger}\rho_{0}U$, where $U=e^{i\epsilon H}$, we have
-\[\rhohat \approx \rho_{0} + i\epsilon [\rho_{0},H]+\mathcal{O}(\epsilon^{2}).\]
-The matrix $\delta \equiv \rhohat - \rho_{0}$ is then approximately $i\epsilon [\rho_{0},H]+\mathcal{O}(\epsilon^{2})$.
-If $j = k$, then $\langle j|[\rho_{0}, H]|j\rangle= 0$, which in turn implies $\delta_{jj} = 0$. Thus, small unitaries cannot create errors in the diagonal matrix elements, at $\mathcal{O}(\epsilon)$. If $j \neq k$, then $\langle j|[\rho_{0}, H]|k\rangle \neq 0$, in general, implying the same for $\delta_{jk}$. So small unitaries \emph{can} introduce errors on off-diagonal elements.
-
-However, if either $\ket{j}$ or $\ket{k}$ (or both) lie within the \emph{kernel} of $\rho_{0}$ (i.e., $\rho_{0}\ket{k}$ or $\rho_{0}\ket{j}$ is equal to 0), then the corresponding $\delta_{jk}$ are zero. The only off-diagonal elements where small unitaries can introduce errors are those which are coherent between the kernel of $\rho_{0}$ and its support. These off-diagonal elements are precisely the ``L". They are described by the set $\{\delta_{jk}~|~\langle j | \rho_{0}|j\rangle \neq 0, j\neq k, ~ 0 \leq j,k \leq d - 1\}$.
-
-Now, because the $\delta_{jk}$ in this set arise due to small unitary perturbations of $\rho_{0}$, it follows that they cannot change the spectrum of $\rhohat$, at least to first order in $\epsilon$. As such, they may fluctuate in an unconstrained manner (imposing the positivity constraint $\rhohat \geq 0$ has no effect on them), and because those fluctuations are Gaussian in nature, $\expect{\lambda_{jk}}= 1$. There are $2rd-r(r+1)$ such elements, giving a total expected value $\expect{\lambda}_{L} = 2rd-r(r+1)$.
 
 
 %--------------------MORE ABOUT HETERODYNE TOMOGRAPHY----------------%
