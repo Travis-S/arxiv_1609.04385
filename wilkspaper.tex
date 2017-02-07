@@ -288,7 +288,18 @@ _{4}$, and $\mathcal{H}_{5}$.  We used rejection sampling to simulate 100 hetero
 
 Results of this test are shown in Figure \ref{fig:modelcomp}, where we plot (a) the Wilks prediction, and (b) Equation \eqref{eq:ourLLRS}, against the empirical $\bar\lambda$, for a variety of true states and reconstruction dimensions.  Our formula correlates very well with the empirical average, while the Wilks Theorem (unsurprisingly) overestimates $\lambda$ dramatically for low-rank states.  Whereas a model selection procedure based on Wilks Theorem would tend to falsely reject larger Hilbert spaces (by setting the threshold for acceptance too high), our formula provides a reliable null theory.
 
-Interestingly, as $d$ grows, Equation \eqref{eq:ourLLRS} also begins to overpredict.  Further investigation (see Appendix \ref{app:breakdown}) indicates that a more accurate description is that the numerical experiments are \emph{underachieving}, because $N_{\mathrm{samples}}$ is not large enough -- $\bar\lambda$ is still growing with $N_{\mathrm{samples}}$.  Our analysis is explicitly asymptotic, and does not cover this case.  Failing to reach asymptotic behavior at $N_{\mathrm{samples}}=10^5$ is surprising, and suggests that heterodyne tomography is a particular exceptional and challenging case to model statistically.
+Interestingly, as $d$ grows, Equation \eqref{eq:ourLLRS} also begins to overpredict. As Figure \ref{fig:totalcontrib} indicates, a more accurate description is that the numerical experiments are \emph{underachieving}, because $N_{\mathrm{samples}}$ is not large enough -- $\bar\lambda$ is still growing with $N_{\mathrm{samples}}$. 
+
+\begin{figure}[h]
+  \includegraphics[width=\columnwidth]{Images/Figure_9.pdf}
+ \caption{The empirical average $\bar{\lambda}$  may have achieved its asymptotic value, or is still 
+growing, depending on the true state $\rho_{0}$ and the model dimension $d$. Solid lines indicate the value of our formula
+for the asymptotic expected value, given in Equation \eqref{eq:ourLLRS}.}
+\label{fig:totalcontrib}
+\end{figure}
+
+
+ Both the Wilks Theorem and our analysis are derived in an asymptotic limit $N \rightarrow \infty$; for finite but large $N$, both may be invalid.  Figure \ref{fig:totalcontrib} shows that, even at $N\sim 10^{5}$, the behavior of $\bar{\lambda}$ has failed to become asymptotic. This is surprising, and suggests heterodyne tomography is a particularly exceptional and challenging case to model statistically.
 
 %--------CONCLUSIONS----------%
 The Wilks Theorem is not generally reliable in quantum state tomography, but our Equation \eqref{eq:ourLLRS} provides a much more broadly applicable replacement that can be used in model selection methods.  This includes protocols like the AIC and BIC \cite{Akaike1974, Schwarz1978, Burnham2004} that do not explicitly use the Wilks Theorem, but rely on the same assumptions (asymptotic normality, etc).  Null theories of the loglikelihood ratios have many other applications, including hypothesis testing \cite{Blume-Kohout2010,Moroder2013} and confidence regions \cite{Glancy2012a}, and our result is directly applicable to them.  Refs. \cite{Moroder2013,Glancy2012a} both point out explicitly that their methods are unreliable near boundaries and therefore cannot be applied to rank-deficient states; our result fixes this outstanding problem.  However, our numerical experiments with heterodyne tomography show unexpected behavior, indicating that quantum tomography can still surprise, and may violate \emph{all} asymptotic statistics results.  In such cases, bootstrapping \cite{Efron1979} may be the only reliable way to construct null theories for $\lambda$.  Finally, the \emph{methods} presented here have application beyond the analysis of loglikelihoods.  They shed light on the behavior of $\rhoMLE$ for rank-deficient states, and can be used to predict other derived properties such as the average rank of the estimate, which is independently interesting for (e.g.) quantum compressed sensing \cite{Flammia2012a, Kalev2015, Kalev2015a}.
@@ -316,12 +327,6 @@ under contract DE-AC04-94AL85000.
 \section{Derivation of the Wilks replacement: technical details}
 \label{app:technical}
 
-
-
-
-
-
-
 \begin{figure}[h!]
 \includegraphics[width=\columnwidth]{Images/Figure_7.pdf}
  \caption{Contributions of each matrix element of $\rhoMLE$ to $\expect{\lambda}$, for three different $\rho_0$, as computed in numerical simulations for $d=8$.  \textbf{Left}:  The matrix elements of $\rho_0$.  \textbf{Right}:  The average scaled mean-squared-errors of individual matrix elements, $\expect{\lambda_{jk}}$, as defined in Eq. 6.  \textbf{Discussion}:  While the Wilks Theorem predicts that each matrix element should contribute $\approx1$, only those in the ``L'' (see Fig. 3) do so; those in the ``kite'' behave quite differently and (generally) contribute less to $\expect{\lambda}$.
@@ -341,21 +346,7 @@ under contract DE-AC04-94AL85000.
  \caption{Preliminary results comparing our theory (Equation. \ref{eq:ourLLRS}) and the Wilks Theorem to the empirical expectation value of $\lambda$ for heterodyne tomography with additional $(\rho_{0}, d)$ pairs than shown in Figure \ref{fig:modelcomp}.  For these larger Hilbert space dimensions, our theory begins to fail, for several reasons that we detail in this section.  Most importantly, even at $N=10^5$ samples, we observe (see Figure \ref{fig:totalcontrib}) that the empirical $\lambda$ has not yet asymptoted -- it is still increasing (very slowly) with $N$.  Thus, simulations of heterodyne tomography at the $N$ values considered so far \emph{underperform} our theory.  We conjecture that our theory will become more and more accurate as $N\to\infty$, but that (because certain important events are very, very rare), this convergence will only occur at very large $N = e^{\mathcal{O}(d)}$.  A secondary effect is the anisotropy of the Fisher information (see Figure \ref{fig:fish_condition}), which causes smaller but significant deviations from our theory.}
 \label{fig:modelcomp2}
 \end{figure}
-Although Figure \ref{fig:modelcomp} in the main text shows reasonable agreement between our expression for $\langle \lambda \rangle$ and the numerically computed average $\bar{\lambda}$, the discrepancies are sufficiently large that it behooves us to examine why this may be the case. In this section, we show how finite-sample effects, anisotropy of the Fisher information, and the behavior of the loglikelihood ratio statistic for Poisson-distributed data could explain some of the discrepancy we see in preliminary results for reconstructions with higher dimension $d$ (see Figure \ref{fig:modelcomp2}).
 
-We start by plotting $\bar{\lambda}$ as a function of the number of heterodyne counts $N$. (We did not do any binning of our rejection sampling outcomes, so that each POVM effect is observed only once.) Both the Wilks 
-Theorem and our result are derived in an asymptotic limit $N \rightarrow \infty$; for finite but large $N$, our results may be invalid. 
-As seen in Figure \ref{fig:totalcontrib}, $\bar{\lambda}$ may be growing, even for $N \sim 10^{5}$, depending on $\rho_{0}$ and $d$.
-\begin{figure}[h]
-  \includegraphics[width=\columnwidth]{Images/Figure_9.pdf}
- \caption{The empirical average $\bar{\lambda}$  may have achieved its asymptotic value, or is still 
-growing, depending on the true state $\rho_{0}$ and the model dimension $d$. Solid lines indicate the value of our formula
-for the asymptotic expected value, given in Equation \eqref{eq:ourLLRS}.}
-\label{fig:totalcontrib}
-\end{figure}
-
-Thus, part of the discrepancy between our expression and the numerical results is simply a finite-sample effect. Next, we check 
-whether the Fisher information is actually isotropic - a key ingredient in our derivation. To estimate the Fisher information, we use a numerical average of 100 observed informations (Hessians of the loglikelihood function), $\bar{H}$. In  Figure \ref{fig:fish_condition}, we plot, for several $\bar{H}$, their condition number $\kappa$, which is the ratio of the largest eigenvalue to the smallest. Importantly, $\kappa = 1$ if, and only if, all the eigenvalues are the same (i.e., the Fisher information is isotropic). The condition number appears to grow with $d$, meaning the anisotropy is becoming more severe.
 
 
 
