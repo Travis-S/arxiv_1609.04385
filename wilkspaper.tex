@@ -204,7 +204,6 @@ We make one further approximation, by assuming (as an ansatz) that $N\gg1$, and 
 
 These approximations provide the ansatz that we use below, for the eigenvalues of $\hat\rho$, as $\{p_j\} \cup \{\overline{\kappa}_j\}$, where the $p_j$ are $\mathcal{N}(\rho_{jj},\epsilon^2)$ random variables, and the $\overline{\kappa}_j$ are the (fixed, smoothed) order statistics of a Wigner semicircle distribution.  
 
-
 To proceed with truncation, we observe that the $\overline{\kappa}_j$ are symmetrically distributed around $
 \kappa=0$, so half of them are negative.  Therefore, with high probability, $\Tr
 \left[\mathrm{Trunc}(\hat\rho)\right]>1$, and so we will need to subtract $q\Id$ from $\hat\rho$ before truncating.
@@ -238,6 +237,7 @@ This equation is a quintic polynomial, so it has no closed-form solution.  Howev
 \label{eq:truncation}
 q \approx 2\sqrt{N}-\frac{(240r\pi)^{2/5}}{4}N^{1/10}+\frac{(240r\pi)^{4/5}}{80}N^{-3/10}.
 \end{equation}
+\todo[inline]{Is it $q/\epsilon$?}
 Now that we know how much to subtract off in the truncation process, we can compute $\expect{\lambda}_{\mathrm{kite}}$:
 \begin{eqnarray}
 \nonumber \expect{\lambda}_{\mathrm{kite}} &=& \left\langle\sum_{j=1}^{r}[\rho_{jj}- (p_j-q)]^2 + \sum_{j=1}^{N}\left[(\kappa_j-q)^+\right]^2 \right\rangle\\
@@ -264,12 +264,18 @@ Equation \eqref{eq:ourLLRS} is our main result.  To test its validity, we compar
 \end{figure}
 
 %----------HETERODYNE TOMOGRAPHY-----------%
-In practice, the Fisher information is rarely isotropic.  So we tested our idealized result by applying it to a realistic, challenging, and experimentally relevant problem: quantum heterodyne (equivalent to double homodyne) state tomography \cite{Lvovsky2001a, Bertrand1987, Leonhardt1995, Lvovsky2009} of a single optical mode.  States of this continuous-variable system are described by density operators on the infinite-dimensional Hilbert space $L^2(\reals)$.  Fitting these infinitely many parameters to finitely much data demands simpler models.
+In practice, the Fisher information is rarely isotropic.  So we tested our idealized result by applying it to a realistic, challenging, and experimentally relevant problem: quantum heterodyne (equivalent to double homodyne) state tomography \cite{Lvovsky2001a, Bertrand1987, Leonhardt1995, Lvovsky2009} of a single optical mode.  (See Figure \ref{fig:fish_condition} for a plot of the \emph{condition number} -- the ratio of the largest to smallest eigenvalue -- of the estimated Fisher information. It is clear that, for such a tomographic setup, $\mathcal{I} \not \propto \Id$.) States of this continuous-variable system are described by density operators on the infinite-dimensional Hilbert space $L^2(\reals)$.  Fitting these infinitely many parameters to finitely much data demands simpler models.
 We consider a family of nested models motivated by a low-energy (few-photon) ansatz, and choose   
 the Hilbert space $\mathcal{H}_d$ to be that spanned by the photon number states $\{\ket{0}\ldots\ket{d-1}\}$.
 Heterodyne tomography reconstructs $\rho_{0}$ using data from repeated measurements of the 
 coherent-state POVM, $\{|\alpha\rangle\langle \alpha| /\pi, ~\alpha=x+ip\in \mathbb{C}\}$, which corresponds to sampling directly from the 
 state's Husimi $Q$-function \cite{Husimi1940}.
+
+\begin{figure}[h]
+  \includegraphics[width=\columnwidth]{Images/Figure_10.pdf}
+ \caption{The condition number $\kappa$ -- the ratio of the largest to smallest eigenvalue -- of the estimated Fisher information grows with model dimension, indicating an increase in anisotropy. (Estimates are the average over 100 Hessians of the loglikelihood function.) The dashed lines indicate different true states $\rho_{0}$, and the solid line is $\kappa = 1$ (i.e., $\mathcal{I} \propto \Id$.).}
+\label{fig:fish_condition}
+\end{figure}
 
 We examined the behavior of $\lambda$ for 13 distinct true states $\rho_{0}$, both pure and mixed, supported on $\mathcal{H}_{2}, \mathcal{H}_{3}, \mathcal{H}
 _{4}$, and $\mathcal{H}_{5}$.  We used rejection sampling to simulate 100 heterodyne datasets with up to $N_{\mathrm{samples}}=10^5$, and found MLEs over each of the 9 models $\M_2, \ldots, M_{10}$ using numerical optimization \footnote{The model $\M_{1}$ is trivial, as $\M_{1} = \{|0\rangle \langle 0|\}$. This model will almost always be wrong, in general.}.  For each true state and each $d$, we averaged $\lambda(\rho_{0}, \M_{d})$ over all 100 datasets to obtain an empirical average loglikelihood ratio $\bar{\lambda}$ for each $(\rho_0,d)$ pair.
@@ -351,11 +357,7 @@ for the asymptotic expected value, given in Equation \eqref{eq:ourLLRS}.}
 Thus, part of the discrepancy between our expression and the numerical results is simply a finite-sample effect. Next, we check 
 whether the Fisher information is actually isotropic - a key ingredient in our derivation. To estimate the Fisher information, we use a numerical average of 100 observed informations (Hessians of the loglikelihood function), $\bar{H}$. In  Figure \ref{fig:fish_condition}, we plot, for several $\bar{H}$, their condition number $\kappa$, which is the ratio of the largest eigenvalue to the smallest. Importantly, $\kappa = 1$ if, and only if, all the eigenvalues are the same (i.e., the Fisher information is isotropic). The condition number appears to grow with $d$, meaning the anisotropy is becoming more severe.
 
-\begin{figure}[h]
-  \includegraphics[width=\columnwidth]{Images/Figure_10.pdf}
- \caption{The condition number $\kappa$ of the estimated Fisher Information Matrix grows with the model dimension, indicating an increase in anisotropy. The dashed lines indicate different true states $\rho_{0}$, and the solid line is $\kappa = 1$.}
-\label{fig:fish_condition}
-\end{figure}
+
 
 If the anisotropy is so severe, why is our model reasonably accurate? To answer this question, we compute the scaled mean squared errors $\langle \lambda_{jk}\rangle$ (defined in Equation \eqref{eq:llrserrors}) for the heterodyne estimates, and compare them to those of our model. As shown in Figure \ref{fig:model_comparison}, we see qualitative agreement - matrix elements in the coherent ``L" contribute about 1 unit of 
 expected value, while matrix elements in the ``kite" contribute less than our model predicts.
