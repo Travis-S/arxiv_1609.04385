@@ -178,13 +178,38 @@ independent, and level avoidance makes the approximation even better.  We make o
 
 To proceed with truncation, we observe that the $\overline{\kappa}_j$ are symmetrically distributed around $
 \kappa=0$, so half of them are negative.  Therefore, with high probability, $\Tr
-\left[\mathrm{Trunc}(\hat\rho)\right]>1$, and so we will need to subtract $q\Id$ from $\hat\rho$ before truncating.  The appropriate $q$ solves $\Tr\left[\mathrm{Trunc}(\hat\rho-q\Id)\right] = 1$.  This equation can be solved using the ansatz established so far, and some series expansions (see Appendix \ref{app:technical}) yield the solution:
+\left[\mathrm{Trunc}(\hat\rho)\right]>1$, and so we will need to subtract $q\Id$ from $\hat\rho$ before truncating.
+Defining $f(q) = \Tr\left[\mathrm{Trunc}(\hat\rho - q \Id)\right]$, the appropriate $q$ solves $f(q) = 1$. Given the assumptions and approximations above, and letting $(x)^{+}$ denote $\mathrm{max}(x,0)$, 
+\begin{eqnarray}
+\nonumber &&f(q) = \sum_{j=1}^{r}(p_j - q) + \sum_{j=1}^{N}{(\overline{\kappa}_j-q)^+} \\
+\nonumber &&\approx 1 - rq + \Delta + N\int_{\kappa=q}^{2\epsilon\sqrt{N}}{(\kappa-q)\mathrm{Pr}(\kappa)\mathrm{d}\kappa}\\
+&&= 1 - rq + \Delta + \frac{\epsilon}{12\pi}\left[
+\begin{array}{l} (q^2+8N)\sqrt{-q^2+4N} \\
+-12qN\left(\frac{\pi}{2}-\sin^{-1}\left(\frac{q}{2\sqrt{N}}\right)\right)
+\end{array}\right],\nonumber\\
+~
+\end{eqnarray}
+where $\Delta = \sum_{j=1}^{r}\delta_{jj}$ is a $\mathcal{N}(0,r\epsilon^2)$ random variable.  We also chose to replace a discrete 
+sum (line 1) with an integral (line 2).  This approximation is valid when $N\gg1$, where (as noted in the main text) we can accurately approximate a discrete collection of closely spaced real numbers by a smooth density or distribution over the real numbers that has approximately the same CDF.  It is also remarkably accurate in practice.
+  
+In yet another approximation, we replace $\Delta$ with its average value, which is zero.  We could obtain an even more accurate expression 
+ by treating the fluctuations in $\Delta$ more carefully, but this crude approximation turns out to be quite accurate already.
+
+To solve for $f(q) = 1$, it is necessary to further simplify the complicated expression resulting from the integral.  To do so, we 
+assume that $\rho_0$ is relatively low-rank, so $r \ll N$.  In this case, the sum of the positive $\overline{\kappa}_j$ is large compared 
+with $r$, almost all of them need to be subtracted away, and therefore $q$ is close to $2\epsilon\sqrt{N}$.  We therefore replace 
+the complicated expression with its leading order Taylor expansion around $q=2\epsilon\sqrt{N}$, substitute into $f(q)=1$, and 
+obtain the equation
+\begin{equation}
+rq  = \frac{4}{15\pi}N^{1/4}\left(2\sqrt{N}-q\right)^{5/2}.
+\end{equation}
+This equation is a quintic polynomial, so it has no closed-form solution.  However, its roots have a well-defined asymptotic ($N\to
+\infty$) expansion that becomes accurate quite rapidly (e.g., for $N>4$):
 \begin{equation}
 \label{eq:truncation}
 q \approx 2\sqrt{N}-\frac{(240r\pi)^{2/5}}{4}N^{1/10}+\frac{(240r\pi)^{4/5}}{80}N^{-3/10}.
 \end{equation}
-
-Now that we know how much to subtract off in the truncation process, we can compute $\expect{\lambda}_{\mathrm{kite}}$.  Defining $(x)^{+} = \max(x, 0)$:
+Now that we know how much to subtract off in the truncation process, we can compute $\expect{\lambda}_{\mathrm{kite}}$:
 \begin{eqnarray}
 \nonumber \expect{\lambda}_{\mathrm{kite}} &=& \left\langle\sum_{j=1}^{r}[\rho_{jj}- (p_j-q)]^2 + \sum_{j=1}^{N}\left[(\kappa_j-q)^+\right]^2 \right\rangle\\
 \nonumber  &\approx& r + rq^2 + N\int_{\kappa=q}^{2\epsilon\sqrt{N}}{ Pr(\kappa)(\kappa-q)^2 d\kappa} \\
@@ -285,47 +310,6 @@ This is closely related to the observation that the histogram of a sample tends 
 In the main text, we make the further simplifying approximation that the distribution of the $\overline{\kappa}_j$ is effectively continuous.  For the quantities that we compute, this is equivalent to replacing the empirical distribution function (which is a step function) by the CDF of the Wigner semicircle distribution.  So, whereas for any given sample the partial sum of all $\kappa_j > q$ jumps discontinuously when $q=\kappa_j$ for any $j$, in this approximation it changes smoothly.  This accurately models the \emph{average} behavior of partial sums.
 
 These approximations provide the ansatz that we use in the main text, for the eigenvalues of $\hat\rho$, as $\{p_j\} \cup \{\overline{\kappa}_j\}$, where the $p_j$ are $\mathcal{N}(\rho_{jj},\epsilon^2)$ random variables, and the $\overline{\kappa}_j$ are the (fixed, smoothed) order statistics of a Wigner semicircle distribution.  
-
-Another rather technical portion of our derivation is the finding of an (approximate) solution to the equation
-\begin{equation}
-f(q) = 1
-\end{equation}
- where
-\begin{equation}
-f(q) = \Tr\left[\mathrm{Trunc}(\hat\rho-q\Id)\right],
-\end{equation}
-
-Given the assumptions and approximations above, and letting $(x)^+$ denote $\mathrm{max}(x,0)$, 
-\begin{eqnarray}
-\nonumber &&f(q) = \sum_{j=1}^{r}(p_j - q) + \sum_{j=1}^{N}{(\overline{\kappa}_j-q)^+} \\
-\nonumber &&\approx 1 - rq + \Delta + N\int_{\kappa=q}^{2\epsilon\sqrt{N}}{(\kappa-q)\mathrm{Pr}(\kappa)\mathrm{d}\kappa}\\
-&&= 1 - rq + \Delta + \frac{\epsilon}{12\pi}\left[
-\begin{array}{l} (q^2+8N)\sqrt{-q^2+4N} \\
--12qN\left(\frac{\pi}{2}-\sin^{-1}\left(\frac{q}{2\sqrt{N}}\right)\right)
-\end{array}\right],\nonumber\\
-~
-\end{eqnarray}
-where $\Delta = \sum_{j=1}^{r}\delta_{jj}$ is a $\mathcal{N}(0,r\epsilon^2)$ random variable.  We also chose to replace a discrete 
-sum (line 1) with an integral (line 2).  This approximation is valid when $N\gg1$, where (as noted in the main text) we can accurately approximate a discrete collection of closely spaced real numbers by a smooth density or distribution over the real numbers that has approximately the same CDF.  It is also remarkably accurate in practice.
-  
-In yet another approximation, we replace $\Delta$ with its average value, which is zero.  We could obtain an even more accurate expression 
- by treating the fluctuations in $\Delta$ more carefully, but this crude approximation turns out to be quite accurate already.
-
-To solve for $f(q) = 1$, it is necessary to further simplify the complicated expression resulting from the integral.  To do so, we 
-assume that $\rho_0$ is relatively low-rank, so $r \ll N$.  In this case, the sum of the positive $\overline{\kappa}_j$ is large compared 
-with $r$, almost all of them need to be subtracted away, and therefore $q$ is close to $2\epsilon\sqrt{N}$.  We therefore replace 
-the complicated expression with its leading order Taylor expansion around $q=2\epsilon\sqrt{N}$, substitute into $f(q)=1$, and 
-obtain the equation
-\begin{equation}
-rq  = \frac{4}{15\pi}N^{1/4}\left(2\sqrt{N}-q\right)^{5/2}.
-\end{equation}
-This equation is a quintic polynomial, so it has no closed-form solution.  However, its roots have a well-defined asymptotic ($N\to
-\infty$) expansion that becomes accurate quite rapidly (e.g., for $N>4$):
-\begin{equation}
-q \approx 2\sqrt{N}-\frac{(240r\pi)^{2/5}}{4}N^{1/10}+\frac{(240r\pi)^{4/5}}{80}N^{-3/10}.
-\end{equation}
-
-This completes our exposition of two significant technical details in the derivation.
 
 \begin{figure}[h!]
 \includegraphics[width=\columnwidth]{Images/Figure_7.pdf}
