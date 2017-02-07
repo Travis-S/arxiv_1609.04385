@@ -174,7 +174,36 @@ and typically form a surprisingly regular array over the support of the Wigner s
 \emph{typical sample} $\bar{\bvec{\kappa}}$ given by its order statistics.  These are the average values of the \emph{sorted} 
 $\bvec{\kappa}$, so $\overline{\kappa}_j$ is the average value of the $j$th largest value of $\bvec{\kappa}$.  Large random samples 
 are usually well approximated (for many purposes) by their order statistics even when the elements of the sample are 
-independent, and level avoidance makes the approximation even better.  We make one further approximation, by assuming (as an ansatz) that $N\gg1$, and thus that the distribution of the $\overline{\kappa}_j$ is effectively continuous and identical to $\mathrm{Pr}(\kappa)$.  (See Appendix \ref{app:technical} for a more detailed discussion of this series of approximations.)
+independent, and level avoidance makes the approximation even better. 
+
+\begin{figure}[h!]
+\includegraphics[width=\columnwidth]{Images/Figure_5.pdf}
+\caption{Typical samples of GUE($N$) eigenvalues are accurately approximated by order statistics of the distribution (average values of sorted sample).  \textbf{Top}:  The sorted eigenvalues of one randomly chosen GUE(100) matrix.  \textbf{Bottom}:  Approximate values of the order statistics of the GUE(100) distribution, computed as the average of the sorted eigenvalues of 100 randomly chosen GUE(100) matrices.}
+\label{fig:orderstatistics1}
+\end{figure}
+
+Suppose that $\bvec{\kappa}$ are the eigenvalues of a GUE($N$) matrix, sorted from highest to lowest.  Figure \ref{fig:orderstatistics1} illustrates such a sample for $N=100$.  It also shows the \emph{average} values of 100 such samples (all sorted).  These are the \emph{order statistics} $\overline{\bvec{\kappa}}$ of the distribution (more precisely, what is shown is a good \emph{estimate} of the order statistics; the actual order statistics would be given by the average over infinitely many samples).  The point of the figure is to show that, while the order statistics \emph{are} slightly more smoothly and predictably distributed than a single (sorted) sample\ldots the two are remarkably similar.  A single sample $\bvec{\kappa}$ will fluctuate around the order statistics, but these fluctuations are relatively small, partly because the sample is large, and partly because the GUE eigenvalues experience level repulsion.  Thus, the ``typical'' behavior of a sample -- by which we mean the mean value of a statistic of the sample -- is well captured by the order statistics (which have no fluctuations at all).
+
+We now turn to the problem of modeling $\bvec{\kappa}$ quantitatively.  We note up front that we are only going to be interested in certain properties of $\bvec{\kappa}$:  specifically, partial sums of all $\kappa_j$ greater or less than some threshold (this threshold is $q$ in the main text), or partial sums of functions of the $\kappa_j$ (e.g. $(\kappa_j-q)^2$).  We require only that an ansatz be accurate for such quantities.  We do not use this fact explicitly, but it motivates our approach -- and we do not claim that our ansatz is accurate for \emph{all} conceivable statistics.
+
+In general, if a sample $\bvec{\kappa}$ of size $N$ is drawn so that each $\kappa$ has the same probability distribution 
+function $\mathrm{Pr}(\kappa)$, then a good approximation for the $j$th order statistic is given by the inverse 
+\emph{cumulative} distribution function (CDF):
+\begin{equation}
+\overline{\kappa}_j \approx \mathrm{CDF}^{-1}\left(\frac{j-1/2}{N}\right).
+\end{equation}
+This is closely related to the observation that the histogram of a sample tends to look similar to the underlying probability distribution function.  More precisely, it is equivalent to the observation that the empirical distribution function (the CDF of the histogram) tends to be (even more) similar to the underlying CDF.  (For i.i.d. samples, this is the content of the Glivenko-Cantelli theorem \cite{VanderVaart2000}).  Figure \ref{fig:orderstatistics2} compares the order statistics of GUE(100) and GUE(10) eigenvalues (computed as numerical averages over 100 random samples) to the inverse CDF for the Wigner semicircle distribution.  Even though the Wigner semicircle model of GUE eigenvalues is only exact as $N\to\infty$, it provides a nearly-perfect model for $\overline{\bvec{\kappa}}$ even at $N=10$ (and remains surprisingly good all the way down to $N=2$).
+
+\begin{figure}[h!]
+\includegraphics[width=\columnwidth]{Images/Figure_6.pdf}
+\caption{Order statistics of the GUE(N) eigenvalue distribution are very well approximated by the inverse CDF of the Wigner semicircle distribution.  \textbf{Top}:  Comparison of the order statistics of the GUE(100) distribution (as shown in Figure \ref{fig:orderstatistics1}) to the inverse CDF of the Wigner semicircle distribution for N=100.  \textbf{Bottom}:  Comparison of the order statistics of the GUE(10) distribution to the inverse CDF of the Wigner semicircle distribution for N=10.  Agreement in both cases is essentially perfect.}
+\label{fig:orderstatistics2}
+\end{figure}
+
+We make one further approximation, by assuming (as an ansatz) that $N\gg1$, and thus that the distribution of the $\overline{\kappa}_j$ is effectively continuous and identical to $\mathrm{Pr}(\kappa)$. For the quantities that we compute, this is equivalent to replacing the empirical distribution function (which is a step function) by the CDF of the Wigner semicircle distribution.  So, whereas for any given sample the partial sum of all $\kappa_j > q$ jumps discontinuously when $q=\kappa_j$ for any $j$, in this approximation it changes smoothly.  This accurately models the \emph{average} behavior of partial sums.
+
+These approximations provide the ansatz that we use below, for the eigenvalues of $\hat\rho$, as $\{p_j\} \cup \{\overline{\kappa}_j\}$, where the $p_j$ are $\mathcal{N}(\rho_{jj},\epsilon^2)$ random variables, and the $\overline{\kappa}_j$ are the (fixed, smoothed) order statistics of a Wigner semicircle distribution.  
+
 
 To proceed with truncation, we observe that the $\overline{\kappa}_j$ are symmetrically distributed around $
 \kappa=0$, so half of them are negative.  Therefore, with high probability, $\Tr
@@ -281,35 +310,11 @@ under contract DE-AC04-94AL85000.
 \section{Derivation of the Wilks replacement: technical details}
 \label{app:technical}
 
-In our derivation of the loglikelihood ratio statistic's expected value $\expect{\lambda}$, we used several approximations and ans\"atze.  Perhaps the most important was the replacement of a random sample of GUE eigenvalues, $\bvec{\kappa}$, by a ``typical'' sample $\overline{\bvec{\kappa}}$, and the subsequent replacement of this discrete typical sample with a continuous density of values.  Let us discuss this in a bit more detail.
 
-\begin{figure}[h!]
-\includegraphics[width=\columnwidth]{Images/Figure_5.pdf}
-\caption{Typical samples of GUE($N$) eigenvalues are accurately approximated by order statistics of the distribution (average values of sorted sample).  \textbf{Top}:  The sorted eigenvalues of one randomly chosen GUE(100) matrix.  \textbf{Bottom}:  Approximate values of the order statistics of the GUE(100) distribution, computed as the average of the sorted eigenvalues of 100 randomly chosen GUE(100) matrices.}
-\label{fig:orderstatistics1}
-\end{figure}
 
-First, we illustrate the claim made in the main text that the eigenvalues of a GUE($N$) matrix are usually well-approximated by their order statistics.  Suppose that $\bvec{\kappa}$ are the eigenvalues of a GUE($N$) matrix, sorted from highest to lowest.  Figure \ref{fig:orderstatistics1} illustrates such a sample for $N=100$.  It also shows the \emph{average} values of 100 such samples (all sorted).  These are the \emph{order statistics} $\overline{\bvec{\kappa}}$ of the distribution (more precisely, what is shown is a good \emph{estimate} of the order statistics; the actual order statistics would be given by the average over infinitely many samples).  The point of the figure is to show that, while the order statistics \emph{are} slightly more smoothly and predictably distributed than a single (sorted) sample\ldots the two are remarkably similar.  A single sample $\bvec{\kappa}$ will fluctuate around the order statistics, but these fluctuations are relatively small, partly because the sample is large, and partly because the GUE eigenvalues experience level repulsion.  Thus, the ``typical'' behavior of a sample -- by which we mean the mean value of a statistic of the sample -- is well captured by the order statistics (which have no fluctuations at all).
 
-We now turn to the problem of modeling $\bvec{\kappa}$ quantitatively.  We note up front that we are only going to be interested in certain properties of $\bvec{\kappa}$:  specifically, partial sums of all $\kappa_j$ greater or less than some threshold (this threshold is $q$ in the main text), or partial sums of functions of the $\kappa_j$ (e.g. $(\kappa_j-q)^2$).  We require only that an ansatz be accurate for such quantities.  We do not use this fact explicitly, but it motivates our approach -- and we do not claim that our ansatz is accurate for \emph{all} conceivable statistics.
 
-In general, if a sample $\bvec{\kappa}$ of size $N$ is drawn so that each $\kappa$ has the same probability distribution 
-function $\mathrm{Pr}(\kappa)$, then a good approximation for the $j$th order statistic is given by the inverse 
-\emph{cumulative} distribution function (CDF):
-\begin{equation}
-\overline{\kappa}_j \approx \mathrm{CDF}^{-1}\left(\frac{j-1/2}{N}\right).
-\end{equation}
-This is closely related to the observation that the histogram of a sample tends to look similar to the underlying probability distribution function.  More precisely, it is equivalent to the observation that the empirical distribution function (the CDF of the histogram) tends to be (even more) similar to the underlying CDF.  (For i.i.d. samples, this is the content of the Glivenko-Cantelli theorem \cite{VanderVaart2000}).  Figure \ref{fig:orderstatistics2} compares the order statistics of GUE(100) and GUE(10) eigenvalues (computed as numerical averages over 100 random samples) to the inverse CDF for the Wigner semicircle distribution.  Even though the Wigner semicircle model of GUE eigenvalues is only exact as $N\to\infty$, it provides a nearly-perfect model for $\overline{\bvec{\kappa}}$ even at $N=10$ (and remains surprisingly good all the way down to $N=2$).
 
-\begin{figure}[h!]
-\includegraphics[width=\columnwidth]{Images/Figure_6.pdf}
-\caption{Order statistics of the GUE(N) eigenvalue distribution are very well approximated by the inverse CDF of the Wigner semicircle distribution.  \textbf{Top}:  Comparison of the order statistics of the GUE(100) distribution (as shown in Figure \ref{fig:orderstatistics1}) to the inverse CDF of the Wigner semicircle distribution for N=100.  \textbf{Bottom}:  Comparison of the order statistics of the GUE(10) distribution to the inverse CDF of the Wigner semicircle distribution for N=10.  Agreement in both cases is essentially perfect.}
-\label{fig:orderstatistics2}
-\end{figure}
-
-In the main text, we make the further simplifying approximation that the distribution of the $\overline{\kappa}_j$ is effectively continuous.  For the quantities that we compute, this is equivalent to replacing the empirical distribution function (which is a step function) by the CDF of the Wigner semicircle distribution.  So, whereas for any given sample the partial sum of all $\kappa_j > q$ jumps discontinuously when $q=\kappa_j$ for any $j$, in this approximation it changes smoothly.  This accurately models the \emph{average} behavior of partial sums.
-
-These approximations provide the ansatz that we use in the main text, for the eigenvalues of $\hat\rho$, as $\{p_j\} \cup \{\overline{\kappa}_j\}$, where the $p_j$ are $\mathcal{N}(\rho_{jj},\epsilon^2)$ random variables, and the $\overline{\kappa}_j$ are the (fixed, smoothed) order statistics of a Wigner semicircle distribution.  
 
 \begin{figure}[h!]
 \includegraphics[width=\columnwidth]{Images/Figure_7.pdf}
