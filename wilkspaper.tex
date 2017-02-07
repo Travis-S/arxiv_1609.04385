@@ -332,37 +332,4 @@ under contract DE-AC04-94AL85000.
 
 \bibliographystyle{apsrev}
 \bibliography{wilkspaper}
-
-\newpage
-\newpage
-
-%---------------------------APPENDICES------------------------------%
-\begin{center}\textbf{SUPPLEMENTAL MATERIAL}\end{center}
-
-%-----------DERIVATION OF WILKS REPLACEMENT DETAILS-----------%
-\section{Derivation of the Wilks replacement: technical details}
-\label{app:technical}
-
-\begin{figure}[h!]
-\includegraphics[width=\columnwidth]{Images/Figure_7.pdf}
- \caption{Contributions of each matrix element of $\rhoMLE$ to $\expect{\lambda}$, for three different $\rho_0$, as computed in numerical simulations for $d=8$.  \textbf{Left}:  The matrix elements of $\rho_0$.  \textbf{Right}:  The average scaled mean-squared-errors of individual matrix elements, $\expect{\lambda_{jk}}$, as defined in Eq. 6.  \textbf{Discussion}:  While the Wilks Theorem predicts that each matrix element should contribute $\approx1$, only those in the ``L'' (see Fig. 3) do so; those in the ``kite'' behave quite differently and (generally) contribute less to $\expect{\lambda}$.
-}
-\label{fig:isocontribs}
-\end{figure}
-
-
-
-%--------------------MORE ABOUT HETERODYNE TOMOGRAPHY----------------%
-\section{Breakdown of Our Model In the Case of Heterodyne Tomography}
-\label{app:breakdown}
-
-
-\begin{figure}[h!]
-\includegraphics[width=\columnwidth]{Images/Figure_8.pdf}
- \caption{Preliminary results comparing our theory (Equation. \ref{eq:ourLLRS}) and the Wilks Theorem to the empirical expectation value of $\lambda$ for heterodyne tomography with additional $(\rho_{0}, d)$ pairs than shown in Figure \ref{fig:modelcomp}.  For these larger Hilbert space dimensions, our theory begins to fail, for several reasons that we detail in this section.  Most importantly, even at $N=10^5$ samples, we observe (see Figure \ref{fig:totalcontrib}) that the empirical $\lambda$ has not yet asymptoted -- it is still increasing (very slowly) with $N$.  Thus, simulations of heterodyne tomography at the $N$ values considered so far \emph{underperform} our theory.  We conjecture that our theory will become more and more accurate as $N\to\infty$, but that (because certain important events are very, very rare), this convergence will only occur at very large $N = e^{\mathcal{O}(d)}$.  A secondary effect is the anisotropy of the Fisher information (see Figure \ref{fig:fish_condition}), which causes smaller but significant deviations from our theory.}
-\label{fig:modelcomp2}
-\end{figure}
-
-
-
 \end{document}
