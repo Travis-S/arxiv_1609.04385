@@ -288,7 +288,7 @@ _{4}$, and $\mathcal{H}_{5}$.  We used rejection sampling to simulate 100 hetero
 
 Results of this test are shown in Figure \ref{fig:modelcomp}, where we plot (a) the Wilks prediction, and (b) Equation \eqref{eq:ourLLRS}, against the empirical $\bar\lambda$, for a variety of true states and reconstruction dimensions.  Our formula correlates very well with the empirical average, while the Wilks Theorem (unsurprisingly) overestimates $\lambda$ dramatically for low-rank states.  Whereas a model selection procedure based on Wilks Theorem would tend to falsely reject larger Hilbert spaces (by setting the threshold for acceptance too high), our formula provides a reliable null theory.
 
-Interestingly, as $d$ grows, Equation \eqref{eq:ourLLRS} also begins to overpredict. As Figure \ref{fig:totalcontrib} indicates, a more accurate description is that the numerical experiments are \emph{underachieving}, because $N_{\mathrm{samples}}$ is not large enough -- $\bar\lambda$ is still growing with $N_{\mathrm{samples}}$. 
+Interestingly, as $d$ grows, Equation \eqref{eq:ourLLRS} also begins to overpredict. As Figure \ref{fig:totalcontrib} indicates, a more accurate description is that the numerical experiments are \emph{underachieving}, because $N_{\mathrm{samples}}$ is not large enough -- $\bar\lambda$ is still growing with $N_{\mathrm{samples}}$.  Both the Wilks Theorem and our analysis are derived in an asymptotic limit $N \rightarrow \infty$; for finite but large $N$, both may be invalid.  Figure \ref{fig:totalcontrib} shows that, even at $N\sim 10^{5}$, the behavior of $\bar{\lambda}$ has failed to become asymptotic. This is surprising, and suggests heterodyne tomography is a particularly exceptional and challenging case to model statistically. 
 
 \begin{figure}[h]
   \includegraphics[width=\columnwidth]{Images/Figure_9.pdf}
@@ -299,7 +299,23 @@ for the asymptotic expected value, given in Equation \eqref{eq:ourLLRS}.}
 \end{figure}
 
 
- Both the Wilks Theorem and our analysis are derived in an asymptotic limit $N \rightarrow \infty$; for finite but large $N$, both may be invalid.  Figure \ref{fig:totalcontrib} shows that, even at $N\sim 10^{5}$, the behavior of $\bar{\lambda}$ has failed to become asymptotic. This is surprising, and suggests heterodyne tomography is a particularly exceptional and challenging case to model statistically.
+However, our model \emph{does} get some of the qualititative features correct. In Figure \ref{fig:model_comparison}, we look at $\langle \lambda_{jk}\rangle$, where we assume an isotropic Fisher information, and when we do not. While the numbers given for $\langle \lambda_{jk} \rangle$ do not agree exactly, they still break down into two groups, the ``L" and the ``kite". (See Figure \ref{fig:individcontrib} for an analysis of the exact differences in the values.)
+ 
+ 
+\begin{figure}[h]
+  \includegraphics[width=\columnwidth]{Images/Figure_11.pdf}
+ \caption{The $\langle \lambda_{jk} \rangle$ assuming an isotropic Fisher information (left), and for heterodyne tomography (right). \textbf{Top}: $\rho_{0} = |0\rangle\langle 0|$. \textbf{Bottom}: $\rho_{0} = \mathcal{I}_{2}/2$. \textbf{Discussion}: Qualitatively, the behavior is the same, though there are quantitative differences, particularly within the
+kite.}
+\label{fig:model_comparison}
+\end{figure}
+
+\begin{figure}[h]
+  \includegraphics[width=\columnwidth]{Images/Figure_12.pdf}
+ \caption{Examining how our predicted values for $\langle \lambda_{jk} \rangle$ disagree with simulated heterodyne experiments. We take $\rho_{0} = |0\rangle\langle 0|$ and $d=8$. \textbf{Top Left}: The fluctuations in the ``L" $\langle \lambda_{0k}\rangle$ as a function of sample size $N$.  \textbf{Top Right}: At the largest $N$ studied, the fluctuations in the ``L" from coherences with different number states. For the higher number states, $\langle \lambda_{0k}\rangle$ is substantially less than 1. \textbf{Bottom Left}: The total from the ``kite" versus $N$. It is clear the total is still growing. \textbf{Bottom Right}: The individual ``kite" elements $\langle \lambda_{jk}\rangle$ at the largest $N$ studied;  most are small compared to the model.}
+\label{fig:individcontrib}
+\end{figure}
+
+
 
 %--------CONCLUSIONS----------%
 The Wilks Theorem is not generally reliable in quantum state tomography, but our Equation \eqref{eq:ourLLRS} provides a much more broadly applicable replacement that can be used in model selection methods.  This includes protocols like the AIC and BIC \cite{Akaike1974, Schwarz1978, Burnham2004} that do not explicitly use the Wilks Theorem, but rely on the same assumptions (asymptotic normality, etc).  Null theories of the loglikelihood ratios have many other applications, including hypothesis testing \cite{Blume-Kohout2010,Moroder2013} and confidence regions \cite{Glancy2012a}, and our result is directly applicable to them.  Refs. \cite{Moroder2013,Glancy2012a} both point out explicitly that their methods are unreliable near boundaries and therefore cannot be applied to rank-deficient states; our result fixes this outstanding problem.  However, our numerical experiments with heterodyne tomography show unexpected behavior, indicating that quantum tomography can still surprise, and may violate \emph{all} asymptotic statistics results.  In such cases, bootstrapping \cite{Efron1979} may be the only reliable way to construct null theories for $\lambda$.  Finally, the \emph{methods} presented here have application beyond the analysis of loglikelihoods.  They shed light on the behavior of $\rhoMLE$ for rank-deficient states, and can be used to predict other derived properties such as the average rank of the estimate, which is independently interesting for (e.g.) quantum compressed sensing \cite{Flammia2012a, Kalev2015, Kalev2015a}.
@@ -348,32 +364,11 @@ under contract DE-AC04-94AL85000.
 \end{figure}
 
 
-
-
-If the anisotropy is so severe, why is our model reasonably accurate? To answer this question, we compute the scaled mean squared errors $\langle \lambda_{jk}\rangle$ (defined in Equation \eqref{eq:llrserrors}) for the heterodyne estimates, and compare them to those of our model. As shown in Figure \ref{fig:model_comparison}, we see qualitative agreement - matrix elements in the coherent ``L" contribute about 1 unit of 
-expected value, while matrix elements in the ``kite" contribute less than our model predicts.
-
-Looking at each $\langle \lambda_{jk} \rangle$ as a function of the sample size $N$ and $(j, k)$, we see in Figure \ref{fig:individcontrib} that each contribution grows 
-starting from zero, and some elements (notably those in the ``L") rapidly achieve their asymptotic 
-contribution of ~1.  Those within the ``kite", however, grow much more slowly. Further, the anisotropic nature of the Fisher information may be such that the ``kite" elements will never attain the values predicted by our theory.
-
 Finally, we conjecture, based on strong theoretical support from an an analysis  of the loglikelihood ratio statistic for classical Poisson distributions (Appendix \ref{app:poisson}) that certain matrix elements --- namely, those in the coherent ``L" with support on higher-energy photon states $|n\rangle$ --- do not reach their asymptotic contribution level until  \emph{extremely} large 
 sample sizes $N$.  If this conjecture is true, then at least some of our model's failure to match the observed values occurs 
 simply because the empirical datasets are not yet ``asymptotically" large, meaning individual $\langle \lambda_{jk}\rangle$ are not yet asymptotic, causing $\langle \lambda \rangle $ to not have achieved its asymptotic value either.
 
-\begin{figure}[h]
-  \includegraphics[width=\columnwidth]{Images/Figure_11.pdf}
- \caption{The scaled mean squared errors $\langle \lambda_{jk} \rangle$ assuming an isotropic Fisher information (left), and for heterodyne tomography (right). \textbf{Top}: $\rho_{0} = |0\rangle\langle 0|$. \textbf{Bottom}: $\rho_{0} = \mathcal{I}_{2}/2$. Qualitatively, the behavior of the contributions is the same, though there are quantitative differences, particularly within the
-kite.}
-\label{fig:model_comparison}
-\end{figure}
 
-
-\begin{figure}[h]
-  \includegraphics[width=\columnwidth]{Images/Figure_12.pdf}
- \caption{Examining how our predicted values for $\langle \lambda_{jk} \rangle$ disagree with simulated heterodyne experiments. We take $\rho_{0} = |0\rangle\langle 0|$ and $d=8$. \textbf{Top Left}: The fluctuations in the ``L" $\langle \lambda_{0k}\rangle$ as a function of sample size $N$.  \textbf{Top Right}: At the largest $N$ studied, the fluctuations in the ``L" from coherences with different number states. For the higher number states, $\langle \lambda_{0k}\rangle$ is substantially less than 1. \textbf{Bottom Left}: The total from the ``kite" versus $N$. It is clear the total is still growing. \textbf{Bottom Right}: The individual ``kite" elements $\langle \lambda_{jk}\rangle$ at the largest $N$ studied;  most are small compared to the model.}
-\label{fig:individcontrib}
-\end{figure}
 
 
 
