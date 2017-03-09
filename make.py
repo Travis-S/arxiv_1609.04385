@@ -5,10 +5,15 @@ import glob
 
 def clean():
     print('Cleaning up files.')
-    cleanups = [glob.glob(x) for x in ['*.log', '*.bbl',  '*.end', '*.blg', '*.aux', '*.synctex.gz']]
+    cleanups = [glob.glob(x) for x in ['*.log', '*.bbl',  '*.blg', '*.aux', '*.synctex.gz']]
     cleanups = [item for sublist in cleanups for item in sublist]
     for f in cleanups:
         os.system("rm {0}".format(f))
+
+def make_bib():
+    print('Making bibtex file.')
+    os.system("cp /Users/tlschol/Documents/bibtex/Model\ Selection\ Paper.bib modelselectionpaper.bib")
+    os.system('python bib_mutate.py')
 
 def compile():
     print('Compiling pdf.')
@@ -33,5 +38,7 @@ if __name__ == '__main__':
         clean()
     elif action == 'compile':
         compile()
+    elif action == 'bib':
+        make_bib()
     else:
         print('Action {0} not understood.'.format(action))
