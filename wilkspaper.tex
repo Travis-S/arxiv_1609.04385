@@ -177,7 +177,7 @@ are usually well approximated (for many purposes) by their order statistics even
 independent, and level avoidance makes the approximation even better. 
 
 \begin{figure}[h!]
-\includegraphics[width=\columnwidth]{Images/Figure_5.pdf}
+\includegraphics[width=\columnwidth]{Images/Figure_3.pdf}
 \caption{Typical samples of GUE($N$) eigenvalues are accurately approximated by order statistics of the distribution (average values of sorted sample).  \textbf{Top}:  The sorted eigenvalues of one randomly chosen GUE(100) matrix.  \textbf{Bottom}:  Approximate values of the order statistics of the GUE(100) distribution, computed as the average of the sorted eigenvalues of 100 randomly chosen GUE(100) matrices.}
 \label{fig:orderstatistics1}
 \end{figure}
@@ -195,7 +195,7 @@ function $\mathrm{Pr}(\kappa)$, then a good approximation for the $j$th order st
 This is closely related to the observation that the histogram of a sample tends to look similar to the underlying probability distribution function.  More precisely, it is equivalent to the observation that the empirical distribution function (the CDF of the histogram) tends to be (even more) similar to the underlying CDF.  (For i.i.d. samples, this is the content of the Glivenko-Cantelli theorem \cite{VanderVaart2000}).  Figure \ref{fig:orderstatistics2} compares the order statistics of GUE(100) and GUE(10) eigenvalues (computed as numerical averages over 100 random samples) to the inverse CDF for the Wigner semicircle distribution.  Even though the Wigner semicircle model of GUE eigenvalues is only exact as $N\to\infty$, it provides a nearly-perfect model for $\overline{\bvec{\kappa}}$ even at $N=10$ (and remains surprisingly good all the way down to $N=2$).
 
 \begin{figure}[h!]
-\includegraphics[width=\columnwidth]{Images/Figure_6.pdf}
+\includegraphics[width=\columnwidth]{Images/Figure_4.pdf}
 \caption{Order statistics of the GUE(N) eigenvalue distribution are very well approximated by the inverse CDF of the Wigner semicircle distribution.  \textbf{Top}:  Comparison of the order statistics of the GUE(100) distribution (as shown in Figure \ref{fig:orderstatistics1}) to the inverse CDF of the Wigner semicircle distribution for N=100.  \textbf{Bottom}:  Comparison of the order statistics of the GUE(10) distribution to the inverse CDF of the Wigner semicircle distribution for N=10.  Agreement in both cases is essentially perfect.}
 \label{fig:orderstatistics2}
 \end{figure}
@@ -258,7 +258,7 @@ where $q$ is given in Equation \eqref{eq:truncation}, $N=d-r$, and $r = \mathrm{
 Equation \eqref{eq:ourLLRS} is our main result.  To test its validity, we compare it to numerical simulations for $d=2,\ldots,30$ and $r=1,\ldots,10$, in Figure \ref{fig:modelcomp-iso}.  The prediction of the Wilks Theorem is wildly incorrect for $r\ll d$. In contrast, Equation \ref{eq:ourLLRS} is almost perfectly accurate when $r \ll d$, but it does begin to break down (albeit fairly gracefully) as $r$ becomes comparable to $d$.  We conclude that our analysis [and Equation \eqref{eq:ourLLRS}] correctly models tomography \emph{if} the Fisher information is isotropic ($\Fi \propto \Id$).
 
 \begin{figure}[h]
- \includegraphics[width=\columnwidth]{Images/Figure_3.pdf}
+ \includegraphics[width=\columnwidth]{Images/Figure_5.pdf}
  \caption{Numerical results for $\expect{\lambda}$ compared to the prediction of the Wilks Theorem (solid line) and our replacement theory as given in Eq. \ref{eq:ourLLRS}, (dashed lines).  Our formula depends on the rank $r$ of $\rho_0$ (unlike the Wilks prediction), and is nearly perfect for $r\ll d$.  It becomes less accurate as $r$ approaches $d/2$, and is invalid when $r\approx d$.}
  \label{fig:modelcomp-iso}
 \end{figure}
@@ -272,7 +272,7 @@ coherent-state POVM, $\{|\alpha\rangle\langle \alpha| /\pi, ~\alpha=x+ip\in \mat
 state's Husimi $Q$-function \cite{Husimi1940}.
 
 \begin{figure}[h]
-  \includegraphics[width=\columnwidth]{Images/Figure_10.pdf}
+  \includegraphics[width=\columnwidth]{Images/Figure_6.pdf}
  \caption{The condition number $\kappa$ -- the ratio of the largest to smallest eigenvalue -- of the estimated Fisher information grows with model dimension, indicating an increase in anisotropy. (Estimates are the average over 100 Hessians of the loglikelihood function.) The dashed lines indicate different true states $\rho_{0}$, and the solid line is $\kappa = 1$ (i.e., $\mathcal{I} \propto \Id$.).}
 \label{fig:fish_condition}
 \end{figure}
@@ -281,8 +281,8 @@ We examined the behavior of $\lambda$ for 13 distinct true states $\rho_{0}$, bo
 _{4}$, and $\mathcal{H}_{5}$.  We used rejection sampling to simulate 100 heterodyne datasets with up to $N_{\mathrm{samples}}=10^5$, and found MLEs over each of the 9 models $\M_2, \ldots, M_{10}$ using numerical optimization \footnote{The model $\M_{1}$ is trivial, as $\M_{1} = \{|0\rangle \langle 0|\}$. This model will almost always be wrong, in general.}.  For each true state and each $d$, we averaged $\lambda(\rho_{0}, \M_{d})$ over all 100 datasets to obtain an empirical average loglikelihood ratio $\bar{\lambda}$ for each $(\rho_0,d)$ pair.
 
 \begin{figure}[h]
- \includegraphics[width=\columnwidth]{Images/Figure_4.pdf}
- \caption{The Wilks Theorem (orange dots) dramatically over-estimates $\langle\lambda(\rho_{0}, \M_{d})\rangle$ in optical heterodyne tomography. Our formula, Equation \ref{eq:ourLLRS} (blue squares), is far more accurate. Residual discrepancies, discussed in Appendix \ref{app:breakdown}, appear to stem largely from non-asymptoticity ($N_{\mathrm{samples}}$ is not yet ``asymptotically large''). The solid red line of equality corresponds to perfect correlation between theory ($\expect{\lambda}$) and practice ($\bar\lambda$).}
+ \includegraphics[width=\columnwidth]{Images/Figure_7.pdf}
+ \caption{The Wilks Theorem (orange dots) dramatically over-estimates $\langle\lambda(\rho_{0}, \M_{d})\rangle$ in optical heterodyne tomography. Our formula, Equation \ref{eq:ourLLRS} (blue squares), is far more accurate. Residual discrepancies appear to stem largely from non-asymptoticity ($N_{\mathrm{samples}}$ is not yet ``asymptotically large''). The solid red line corresponds to perfect correlation between theory ($\expect{\lambda}$) and practice ($\bar\lambda$).}
  \label{fig:modelcomp}
 \end{figure}
 
@@ -291,7 +291,7 @@ Results of this test are shown in Figure \ref{fig:modelcomp}, where we plot (a) 
 Interestingly, as $d$ grows, Equation \eqref{eq:ourLLRS} also begins to overpredict. As Figure \ref{fig:totalcontrib} indicates, a more accurate description is that the numerical experiments are \emph{underachieving}, because $N_{\mathrm{samples}}$ is not large enough -- $\bar\lambda$ is still growing with $N_{\mathrm{samples}}$.  Both the Wilks Theorem and our analysis are derived in an asymptotic limit $N \rightarrow \infty$; for finite but large $N$, both may be invalid.  Figure \ref{fig:totalcontrib} shows that, even at $N\sim 10^{5}$, the behavior of $\bar{\lambda}$ has failed to become asymptotic. This is surprising, and suggests heterodyne tomography is a particularly exceptional and challenging case to model statistically. 
 
 \begin{figure}[h]
-  \includegraphics[width=\columnwidth]{Images/Figure_9.pdf}
+  \includegraphics[width=\columnwidth]{Images/Figure_8.pdf}
  \caption{The empirical average $\bar{\lambda}$  may have achieved its asymptotic value, or is still 
 growing, depending on the true state $\rho_{0}$ and the model dimension $d$. Solid lines indicate the value of our formula
 for the asymptotic expected value, given in Equation \eqref{eq:ourLLRS}.}
@@ -303,14 +303,14 @@ However, our model \emph{does} get some of the qualititative features correct. I
  
  
 \begin{figure}[h]
-  \includegraphics[width=\columnwidth]{Images/Figure_11.pdf}
+  \includegraphics[width=\columnwidth]{Images/Figure_9.pdf}
  \caption{The $\langle \lambda_{jk} \rangle$ assuming an isotropic Fisher information (left), and for heterodyne tomography (right). \textbf{Top}: $\rho_{0} = |0\rangle\langle 0|$. \textbf{Bottom}: $\rho_{0} = \mathcal{I}_{2}/2$. \textbf{Discussion}: Qualitatively, the behavior is the same, though there are quantitative differences, particularly within the
 kite.}
 \label{fig:model_comparison}
 \end{figure}
 
 \begin{figure}[h]
-  \includegraphics[width=\columnwidth]{Images/Figure_12.pdf}
+  \includegraphics[width=\columnwidth]{Images/Figure_10.pdf}
  \caption{Examining how our predicted values for $\langle \lambda_{jk} \rangle$ disagree with simulated heterodyne experiments. We take $\rho_{0} = |0\rangle\langle 0|$ and $d=8$. \textbf{Top Left}: The fluctuations in the ``L" $\langle \lambda_{0k}\rangle$ as a function of sample size $N$.  \textbf{Top Right}: At the largest $N$ studied, the fluctuations in the ``L" from coherences with different number states. For the higher number states, $\langle \lambda_{0k}\rangle$ is substantially less than 1. \textbf{Bottom Left}: The total from the ``kite" versus $N$. It is clear the total is still growing. \textbf{Bottom Right}: The individual ``kite" elements $\langle \lambda_{jk}\rangle$ at the largest $N$ studied;  most are small compared to the model.}
 \label{fig:individcontrib}
 \end{figure}
