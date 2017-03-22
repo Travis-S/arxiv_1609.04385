@@ -60,7 +60,7 @@ Quantum state tomography on a $d$-dimensional system demands resources that grow
 
 \maketitle
 
-In quantum information science, an experimentalist may wish to determine the quantum state $\rho_{0}$ that is produced by a specific initialization procedure.  This can be done using quantum state tomography \cite{Paris2004}:  many copies of $\rho_{0}$ are produced; they are measured in diverse ways; and finally the outcomes of those measurements (data) are collated and analyzed to produce an estimate $\rhohat$.  This is a straightforward statistical inference process \cite{Reid2015, Wasserman2004}, where the data are used to fit the parameters of a statistical model -- provided that we know what statistical model to use.  But this is not always the case.  In state tomography, the parameter is $\rho$, and the model is the set of all possible density matrices on a Hilbert space $\cH$ (equipped with the Born rule). It is not always \emph{a priori} obvious what $\cH$ or its dimension is; examples include optical modes \cite{Altepeter2005, Bertrand1987, Lvovsky2009, Breitenbach1997, Leonhardt1995} and leakage levels in AMO and superconducting \cite{Motzoi2009, Fazio1999} qubits.  Choosing an appropriate Hilbert space on the fly is \emph{model selection}, and while model selection is well-studied in classical statistics \cite{Burnham2004}, applying it to quantum tomography leads to some surprising twists.  These problems stem from the positivity constraint ($\rhohat\geq0$). The techniques we use to resolve them are relevant not just to model selection, but to quantum tomography on low-rank states.
+In quantum information science, an experimentalist may wish to determine the quantum state $\rho_{0}$ that is produced by a specific initialization procedure.  This can be done using quantum state tomography \cite{Paris2004}:  many copies of $\rho_{0}$ are produced; they are measured in diverse ways; and finally the outcomes of those measurements (data) are collated and analyzed to produce an estimate $\rhohat$.  This is a straightforward statistical inference process \cite{Reid2015, Wasserman2004}, where the data are used to fit the parameters of a statistical model -- provided that we know what statistical model to use.  But this is not always the case.  In state tomography, the parameter is $\rho$, and the model is the set of all possible density matrices on a Hilbert space $\cH$ (equipped with the Born rule). It is not always \emph{a priori} obvious what $\cH$ or its dimension is; examples include optical modes \cite{Altepeter2005, Bertrand1987, Lvovsky2009, Breitenbach1997, Leonhardt1995} and leakage levels in AMO and superconducting \cite{Motzoi2009, Fazio1999} qubits.  Choosing an appropriate Hilbert space on the fly is \emph{model selection}, and while model selection is well-studied in classical statistics \cite{Burnham2004}, applying it to quantum tomography leads to some surprising twists.  These problems stem from the positivity constraint ($\rhohat\geq0$). The techniques we use to resolve them are relevant not just to model selection, but to quantum tomography of rank-deficient states.
 
 Many methods for selecting between multiple models involve fitting each model's parameters using \emph{maximum likelihood estimation} (MLE) \cite{Hradil1997, JamesPRA2001, Blume-Kohout2010}, which reports the parameter values that maximize the likelihood (the probability of the observed data). Classical estimation problems usually satisfy \emph{local asymptotic normality} \cite{LeCam1970, LeCam1956}, meaning that: (1) as $N_{\mathrm{samples}}\rightarrow \infty$,  $\rhoMLE$ is normally distributed around the true state $\rho_{0}$ with covariance matrix $\Fi^{-1}$, and (2) the likelihood function in a neighborhood of $\rhoMLE$ is locally Gaussian with Hessian $\Fi$, where $\Fi$ is the \emph{Fisher information}.
 
@@ -87,7 +87,7 @@ In this case, $\rhohat$ is often not positive semidefinite (see Figure \ref{fig:
 \label{eq:mleopt}
 \rhoMLE = \underset{\substack{\rho \in \mathcal{B}(\cH)  \\ \mathrm{Tr}(\rho)=1, \rho \geq 0}}{\mathrm{argmin}}~\mathrm{Tr}[(\rhohat - \rho)^{2}],
 \end{equation}
-and the distribution of $\rhoMLE$ is not generally normal. We do not attempt to derive $\mathrm{Pr}(\rhoMLE)$ explicitly. Instead, we demonstrate a method for computing the behavior of useful statistics which depend on $\rhoMLE$, such as the expected value of the loglikelihood ratio statistic $\langle \lambda \rangle$, a key quantity in model selection.
+and the distribution of $\rhoMLE$ is not generally normal. We do not attempt to derive $\mathrm{Pr}(\rhoMLE)$ explicitly. Instead, we demonstrate a method for computing the behavior of useful statistics which depend on it.
 
 %----------MODEL SELECTION-------------%
 Model selection becomes relevant when several candidate models could be fit to the data.  A model's ``size'' is the number of free parameters in it, and as a general rule, the best model is the smallest one that fits the data well.  Many model selection techniques use a statistic to quantify goodness of fit; a commonly used statistic is the \emph{loglikelihood ratio} \cite{Blume-Kohout2010, Moroder2013, Neyman1933},
@@ -121,14 +121,14 @@ When $\rho_{0}$ is full-rank, the Wilks Theorem applies, and  $\lambda \sim \chi
 %----------DERIVING A WILKS REPLACEMENT--------------%
 In our derivation, we assume that $\rho_{0}, \rhoMLE \in \M_{d}$, that $r \equiv \mathrm{Rank}(\rho_{0}) < d$, and that the Fisher information at $\rho_0$ is $\Fi  = \epsilon^{2} \Id$.  The loglikelihood ratio that we're trying to predict is equal to $\lambda(\rho_0, \rhoMLE) = \epsilon^{-2}\Tr{[(\rhoMLE - \rho_{0})^2]}$, where $\rhoMLE$ is the MLE over $\M_{d}$.  The \emph{unconstrained} estimates are distributed as $\mathrm{Pr}(\rhohat) = \mathcal{N}(\rho_0,\epsilon^2\Id)$. 
 
-We need a procedure to compute $\rhoMLE$ given $\rhohat$ -- i.e., to solve the optimization problem in Eq. \eqref{eq:mleopt}.  Fortunately, for the special case of isotropic Fisher information, this problem was solved in Ref. \cite{Smolin2012}:
+We need a procedure to compute $\rhoMLE$ given $\rhohat$ -- i.e., to solve the optimization problem in Eq. \eqref{eq:mleopt}.  Fortunately, an algorithm for doing so was presented in Ref. \cite{Smolin2012}:
 \begin{enumerate}[noitemsep]
 \item Subtract $q\Id$ from the unconstrained $\hat\rho$, for a particular real scalar $q$,
 \item ``Truncate'' $\hat\rho-q\Id$, by replacing each of its negative eigenvalues with zero.
 \end{enumerate}
 Here, $q$ is defined implicitly such that $\Tr\left[ \mathrm{Trunc}(\hat\rho-q\Id)\right] = 1$.
 
-Although this was intended as a (very fast) numerical algorithm, we will abuse it (by a series of approximations) to derive a closed-form expression for the average $\expect{\lambda}$.  We begin by observing that $\lambda(\rho_{0}, \rhoMLE)$ can be written as a sum over matrix elements,
+Although this was intended as a (very fast) numerical algorithm, we will manipulate it (by a series of approximations) to derive a closed-form expression for the average $\expect{\lambda}$.  We begin by observing that $\lambda(\rho_{0}, \M_{d})$ can be written as a sum over matrix elements,
 \begin{align}
 \label{eq:llrserrors}
 \nonumber \lambda &=\epsilon^{-2}\mathrm{Tr}[(\rhoMLE - \rho_{0})^{2}] = \epsilon^{-2}\sum_{jk}|(\rhoMLE- \rho_{0} )_{jk}|^{2}\\
@@ -154,9 +154,9 @@ Now, to first order in $\epsilon$, elements of $\delta$ in the ``L'' do not affe
 Then, $\delta \approx i\epsilon [\rho_{0},H]$.
 If $j = k$, then $\delta_{jj} = 0$. Thus, small unitaries cannot create errors in the diagonal matrix elements, at $\mathcal{O}(\epsilon)$. If $j \neq k$, then $\delta_{jk} \neq 0$, in general. So small unitaries \emph{can} introduce errors on off-diagonal elements.
 
-However, if either $\ket{j}$ or $\ket{k}$ (or both) lie within the \emph{kernel} of $\rho_{0}$ (i.e., $\rho_{0}\ket{k}$ or $\rho_{0}\ket{j}$ is equal to 0), then the corresponding $\delta_{jk}$ are zero. The only off-diagonal elements where small unitaries can introduce errors are those which are coherent between the kernel of $\rho_{0}$ and its support. These off-diagonal elements are precisely the ``L", and are  the set $\{\delta_{jk}~|~\langle j | \rho_{0}|j\rangle \neq 0, j\neq k, ~ 0 \leq j,k \leq d - 1\}$. Each $\delta_{jk}$ in the ``L'' has Gaussian fluctuations and so for those elements, $\langle \lambda_{jk} \rangle = 1$. As there are $2rd - r(r+1)$ of them in the ``L", $\expect{\lambda}_{\mathrm{L}} = 2rd - r(r+1)$.
+However, if either $j$ or $k$ (or both) lie within the \emph{kernel} of $\rho_{0}$ (i.e., $\langle k | \rho_{0}| k \rangle$ or $\langle j|\rho_{0}|j\rangle$ is equal to 0), then the corresponding $\delta_{jk}$ are zero. The only off-diagonal elements where small unitaries can introduce errors are those which are coherent between the kernel of $\rho_{0}$ and its support. These off-diagonal elements are precisely the ``L", and are  the set $\{\delta_{jk}~|~\langle j | \rho_{0}|j\rangle \neq 0, j\neq k, ~ 0 \leq j,k \leq d - 1\}$. Each $\delta_{jk}$ in the ``L'' has Gaussian fluctuations and so for those elements, $\langle \lambda_{jk} \rangle = 1$. As there are $2rd - r(r+1)$ of them, $\expect{\lambda}_{\mathrm{L}} = 2rd - r(r+1)$.
 
-Computing $\expect{\lambda}_{\mathrm{kite}}$ is a bit harder, because the boundary \emph{does} constrain elements in the ``kite''.  Here, we turn to the ``truncation'' algorithm given above for finding $\rhoMLE$, which is most naturally performed in the eigenbasis of $\hat\rho$.  Exact diagonalization of $\hat\rho$ is not feasible analytically, but only the \emph{small} eigenvalues of $\hat\rho$ are critical in truncation.  As long as all the nonzero eigenvalues of $\rho_0$ are much larger than $\epsilon$, the eigenbasis of $\hat\rho$ is accurately approximated by: (1) 
+Computing $\expect{\lambda}_{\mathrm{kite}}$ is a bit harder, because the boundary \emph{does} constrain elements in the ``kite''.  Here, we turn to the truncation algorithm given above for finding $\rhoMLE$, which is most naturally performed in the eigenbasis of $\hat\rho$.  Exact diagonalization of $\hat\rho$ is not feasible analytically, but only the \emph{small} eigenvalues of $\hat\rho$ are critical in truncation.  As long as all the nonzero eigenvalues of $\rho_0$ are much larger than $\epsilon$, the eigenbasis of $\hat\rho$ is accurately approximated by: (1) 
 the eigenvectors of $\rho_0$ on its support; and (2) the eigenvectors of $\delta_{\mathrm{ker}} = \Pi_{\mathrm{ker}}\delta\Pi_{\mathrm{ker}}$, where $\Pi_{\mathrm{ker}}
 $ is the projector onto the kernel of $\rho_0$.
 
@@ -170,9 +170,9 @@ N\}$.
 
 The $\kappa_j$ are random variables, but are not normally distributed.  Instead, $\delta_{\mathrm{ker}}$ is proportional to a $\mathrm{GUE}(N)$ matrix. For $N\gg1$, the distribution of any eigenvalue $\kappa_{j}$
 converges to a Wigner semicircle distribution \cite{Wigner1958} given by $\mathrm{Pr}(\kappa) = \frac{2}{\pi R^{2}}\sqrt{R^{2}-\kappa^{2}}$ for $|\kappa| \leq R$, with $R = 2\epsilon\sqrt{N}$.  The eigenvalues are not independent; they tend to avoid collisions (``level avoidance'' \cite{Tao2013}), 
-and typically form a surprisingly regular array over the support of the Wigner semicircle.  Since our goal is to compute $\expect{\lambda}$, we can capitalize on this behavior by replacing each random sample of $\bvec{\kappa}$ with a 
+and typically form a surprisingly regular array over the support of the Wigner semicircle.  Since our goal is to compute $\expect{\lambda}_{\mathrm{kite}}$, we can capitalize on this behavior by replacing each random sample of $\bvec{\kappa}$ with a 
 \emph{typical sample} $\bar{\bvec{\kappa}}$ given by its order statistics.  These are the average values of the \emph{sorted} 
-$\bvec{\kappa}$, so $\overline{\kappa}_j$ is the average value of the $j$th largest value of $\bvec{\kappa}$.  Large random samples 
+$\bvec{\kappa}$, so $\overline{\kappa}_j$ is the average value of the $j^{\mathrm{th}}$ largest value of $\bvec{\kappa}$.  Large random samples 
 are usually well approximated (for many purposes) by their order statistics even when the elements of the sample are 
 independent, and level avoidance makes the approximation even better. 
 
@@ -182,12 +182,12 @@ independent, and level avoidance makes the approximation even better.
 \label{fig:orderstatistics1}
 \end{figure}
 
-Suppose that $\bvec{\kappa}$ are the eigenvalues of a GUE($N$) matrix, sorted from highest to lowest.  Figure \ref{fig:orderstatistics1} illustrates such a sample for $N=100$.  It also shows the \emph{average} values of 100 such samples (all sorted).  These are the \emph{order statistics} $\overline{\bvec{\kappa}}$ of the distribution (more precisely, what is shown is a good \emph{estimate} of the order statistics; the actual order statistics would be given by the average over infinitely many samples).  The point of the figure is to show that, while the order statistics \emph{are} slightly more smoothly and predictably distributed than a single (sorted) sample\ldots the two are remarkably similar.  A single sample $\bvec{\kappa}$ will fluctuate around the order statistics, but these fluctuations are relatively small, partly because the sample is large, and partly because the GUE eigenvalues experience level repulsion.  Thus, the ``typical'' behavior of a sample -- by which we mean the mean value of a statistic of the sample -- is well captured by the order statistics (which have no fluctuations at all).
+Suppose that $\bvec{\kappa}$ are the eigenvalues of a GUE($N$) matrix, sorted from highest to lowest.  Figure \ref{fig:orderstatistics1} illustrates such a sample for $N=100$.  It also shows the \emph{average} values of 100 such samples (all sorted).  These are the \emph{order statistics} $\overline{\bvec{\kappa}}$ of the distribution (more precisely, what is shown is a good \emph{estimate} of the order statistics; the actual order statistics would be given by the average over infinitely many samples).  The point of the figure is to show that, while the order statistics \emph{are} slightly more smoothly and predictably distributed than a single (sorted) sample, the two are remarkably similar.  A single sample $\bvec{\kappa}$ will fluctuate around the order statistics, but these fluctuations are relatively small, partly because the sample is large, and partly because the GUE eigenvalues experience level repulsion.  Thus, the ``typical'' behavior of a sample -- by which we mean the mean value of a statistic of the sample -- is well captured by the order statistics (which have no fluctuations at all).
 
 We now turn to the problem of modeling $\bvec{\kappa}$ quantitatively.  We note up front that we are only going to be interested in certain properties of $\bvec{\kappa}$:  specifically, partial sums of all $\kappa_j$ greater or less than some threshold (this threshold is $q$ in the main text), or partial sums of functions of the $\kappa_j$ (e.g. $(\kappa_j-q)^2$).  We require only that an ansatz be accurate for such quantities.  We do not use this fact explicitly, but it motivates our approach -- and we do not claim that our ansatz is accurate for \emph{all} conceivable statistics.
 
 In general, if a sample $\bvec{\kappa}$ of size $N$ is drawn so that each $\kappa$ has the same probability distribution 
-function $\mathrm{Pr}(\kappa)$, then a good approximation for the $j$th order statistic is given by the inverse 
+function $\mathrm{Pr}(\kappa)$, then a good approximation for the $j^{\mathrm{th}}$ order statistic is given by the inverse 
 \emph{cumulative} distribution function (CDF):
 \begin{equation}
 \overline{\kappa}_j \approx \mathrm{CDF}^{-1}\left(\frac{j-1/2}{N}\right).
@@ -200,7 +200,7 @@ This is closely related to the observation that the histogram of a sample tends 
 \label{fig:orderstatistics2}
 \end{figure}
 
-We make one further approximation, by assuming (as an ansatz) that $N\gg1$, and thus that the distribution of the $\overline{\kappa}_j$ is effectively continuous and identical to $\mathrm{Pr}(\kappa)$. For the quantities that we compute, this is equivalent to replacing the empirical distribution function (which is a step function) by the CDF of the Wigner semicircle distribution.  So, whereas for any given sample the partial sum of all $\kappa_j > q$ jumps discontinuously when $q=\kappa_j$ for any $j$, in this approximation it changes smoothly.  This accurately models the \emph{average} behavior of partial sums.
+We make one further approximation, by assuming that $N\gg1$, and thus that the distribution of the $\overline{\kappa}_j$ is effectively continuous and identical to $\mathrm{Pr}(\kappa)$. For the quantities that we compute, this is equivalent to replacing the empirical distribution function (which is a step function) by the CDF of the Wigner semicircle distribution.  So, whereas for any given sample the partial sum of all $\kappa_j > q$ jumps discontinuously when $q=\kappa_j$ for any $j$, in this approximation it changes smoothly.  This accurately models the \emph{average} behavior of partial sums.
 
 These approximations provide the ansatz that we use below, for the eigenvalues of $\hat\rho$, as $\{p_j\} \cup \{\overline{\kappa}_j\}$, where the $p_j$ are $\mathcal{N}(\rho_{jj},\epsilon^2)$ random variables, and the $\overline{\kappa}_j$ are the (fixed, smoothed) order statistics of a Wigner semicircle distribution.  
 
@@ -218,7 +218,7 @@ Defining $f(q) = \Tr\left[\mathrm{Trunc}(\hat\rho - q \Id)\right]$, the appropri
 ~
 \end{eqnarray}
 where $\Delta = \sum_{j=1}^{r}\delta_{jj}$ is a $\mathcal{N}(0,r\epsilon^2)$ random variable.  We also chose to replace a discrete 
-sum (line 1) with an integral (line 2).  This approximation is valid when $N\gg1$, where (as noted in the main text) we can accurately approximate a discrete collection of closely spaced real numbers by a smooth density or distribution over the real numbers that has approximately the same CDF.  It is also remarkably accurate in practice.
+sum (line 1) with an integral (line 2).  This approximation is valid when $N\gg1$, as we can accurately approximate a discrete collection of closely spaced real numbers by a smooth density or distribution over the real numbers that has approximately the same CDF.  It is also remarkably accurate in practice.
   
 In yet another approximation, we replace $\Delta$ with its average value, which is zero.  We could obtain an even more accurate expression 
  by treating the fluctuations in $\Delta$ more carefully, but this crude approximation turns out to be quite accurate already.
@@ -240,8 +240,8 @@ q \approx 2\sqrt{N}-\frac{(240r\pi)^{2/5}}{4}N^{1/10}+\frac{(240r\pi)^{4/5}}{80}
 \todo[inline]{Is it $q/\epsilon$?}
 Now that we know how much to subtract off in the truncation process, we can compute $\expect{\lambda}_{\mathrm{kite}}$:
 \begin{eqnarray}
-\nonumber \expect{\lambda}_{\mathrm{kite}} &=& \left\langle\sum_{j=1}^{r}[\rho_{jj}- (p_j-q)]^2 + \sum_{j=1}^{N}\left[(\kappa_j-q)^+\right]^2 \right\rangle\\
-\nonumber  &\approx& r + rq^2 + N\int_{\kappa=q}^{2\epsilon\sqrt{N}}{ Pr(\kappa)(\kappa-q)^2 d\kappa} \\
+\nonumber \expect{\lambda}_{\mathrm{kite}} &=& \left\langle\sum_{j=1}^{r}[\rho_{jj}- (p_j-q)]^2 + \sum_{j=1}^{N}\left[(\bar{\kappa}_j-q)^+\right]^2 \right\rangle\\
+\nonumber  &\approx& r + rq^2 + N\int_{\kappa=q}^{2\epsilon\sqrt{N}}{ \mathrm{Pr}(\kappa)(\kappa-q)^2 d\kappa} \\
 \nonumber &=& r + rq^2 + \frac{N(N+q^2)}{\pi} \left( \frac{\pi}{2} - \sin^{-1}\left(\frac{q}{2\sqrt{N}}\right)\right)  \nonumber \\
 &&\hspace{0.3in}-\frac{q(q^2+26N)}{24\pi} \sqrt{4N-q^2}.
 \end{eqnarray}
@@ -304,14 +304,13 @@ However, our model \emph{does} get some of the qualititative features correct. I
  
 \begin{figure}[h]
   \includegraphics[width=\columnwidth]{Images/Figure_9.pdf}
- \caption{The $\langle \lambda_{jk} \rangle$ assuming an isotropic Fisher information (left), and for heterodyne tomography (right). \textbf{Top}: $\rho_{0} = |0\rangle\langle 0|$. \textbf{Bottom}: $\rho_{0} = \mathcal{I}_{2}/2$. \textbf{Discussion}: Qualitatively, the behavior is the same, though there are quantitative differences, particularly within the
-kite.}
+ \caption{The values of $\langle \lambda_{jk} \rangle$ assuming an isotropic Fisher information (left), and for heterodyne tomography (right). \textbf{Top}: $\rho_{0} = |0\rangle\langle 0|$. \textbf{Bottom}: $\rho_{0} = \mathcal{I}_{2}/2$. \textbf{Discussion}: Qualitatively, the behavior is the same, though there are quantitative differences, particularly within the kite.}
 \label{fig:model_comparison}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[width=\columnwidth]{Images/Figure_10.pdf}
- \caption{Examining how our predicted values for $\langle \lambda_{jk} \rangle$ disagree with simulated heterodyne experiments. We take $\rho_{0} = |0\rangle\langle 0|$ and $d=8$. \textbf{Top Left}: The fluctuations in the ``L" $\langle \lambda_{0k}\rangle$ as a function of sample size $N$.  \textbf{Top Right}: At the largest $N$ studied, the fluctuations in the ``L" from coherences with different number states. For the higher number states, $\langle \lambda_{0k}\rangle$ is substantially less than 1. \textbf{Bottom Left}: The total from the ``kite" versus $N$. It is clear the total is still growing. \textbf{Bottom Right}: The individual ``kite" elements $\langle \lambda_{jk}\rangle$ at the largest $N$ studied;  most are small compared to the model.}
+ \caption{Examining how our predicted values for $\langle \lambda_{jk} \rangle$ disagree with simulated heterodyne experiments. We take $\rho_{0} = |0\rangle\langle 0|$ and $d=8$. \textbf{Top Left}: The values of  $\langle \lambda_{0k}\rangle$ in the ``L" as a function of sample size $N$.  \textbf{Top Right}:  Even at the largest $N$ studied, $\langle \lambda_{0k}\rangle$ is nontrivially less than 1, especially for the higher number states. \textbf{Bottom Left}: The total from the ``kite" versus $N$. It is clear the total is still growing. \textbf{Bottom Right}: The individual ``kite" elements $\langle \lambda_{jk}\rangle$ at the largest $N$ studied;  most are small compared to values they would have in the isotropic case.}
 \label{fig:individcontrib}
 \end{figure}
 
