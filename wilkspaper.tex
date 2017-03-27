@@ -112,10 +112,15 @@ Consider using model selection to evaluate a particular $d$-dimensional Hilbert 
 \lambda(\mathcal{M}_{d}, \mathcal{M}_{d + 1}) = \lambda(\rho_{0}, \mathcal{M}_{d+1}) - \lambda(\rho_{0}, \mathcal{M}_{d}),
 \end{equation}
 where
+\begin{align}
+\nonumber\lambda(\rho_{0}, \mathcal{M}_{d}) &= -2 \log \left(\frac{\mathcal{L}(\rho_{0})}{\underset{\rho \in \mathcal{M}_{d}}{\max}
+\mathcal{L}(\rho)}\right)\\
+& = (\mathrm{Tr}[(\rho_{0} - \hat{\rho})^{2}]- \mathrm{Tr}[(\rhoMLE - \hat{\rho})^{2}])/\epsilon^{2}.
+\end{align}
+A further simplification is possible by observing that, as $\epsilon \rightarrow 0$, the distribution of $\hat{\rho}$ will become more and more tightly concentrated around $\rho_{0}$. In turn, the local geometry of the state space will become more and more flat. For state spaces which may be generated out of the intersection of hyperplanes, the loglikelihood ratio statistic reduces to the mean-squared error between the MLE $\rhoMLE$ and the true state $\rho_{0}$:
 \begin{equation}
 \label{eq:llrs}
-\lambda(\rho_{0}, \mathcal{M}_{d}) = -2 \log \left(\frac{\mathcal{L}(\rho_{0})}{\underset{\rho \in \mathcal{M}_{d}}{\max}
-\mathcal{L}(\rho)}\right).
+\epsilon \rightarrow 0 \implies \lambda(\rho_{0}, \M_{d}) = \mathrm{Tr}[(\rhoMLE - \rho_{0})^{2}]/\epsilon^{2}
 \end{equation}
 When $\rho_{0}$ is full-rank, the Wilks Theorem applies, and  $\lambda \sim \chi^{2}_{d^{2}-1}$ \footnote{Because $\rho_{0}$ is \emph{fixed}, the number of free parameters is 0.}. However, the behavior of $\lambda$ depends crucially on the \emph{rank} of $\rho_{0}$. If $\rho_{0}$ is rank-deficient, then the boundary looms, local asymptotic normality does not hold, and the Wilks Theorem does not apply! Even if $\rho_{0}$ is full-rank in $\M_{d}$, it will be rank-deficient in $\M_{d+1}$. Thus, to do model selection for Hilbert space dimension in state tomography, we must understand the null behavior of $\lambda(\rho_{0}, \M_{d})$ -- i.e., derive a replacement Wilks Theorem -- for rank-deficient $\rho_{0}$.  Some of the more technical details of this derivation are deferred to Appendix \ref{app:technical} in the Supplementary Material.
 
