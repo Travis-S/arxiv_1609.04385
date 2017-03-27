@@ -91,12 +91,12 @@ for some $\epsilon$ that scales as $1 / \sqrt{N_{\mathrm{samples}}}$.  In practi
 In this case, $\rhohat$ is often not positive semidefinite (see Figure \ref{fig:boundaries}). For each $\rhohat$, the actual $\rhoMLE$ is the solution to the following optimization problem:
 \begin{equation}
 \label{eq:mleopt}
-\rhoMLE = \underset{\substack{\rho \in \mathcal{B}(\cH)  \\ \mathrm{Tr}(\rho)=1, \rho \geq 0}}{\mathrm{argmin}}~\mathrm{Tr}[(\rhohat - \rho)^{2}],
+\rhoMLE = \underset{\substack{\rho \in \mathcal{B}(\cH)  \\ \mathrm{Tr}(\rho)=1, \rho \geq 0}}{\mathrm{argmin}}~\mathrm{Tr}[(\rhohat - \rho)^{2}].
 \end{equation}
-and the distribution of $\rhoMLE$ is not generally normal. We do not attempt to derive $\mathrm{Pr}(\rhoMLE)$ explicitly. Instead, we demonstrate a method for computing the behavior of useful statistics which depend on it.
+Note that if $\rhohat \geq 0, \rhoMLE = \rhohat$. Generally, the distribution of $\rhoMLE$ will not be normal;  we do not attempt to derive $\mathrm{Pr}(\rhoMLE)$ explicitly. Instead, we demonstrate a method for computing the behavior of useful statistics which depend on it.
 
 %----------MODEL SELECTION-------------%
-Model selection becomes relevant when several candidate models could be fit to the data.  A model's ``size'' is the number of free parameters in it, and as a general rule, the best model is the smallest one that fits the data well.  Many model selection techniques use a statistic to quantify goodness of fit; a commonly used statistic is the \emph{loglikelihood ratio} \cite{Blume-Kohout2010, Moroder2013, Neyman1933},
+On such statistic is the  the \emph{loglikelihood ratio},
 \begin{equation}
 \lambda(\M_{1}, \M_{2}) = -2 \log \left(\frac{\underset{\rho \in \M_{1}}{\max}~\cL(\rho)}{\underset{\rho \in 
 \M_{2}}{\max}~\cL(\rho)}\right),
@@ -168,8 +168,17 @@ Changing to this basis diagonalizes the ``kite'' portion of $\delta$, and leaves
 \item $N \equiv d-r$ elements that are eigenvalues of $\delta_{\mathrm{ker}}$, which we denote by $\bvec{\kappa} = \{\kappa_j:~j = 1\ldots 
 N\}$,
 \end{enumerate}
-
-The $\kappa_j$ are random variables, but are not normally distributed.  Instead, $\delta_{\mathrm{ker}}$ is proportional to a $\mathrm{GUE}(N)$ matrix. For $N\gg1$, the distribution of any eigenvalue $\kappa_{j}$
+and $\lambda_{\mathrm{kite}}$ is
+\begin{equation}
+\label{eq:llrs_kite}
+\epsilon^{2}\lambda_{\mathrm{kite}} = \sum_{j=1}^{r}[\rho_{jj}- (p_j-q)^{+}]^2 + \sum_{j=1}^{N}\left[(\kappa_j-q)^+\right]^2 
+\end{equation}
+where $(x)^{+} = \max(x, 0)$. $q$ is implicitly defined such that $f(q) \equiv \Tr\left[\mathrm{Trunc}(\hat\rho - q \Id)\right]$ satisfies $f(q) = 1$. In terms of the eigenvalues of $\rhohat$, this means $q$ is the solution to
+\begin{equation}
+\label{eq:q_eqn}
+ \sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{N}{(\kappa_j-q)^+} = 1
+\end{equation}
+To compute $q$, we first observe that while the $\kappa_j$ are random variables, they are not normally distributed.  Instead, because $\delta_{\mathrm{ker}}$ is proportional to a $\mathrm{GUE}(N)$ matrix, for $N\gg1$, the distribution of any eigenvalue $\kappa_{j}$
 converges to a Wigner semicircle distribution \cite{Wigner1958} given by $\mathrm{Pr}(\kappa) = \frac{2}{\pi R^{2}}\sqrt{R^{2}-\kappa^{2}}$ for $|\kappa| \leq R$, with $R = 2\epsilon\sqrt{N}$.  The eigenvalues are not independent; they tend to avoid collisions (``level avoidance'' \cite{Tao2013}), 
 and typically form a surprisingly regular array over the support of the Wigner semicircle.  Since our goal is to compute $\expect{\lambda}_{\mathrm{kite}}$, we can capitalize on this behavior by replacing each random sample of $\bvec{\kappa}$ with a 
 \emph{typical sample} $\bar{\bvec{\kappa}}$ given by its order statistics.  These are the average values of the \emph{sorted} 
@@ -203,16 +212,20 @@ This is closely related to the observation that the histogram of a sample tends 
 
 We make one further approximation, by assuming that $N\gg1$, and thus that the distribution of the $\overline{\kappa}_j$ is effectively continuous and identical to $\mathrm{Pr}(\kappa)$. For the quantities that we compute, this is equivalent to replacing the empirical distribution function (which is a step function) by the CDF of the Wigner semicircle distribution.  So, whereas for any given sample the partial sum of all $\kappa_j > q$ jumps discontinuously when $q=\kappa_j$ for any $j$, in this approximation it changes smoothly.  This accurately models the \emph{average} behavior of partial sums.
 
-These approximations provide the ansatz that we use below, for the eigenvalues of $\hat\rho$, as $\{p_j\} \cup \{\overline{\kappa}_j\}$, where the $p_j$ are $\mathcal{N}(\rho_{jj},\epsilon^2)$ random variables, and the $\overline{\kappa}_j$ are the (fixed, smoothed) order statistics of a Wigner semicircle distribution.  
-
+These approximations provide the ansatz that we use below, for the eigenvalues of $\hat\rho$, as $\{p_j\} \cup \{\overline{\kappa}_j\}$, where the $p_j$ are $\mathcal{N}(\rho_{jj},\epsilon^2)$ random variables, and the $\overline{\kappa}_j$ are the (fixed, smoothed) order statistics of a Wigner semicircle distribution.  In turn, our expression for $\expect{\lambda_{\mathrm{kite}}}$ (Equation \eqref{eq:llrs_kite}) and the defining equation for $q$ (Equation \eqref{eq:q_eqn}) are both well approximated as
+\begin{align*}
+\expect{\lambda_{\mathrm{kite}}} &\approx \frac{1}{\epsilon^{2}}\left\langle\sum_{j=1}^{r}[\rho_{jj}- (p_j-q)^{+}]^2 + \sum_{j=1}^{N}\left[(\bar{\kappa}_j-q)^+\right]^2 \right\rangle\\
+1 &\approx \sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{N}{(\overline{\kappa}_j-q)^+}
+\end{align*}
 To proceed with truncation, we observe that the $\overline{\kappa}_j$ are symmetrically distributed around $
 \kappa=0$, so half of them are negative.  Therefore, with high probability, $\Tr
-\left[\mathrm{Trunc}(\hat\rho)\right]>1$, and so we will need to subtract $q\Id$ from $\hat\rho$ before truncating.
-Defining $f(q) = \Tr\left[\mathrm{Trunc}(\hat\rho - q \Id)\right]$, the appropriate $q$ solves $f(q) = 1$. Given the assumptions and approximations above, and letting $(x)^{+}$ denote $\mathrm{max}(x,0)$, 
-\begin{eqnarray}
-\nonumber &&f(q) = \sum_{j=1}^{r}(p_j - q) + \sum_{j=1}^{N}{(\overline{\kappa}_j-q)^+} \\
-\nonumber &&\approx 1 - rq + \Delta + N\int_{\kappa=q}^{2\epsilon\sqrt{N}}{(\kappa-q)\mathrm{Pr}(\kappa)\mathrm{d}\kappa}\\
-&&= 1 - rq + \Delta + \frac{\epsilon}{12\pi}\left[
+\left[\mathrm{Trunc}(\hat\rho)\right]>1$, and so we will need to subtract $q\Id$ from $\hat\rho$ before truncating. (This is in distinction to the case where we have to \emph{add} $q$.)
+
+We make another assumption; namely, that the eigenvalues of $\rho_{0}$ are large compared to the perturbations $\delta_{jj}$ and $q$. This implies $(p_{j} - q)^{+} = p_{j} - q$. Under this assumption, $q$ is the solution to
+\begin{align}
+\nonumber 1 &\approx \sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{N}{(\overline{\kappa}_j-q)^+}\\
+\nonumber &\approx 1 - rq + \Delta + N\int_{\kappa=q}^{2\epsilon\sqrt{N}}{(\kappa-q)\mathrm{Pr}(\kappa)\mathrm{d}\kappa}\\
+\label{eq:q_eqn2}\implies 0 &= - rq + \Delta + \frac{\epsilon}{12\pi}\left[
 \begin{array}{l} (q^2+8N)\sqrt{-q^2+4N} \\
 -12qN\left(\frac{\pi}{2}-\sin^{-1}\left(\frac{q}{2\sqrt{N}}\right)\right)
 \end{array}\right],\nonumber\\
@@ -224,7 +237,7 @@ sum (line 1) with an integral (line 2). This approximation is valid when $N\gg1$
 In yet another approximation, we replace $\Delta$ with its average value, which is zero.  We could obtain an even more accurate expression 
  by treating the fluctuations in $\Delta$ more carefully, but this crude approximation turns out to be quite accurate already.
 
-To solve for $f(q) = 1$, it is necessary to further simplify the complicated expression resulting from the integral.  To do so, we 
+To solve Equation \eqref{eq:q_eqn2}, it is necessary to further simplify the complicated expression resulting from the integral.  To do so, we 
 assume that $\rho_0$ is relatively low-rank, so $r \ll N$.  In this case, the sum of the positive $\overline{\kappa}_j$ is large compared 
 with $r$, almost all of them need to be subtracted away, and therefore $q$ is close to $2\epsilon\sqrt{N}$.  \footnote{This justifies the assumption that $\rho_{jj} + \delta_{jj} - q > 0$.} We therefore replace 
 the complicated expression with its leading order Taylor expansion around $q=2\epsilon\sqrt{N}$, substitute into Equation \eqref{eq:q_eqn2}, and 
