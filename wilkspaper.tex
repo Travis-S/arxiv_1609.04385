@@ -145,7 +145,7 @@ and therefore $\langle \lambda \rangle = \sum_{jk}\langle\lambda_{jk}\rangle$.  
 \item The ``kite'' comprises all diagonal elements \emph{and} all elements on the kernel (null space) of $\rho_0$,
 \item The ``L'' comprises all off-diagonal elements on the support of $\rho_0$ \emph{and} between the support and the kernel,
 \end{enumerate}
-and observe that $\langle\lambda\rangle = \expect{\lambda}_{\mathrm{L}} + \expect{\lambda}_{\mathrm{kite}}$.  The rationale for this division is simple:  small fluctuations on the ``L'' do not change the zero eigenvalues of $\hat\rho$ to 1st order, whereas those on the ``kite'' do.    
+and observe that $\langle\lambda\rangle = \expect{\lambda_{\mathrm{L}}} + \expect{\lambda_{\mathrm{kite}}}$.  The rationale for this division is simple:  small fluctuations on the ``L'' do not change the zero eigenvalues of $\hat\rho$ to 1st order, whereas those on the ``kite'' do.
 
 \begin{figure}[h]
 \includegraphics[width=\columnwidth]{Images/Figure_2.pdf}
@@ -185,7 +185,7 @@ where $(x)^{+} = \max(x, 0)$. $q$ is implicitly defined such that $f(q) \equiv \
 \end{equation}
 To compute $q$, we first observe that while the $\kappa_j$ are random variables, they are not normally distributed.  Instead, because $\delta_{\mathrm{ker}}$ is proportional to a $\mathrm{GUE}(N)$ matrix, for $N\gg1$, the distribution of any eigenvalue $\kappa_{j}$
 converges to a Wigner semicircle distribution \cite{Wigner1958} given by $\mathrm{Pr}(\kappa) = \frac{2}{\pi R^{2}}\sqrt{R^{2}-\kappa^{2}}$ for $|\kappa| \leq R$, with $R = 2\epsilon\sqrt{N}$.  The eigenvalues are not independent; they tend to avoid collisions (``level avoidance'' \cite{Tao2013}), 
-and typically form a surprisingly regular array over the support of the Wigner semicircle.  Since our goal is to compute $\expect{\lambda}_{\mathrm{kite}}$, we can capitalize on this behavior by replacing each random sample of $\bvec{\kappa}$ with a 
+and typically form a surprisingly regular array over the support of the Wigner semicircle.  Since our goal is to compute $\expect{\lambda_{\mathrm{kite}}}$, we can capitalize on this behavior by replacing each random sample of $\bvec{\kappa}$ with a 
 \emph{typical sample} $\bar{\bvec{\kappa}}$ given by its order statistics.  These are the average values of the \emph{sorted} 
 $\bvec{\kappa}$, so $\overline{\kappa}_j$ is the average value of the $j^{\mathrm{th}}$ largest value of $\bvec{\kappa}$.  Large random samples 
 are usually well approximated (for many purposes) by their order statistics even when the elements of the sample are 
