@@ -220,35 +220,34 @@ In yet another approximation, we replace $\Delta$ with its average value, which 
 
 To solve for $f(q) = 1$, it is necessary to further simplify the complicated expression resulting from the integral.  To do so, we 
 assume that $\rho_0$ is relatively low-rank, so $r \ll N$.  In this case, the sum of the positive $\overline{\kappa}_j$ is large compared 
-with $r$, almost all of them need to be subtracted away, and therefore $q$ is close to $2\epsilon\sqrt{N}$.  We therefore replace 
-the complicated expression with its leading order Taylor expansion around $q=2\epsilon\sqrt{N}$, substitute into $f(q)=1$, and 
+with $r$, almost all of them need to be subtracted away, and therefore $q$ is close to $2\epsilon\sqrt{N}$.  \footnote{This justifies the assumption that $\rho_{jj} + \delta_{jj} - q > 0$.} We therefore replace 
+the complicated expression with its leading order Taylor expansion around $q=2\epsilon\sqrt{N}$, substitute into Equation \eqref{eq:q_eqn2}, and 
 obtain the equation
 \begin{equation}
-rq  = \frac{4}{15\pi}N^{1/4}\left(2\sqrt{N}-q\right)^{5/2}.
+\frac{rq}{\epsilon}  = \frac{4}{15\pi}N^{1/4}\left(2\sqrt{N}-\frac{q}{\epsilon}\right)^{5/2}.
 \end{equation}
 This equation is a quintic polynomial, so it has no closed-form solution.  However, its roots have a well-defined asymptotic ($N\to
 \infty$) expansion that becomes accurate quite rapidly (e.g., for $N>4$):
 \begin{equation}
 \label{eq:truncation}
-q \approx 2\sqrt{N}-\frac{(240r\pi)^{2/5}}{4}N^{1/10}+\frac{(240r\pi)^{4/5}}{80}N^{-3/10}.
+z \equiv q/\epsilon \approx 2\sqrt{N}-\frac{(240r\pi)^{2/5}}{4}N^{1/10}+\frac{(240r\pi)^{4/5}}{80}N^{-3/10}.
 \end{equation}
-\todo[inline]{Is it $q/\epsilon$?}
-Now that we know how much to subtract off in the truncation process, we can compute $\expect{\lambda}_{\mathrm{kite}}$:
-\begin{eqnarray}
-\nonumber \expect{\lambda}_{\mathrm{kite}} &=& \left\langle\sum_{j=1}^{r}[\rho_{jj}- (p_j-q)]^2 + \sum_{j=1}^{N}\left[(\bar{\kappa}_j-q)^+\right]^2 \right\rangle\\
-\nonumber  &\approx& r + rq^2 + N\int_{\kappa=q}^{2\epsilon\sqrt{N}}{ \mathrm{Pr}(\kappa)(\kappa-q)^2 d\kappa} \\
-\nonumber &=& r + rq^2 + \frac{N(N+q^2)}{\pi} \left( \frac{\pi}{2} - \sin^{-1}\left(\frac{q}{2\sqrt{N}}\right)\right)  \nonumber \\
-&&\hspace{0.3in}-\frac{q(q^2+26N)}{24\pi} \sqrt{4N-q^2}.
-\end{eqnarray}
-Thus the total expected value, $\expect{\lambda} = \expect{\lambda}_{\mathrm{L}} + \expect{\lambda}_{\mathrm{kite}}$, is 
-
+Now that we know how much to subtract off in the truncation process, we can compute $\expect{\lambda_{\mathrm{kite}}}$:
+\begin{align}
+\nonumber \expect{\lambda_{\mathrm{kite}}} &\approx  \frac{1}{\epsilon^{2}}\left\langle\sum_{j=1}^{r}[\rho_{jj}- (p_j-q)^{+}]^2 + \sum_{j=1}^{N}\left[(\bar{\kappa}_j-q)^+\right]^2 \right\rangle\\
+\nonumber &\approx \frac{1}{\epsilon^{2}} \left\langle\sum_{j=1}^{r}[-\delta_{jj} +  q ]^2 + \sum_{j=1}^{N}\left[(\bar{\kappa}_j-q)^+\right]^2 \right\rangle\\
+\nonumber  &\approx r + rz^2 + \frac{N}{\epsilon^{2}}\int_{\kappa=q}^{2\epsilon\sqrt{N}}{ \mathrm{Pr}(\kappa)(\kappa-q)^2 d\kappa} \\
+\nonumber &=r + rz^{2} + \frac{N(N+z^{2})}{\pi}\left(\frac{\pi}{2} - \sin^{-1}\left(\frac{z}{2\sqrt{N}}\right)\right) \\
+& - \frac{z(z^{2}+26N)}{24\pi}\sqrt{4N-z^{2}}
+\end{align}
+Thus the total expected value, $\expect{\lambda} = \expect{\lambda_{\mathrm{L}}} + \expect{\lambda_{\mathrm{kite}}}$, is 
 \begin{align}
 \label{eq:ourLLRS}
-\nonumber \langle \lambda(\rho_{0}, \M_{d}) \rangle &\approx 2rd - r^{2}+rq^{2}\\
-\nonumber &+  \frac{N(N+q^2)}{\pi} \left( \frac{\pi}{2} - \sin^{-1}\left(\frac{q}{{2\sqrt{N}}}\right)\right)\\
-& - \frac{q(q^2+26N)}{24\pi} \sqrt{4N-q^2}
+\nonumber \langle \lambda(\rho_{0}, \M_{d}) \rangle &\approx 2rd - r^{2}+rz^{2}\\
+\nonumber & + \frac{N(N+z^{2})}{\pi}\left(\frac{\pi}{2} - \sin^{-1}\left(\frac{z}{2\sqrt{N}}\right)\right) \\
+& - \frac{z(z^{2}+26N)}{24\pi}\sqrt{4N-z^{2}}
 \end{align}
-where $q$ is given in Equation \eqref{eq:truncation}, $N=d-r$, and $r = \mathrm{Rank}(\rho_{0})$.
+where $z$ is given in Equation \eqref{eq:truncation}, $N=d-r$, and $r = \mathrm{Rank}(\rho_{0})$.
 
 Equation \eqref{eq:ourLLRS} is our main result.  To test its validity, we compare it to numerical simulations for $d=2,\ldots,30$ and $r=1,\ldots,10$, in Figure \ref{fig:modelcomp-iso}.  The prediction of the Wilks Theorem is wildly incorrect for $r\ll d$. In contrast, Equation \ref{eq:ourLLRS} is almost perfectly accurate when $r \ll d$, but it does begin to break down (albeit fairly gracefully) as $r$ becomes comparable to $d$.  We conclude that our analysis (and Equation \eqref{eq:ourLLRS}) correctly models tomography \emph{if} the Fisher information is isotropic ($\Fi \propto \Id$).
 
