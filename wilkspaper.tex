@@ -1,5 +1,5 @@
 \documentclass[aps,pra, twocolumn]{revtex4-1}
-\usepackage{amssymb,amsthm,amsmath,enumerate,url, graphicx, float, csvsimple, todonotes, enumitem}
+\usepackage{amssymb,amsthm,amsmath,enumerate,url, doi, natbib, graphicx, float, csvsimple, todonotes, enumitem}
 
 \def\FCW{1.0\columnwidth}
 
@@ -344,7 +344,7 @@ However, our model \emph{does} get some of the qualitative features correct. In 
 The Wilks Theorem is not generally reliable in quantum state tomography, but our Equation \eqref{eq:ourLLRS} provides a much more broadly applicable replacement that can be used in model selection methods.  This includes protocols like the AIC and BIC \cite{Akaike1974, Schwarz1978, Kass1995, Burnham2004} that do not explicitly use the Wilks Theorem, but rely on the same assumptions (asymptotic normality, etc).  Null theories of loglikelihood ratios have many other applications, including hypothesis testing \cite{Blume-Kohout2010,Moroder2013} and confidence regions \cite{Glancy2012a}, and our result is directly applicable to them.  Refs. \cite{Moroder2013,Glancy2012a} both point out explicitly that their methods are unreliable near boundaries and therefore cannot be applied to rank-deficient states; our result fixes this outstanding problem.  However, our numerical experiments with heterodyne tomography show unexpected behavior, indicating that quantum tomography can still surprise, and may violate \emph{all} asymptotic statistics results.  In such cases, bootstrapping \cite{Efron1979, Higgins2004} may be the only reliable way to construct null theories for $\lambda$.  Finally, the \emph{methods} presented here have application beyond the analysis of loglikelihoods.  They shed light on the behavior of $\rhoMLE$ for rank-deficient states, and can be used to predict other derived properties such as the average rank of the estimate, which is independently interesting for (e.g.) quantum compressed sensing \cite{Flammia2012a, Steffens2016, Kalev2015, Kalev2015a}.
 
 \noindent\textbf{Acknowledgements:} The authors are grateful for those who provide support for the following software packages: iPython/Jupyter \cite{Perez}, matplotlib
-\cite{Hunter2007}, mpi4py \cite{Dalcin2005},  NumPy \cite{VanDerWalt2011}, pandas \cite{mckinney2010}, Python 2.7 
+\cite{Hunter2007}, mpi4py \cite{Dalcin2011},  NumPy \cite{VanDerWalt2011}, pandas \cite{mckinney2010}, Python 2.7 
 \cite{vanRossum}, seaborn \cite{Waskom2016}, and SciPy \cite{Oliphant2007a}. TLS thanks Jonathan A Gross for helpful 
 discussions on software design, coding, and statistics, John King Gamble for useful insights on parallelized 
 computation and feedback on earlier drafts of this paper, and Daniel Seuss for proofreading edits.
@@ -353,6 +353,6 @@ Sandia National Laboratories is a multi-mission laboratory managed and operated 
 subsidiary of Lockheed Martin Corporation, for the U.S. Department of Energy's National Nuclear Security Administration 
 under contract DE-AC04-94AL85000.
 
-\bibliographystyle{apsrev}
+\bibliographystyle{apsrev4-1}
 \bibliography{wilkspaper}
 \end{document}

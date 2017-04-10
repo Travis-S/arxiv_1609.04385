@@ -11,7 +11,7 @@ def mutate_bibtex_entry(entry):
         pass
     
     pop_keys = ['file', 'keywords', 'abstract', 'isbn', 'issn',\
-               'archiveprefix', 'arxivid', 'eprint', 'url']
+               'archiveprefix', 'arxivid', 'eprint']
 
     for key in pop_keys:
         entry.pop(key, None)

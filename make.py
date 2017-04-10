@@ -5,7 +5,7 @@ import glob
 
 def clean():
     print('Cleaning up files.')
-    cleanups = [glob.glob(x) for x in ['*.log', '*.bbl',  '*.blg', '*.aux', '*.synctex.gz']]
+    cleanups = [glob.glob(x) for x in ['*.log', '*.blg', '*.aux', '*.synctex.gz']]
     cleanups = [item for sublist in cleanups for item in sublist]
     for f in cleanups:
         os.system("rm {0}".format(f))
