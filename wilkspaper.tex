@@ -61,16 +61,15 @@ Quantum state tomography on a $d$-dimensional system demands resources that grow
 
 \maketitle
 
+In quantum information science, an experimentalist may wish to determine the quantum state $\rho_{0}$ that is produced by a specific initialization procedure.  This can be done using quantum state tomography \cite{Paris2004}:  many copies of $\rho_{0}$ are produced; they are measured in diverse ways; and finally the outcomes of those measurements (data) are collated and analyzed to produce an estimate $\rhohat$.  This is a straightforward statistical inference process \cite{Reid2015, Wasserman2004}, where the data are used to fit the parameters of a statistical model -- provided  we know what  model to use.  But this is not always the case.  In state tomography, the parameter is $\rho$, and the model is the set of all possible density matrices on a Hilbert space $\cH$ (equipped with the Born rule). It is not always \emph{a priori} obvious what $\cH$ or its dimension is; examples include optical modes \cite{Altepeter2005, Bertrand1987, Lvovsky2009, Breitenbach1997, Leonhardt1995} and leakage levels in AMO and superconducting \cite{Motzoi2009, Fazio1999} qubits. 
+
+Choosing an appropriate Hilbert space on the fly is an instance of the general statistical problem known as \emph{model selection}, and while model selection is well-studied in classical statistics \cite{Burnham2004}, applying it to quantum tomography leads to some surprising twists.  These problems stem from the fact that quantum states (and thus, estimates of them) must satisfy a \emph{positivity constraint} ($\rho\geq0$). Understanding how the boundaries of state space affect state and process tomography  is an active area of research \cite{Candes2006, Flammia2012a, Suess2016, Carpentier2015}, and is also critical for model selection \cite{Schwarz2013a, Guta2012a, VanEnk2013a, Yin2011, Moroder2013, Knips2015}. We contribute to this body of work in several ways. First, we develop a framework for choosing the Hilbert space dimension of a quantum system, based on a particular test statistic (the loglikelihood ratio). Second, we show how canonical results in classical statistics fail to be applicable for that statistic, and propose a resolution by explicitly taking into account its behavior due to the presence of boundaries. Third, we derive an analytical approximation to the constrained estimate, given its unconstrained version. Finally, we show how this result may be applied to an experimentally relevant model selection problem; namely, tomography of optical modes.
+
 \section{Introduction - Statistical Model Selection}
-In quantum information science, an experimentalist may wish to determine the quantum state $\rho_{0}$ that is produced by a specific initialization procedure.  This can be done using quantum state tomography \cite{Paris2004}:  many copies of $\rho_{0}$ are produced; they are measured in diverse ways; and finally the outcomes of those measurements (data) are collated and analyzed to produce an estimate $\rhohat$.  This is a straightforward statistical inference process \cite{Reid2015, Wasserman2004}, where the data are used to fit the parameters of a statistical model -- provided  we know what  model to use.  But this is not always the case.  In state tomography, the parameter is $\rho$, and the model is the set of all possible density matrices on a Hilbert space $\cH$ (equipped with the Born rule). It is not always \emph{a priori} obvious what $\cH$ or its dimension is; examples include optical modes \cite{Altepeter2005, Bertrand1987, Lvovsky2009, Breitenbach1997, Leonhardt1995} and leakage levels in AMO and superconducting \cite{Motzoi2009, Fazio1999} qubits.  Choosing an appropriate Hilbert space on the fly is an instance of the general statistical problem known as \emph{model selection}, and while model selection is well-studied in classical statistics \cite{Burnham2004}, applying it to quantum tomography leads to some surprising twists.  These problems stem from the fact that quantum states (and thus, estimates of them) must satisfy a \emph{positivity constraint} ($\rho\geq0$). Understanding how the boundaries of state space affect state and process tomography  is an active area of research \cite{Candes2006, Flammia2012a, Suess2016, Carpentier2015}, and is also critical for model selection \cite{Schwarz2013a, Guta2012a, VanEnk2013a, Yin2011, Moroder2013, Knips2015}. We contribute to this body of work by \todo[inline]{????}
 
-Here, we study model selection for choosing the Hilbert space dimension of a quantum system. We define the model $\mathcal{M}_{d}$ (for any $d \geq 1$) as
-\begin{equation}
-\mathcal{M}_{d} = \{\rho~|~\rho \in \mathcal{B}(\mathcal{H}_{d}),~\mathrm{Tr}(\rho) =1,~\rho \geq 0\},
-\end{equation}
-where $\mathcal{B}(\cH_{d})$ is the space of bounded operators on a $d$-dimensional Hilbert space $\cH_{d}$. Identifying a good choice for $d$ is particularly relevant for tomography of optical modes, as formally, $\mathcal{H}$ is infinite-dimensional, necessitating the use of smaller, finite-dimensional models. Even in less extreme cases, discovering $d$ is larger than  expected could help in the detection and diagnosis of leakage, or of couplings between the quantum device and an external environment. Model selection for $d$ involves evaluating whether $\M_{d}$ is a better model than $\M_{d'}$. How does one do so?
+In this section, we introduce the statistical terminology necessary to discuss model selection in state tomography. The first term we need to define is a \emph{model}. A model is a parameterized family of probability distributions over some random variable $X$, denoted $\mathrm{Pr}_{\bs{\theta}}(X)$, where $\bs{\theta}$ are the \emph{parameters} in the model. In quantum mechanics, a natural model arises due to the fact that quantum states parameterize a probability distribution over outcomes of a positive operator-valued measure (POVM), $\{E_{j}\}$, via the Born rule: $p_{j} = \mathrm{Tr}(\rho E_{j})$. In what follows, we will use the word model to mean ``a set of density matrices", and a particular choice of parameters of the model is given a density matrix $\rho$.
 
-Many methods for selecting between multiple models involve fitting each model's parameters using \emph{maximum likelihood estimation} (MLE) \cite{Hradil1997, JamesPRA2001, Blume-Kohout2010}, which reports the parameter values $\rhoMLE$ that maximize the likelihood $\mathcal{L}(\rho) = \mathrm{Pr}(\mathrm{Data}|\rho)$. Within a frequentist model selection paradigm, the MLEs of two different models are used to quantify their goodness of fit to the data, via the \emph{loglikelihood ratio} \cite{Blume-Kohout2010, Moroder2013, Neyman1933},
+Suppose we have collected some data, and have two possible models that we would like to decide between as the ``best" explanation of the data. The task of deciding between models is known as \emph{model selection}. Many methods for selecting between multiple models involve fitting each model's parameters using \emph{maximum likelihood estimation} (MLE) \cite{Hradil1997, JamesPRA2001, Blume-Kohout2010}, which reports the parameter values $\rhoMLE$ that maximize the likelihood $\mathcal{L}(\rho) = \mathrm{Pr}(\mathrm{Data}|\rho)$. Within a frequentist model selection paradigm, the MLEs of two different models are used to quantify their goodness of fit to the data, via the \emph{loglikelihood ratio} \cite{Blume-Kohout2010, Moroder2013, Neyman1933},
 \begin{equation}
 \lambda(\M_{1}, \M_{2}) = -2 \log \left(\frac{\underset{\rho \in \M_{1}}{\max}~\cL(\rho)}{\underset{\rho \in 
 \M_{2}}{\max}~\cL(\rho)}\right).
@@ -83,7 +82,7 @@ For this reason, any model selection method that relies (explicitly or implicitl
 
 The null theory may be used to formulate a \emph{decision rule} for choosing between two models. By knowing how the statistic behaves when both models are equally good, we may then compare the observed value of the statistic to the null theory. Should the null theory indicate that the observed value is (e.g.) very improbable, then we have evidence that the smaller model not valid, and should be rejected. On the other hand, if the observed value is \emph{consistent} with the null theory, then we can choose the smaller model.
 
-A null theory for the loglikelihood ratio statistic may be derived under the assumption that the MLE has the \emph{local asymptotic normality} \cite{LeCam1970, LeCam1956}  property. This property means that: (1) as $N_{\mathrm{samples}}\rightarrow \infty$,  $\rhoMLE$ is normally distributed around $\rho_{0}$ with covariance matrix $\Fi^{-1}$, and (2) the likelihood function in a neighborhood of $\rhoMLE$ is locally Gaussian with Hessian $\Fi$, where $\Fi$ is the \emph{Fisher information}. If the MLE has this property, then the null theory for $\lambda$ is given by the \emph{Wilks Theorem} \cite{Wilks1938}. This theorem says that if $\rho_{0}\in \M_{1}\subset \M_{2}$, where $\M_{1}$ has $k$ free parameters and $\M_{2}$ has $K+k$ free parameters, then $ \lambda$ is a $\chi^{2}_{K}$ random variable. 
+A null theory for $\lambda$ can be derived using \emph{local asymptotic normality} (LAN) \cite{LeCam1970, LeCam1956} . This property means that: (1) as $N_{\mathrm{samples}}\rightarrow \infty$,  $\rhoMLE$ is normally distributed around $\rho_{0}$ with covariance matrix $\Fi^{-1}$, and (2) the likelihood function in a neighborhood of $\rhoMLE$ is locally Gaussian with Hessian $\Fi$, where $\Fi$ is the \emph{Fisher information}. When LAN holds, then the null theory for $\lambda$ is given by the \emph{Wilks Theorem} \cite{Wilks1938}. This theorem says that if $\rho_{0}\in \M_{1}\subset \M_{2}$, where $\M_{1}$ has $k$ free parameters and $\M_{2}$ has $K+k$ free parameters, then $ \lambda$ is a $\chi^{2}_{K}$ random variable. 
 
 Under this null theory, $\langle \lambda \rangle = K$ and $\Delta \lambda = \sqrt{2K}$. A simple decision rule could be to compare the observed value of the statistic to $\langle \lambda \rangle + \Delta \lambda$, and reject the smaller model if the observed value exceeds it. This sort of decision rule motivates our choice, later in the text, to derive an approximate expression for $\langle \lambda \rangle$ for state tomography of rank-deficient states. Later, we will show how the statistic should exhibit a strong concentration phenomenon, which will justify the use of $\langle \lambda \rangle$ as the threshold.
 
@@ -96,11 +95,51 @@ First though, we must better understand how the null theory for $\lambda$ breaks
 \label{fig:boundaries}
 \end{figure}
 
-\section{Problems for Model Selection in State Tomography}
+\section{Quantum State Tomography and Model Selection}
+As mentioned above, quantum mechanics has the idea of a statistical model contained within it, given by the Born rule. A basic state tomography protocol proceeds as follows. Suppose we have access to $N$ copies of some state $\rho_{0}$. For each copy, we measure some POVM $\{E_{j}\}$, and record the outcome. Repeating the measurement of the POVM on all $N$ copies, we will generate data in the form of a record of the number of times we saw different outcomes: $\mathrm{Data} = \{(n_{j}, E_{j}\}$, with $n_{j}$ as the number of times outcome $E_{j}$ was observed, and $\sum_{j}n_{j} = N$. The task of state tomography is to process this data, and provide an estimate of $\rho_{0}$, denoted $\rhohat$. Many different estimation procedures are possible; some of the most common involve linear inversion, maximum likelihood, least squares regression, compressed sensing, and Bayesian mean estimation. Here, we will focus on the use of maximum likelihood.
 
-In a classical statistics, the null theory for $\lambda$ relies on the fact that the MLE has the local asymptotic normality property. However, in state tomography, $\rhoMLE$ will often \emph{not} have the this property. Why? Because of the positivity constraint, $\rhoMLE \geq 0$. This constraint distorts the distribution of estimates, even in the asymptotic limit, precisely when $\rho_{0}$ is rank-deficient within $\cH_{d}$. (That is, when $\rho_{0}$ is on the boundary of $\cH_{d}$. See Figure \ref{fig:boundaries}.) 
+Given the data, maximum likelihood returns the state $\rhoMLE$ which maximizes the probability of the observed data. Assuming the POVM elements are measured independently, the the \emph{likelihood} $\mathcal{L}(\rho)$ is
+\begin{equation}
+\mathcal{L}(\rho) = \prod_{j}\mathrm{Tr}(\rho E_{j})^{n_{j}}
+\end{equation}
+For some model $\M$, the MLE within the model is the solution to the optimization problem
+\begin{equation}
+\rhoMLE = \underset{\rho \in \M}{\text{argmax}}~\mathcal{L}(\rho)
+\end{equation}
+Typically, $\M$ is taken to be the set of all density matrices. Usually, $\M$ is convex, which allows for the use of efficient algorithms for finding $\rhoMLE$. However, sometimes restrictions -- possibly motivated by prior information -- may be imposed. Below, we will restrict the \emph{dimension} of the Hilbert space. 
+\todo[inline]{Cite algorithms?}
 
-It should be noted that when $\rho_{0}$ is full-rank and has eigenvalues which are substantially larger than $\epsilon$,  local asymptotic normality will hold, meaning we may invoke the Wilks Theorem to do model selection. However if $\rho_{0}$ is rank-deficient, then the boundary looms, and $\mathrm{Pr}(\rhoMLE)$ is not Gaussian, meaning local asymptotic normality does not hold and the Wilks Theorem does not apply! Crucially, \emph{even if $\rho_{0}$ is full-rank in $\M_{d}$, it will be rank-deficient in $\M_{d+1}$}.
+
+Another important quantity in model selection is the \emph{Fisher information}, $\mathcal{I}$. It quantifies how much information the data carries about a parameter in the model.
+\todo[inline]{Do we provide a formula for this?}
+Within the context of model selection, the Fisher information is important because, under LAN, the likelihood function near $\rhohat$ is given by
+\begin{equation}
+\mathcal{L}(\rho) \propto \text{Exp}\left[-\mathrm{Tr}[(\rho - \rhohat)\mathcal{I}^{-1}(\rho - \rhohat)]/2\right]
+\end{equation}
+and the distribution of $\rhohat$ is
+\begin{equation}
+\mathrm{Pr}(\rhohat) \propto \text{Exp}\left[-\mathrm{Tr}[(\rho_{0} - \rhohat)\mathcal{I}(\rho_{0} - \rhohat)]/2\right]
+\end{equation}
+\todo[inline]{Is the inverse in the right place?}
+The Fisher information depends strongly on $\rho_{0}$ and the particular tomographic measurement performed, and its interaction with the boundary\footnote{By which we mean how the distribution of $\rhoMLE$ differs from that of $\rhohat$.} is complex and intractable. Later, we will make the simplifying assumption that $\mathcal{I}$ is proportional to the Hilbert-Schmidt metric ($\mathcal{I} \propto \mathbb{I}$).
+
+In classical statistics, the fact that the models considered typically do not have boundaries allows for a co\"{o}rdinate transformation to bring the Fisher information into an isotropic form. While it is possible to do such a transformation here, the resulting geometry of the state space (i.e., how the constraint $\rho \geq 0$ transforms) would be difficult to calculate, generally speaking.
+
+\todo[inline]{Geometry is difficult to calculate??}
+
+
+
+Here, we study model selection for choosing the Hilbert space dimension of a quantum system. We define the model $\mathcal{M}_{d}$ (for any $d \geq 1$) as
+\begin{equation}
+\mathcal{M}_{d} = \{\rho~|~\rho \in \mathcal{B}(\mathcal{H}_{d}),~\mathrm{Tr}(\rho) =1,~\rho \geq 0\},
+\end{equation}
+where $\mathcal{B}(\cH_{d})$ is the space of bounded operators on a $d$-dimensional Hilbert space $\cH_{d}$. Identifying a good choice for $d$ is particularly relevant for tomography of optical modes, as formally, $\mathcal{H}$ is infinite-dimensional, necessitating the use of smaller, finite-dimensional models. Even in less extreme cases, discovering $d$ is larger than  expected could help in the detection and diagnosis of leakage, or of couplings between the quantum device and an external environment. Model selection for $d$ involves evaluating whether $\M_{d}$ is a better model than $\M_{d'}$. To answer that question, we need a null theory for $\lambda$ (i.e, its behavior when $\rho_{0} \in \M_{d},\M_{d'}$).
+
+
+In classical statistics, the null theory for $\lambda$ (the Wilks Theorem) relies on LAN. However, in state tomography, LAN will not hold, generally speaking. This is because of the positivity constraint, $\rhoMLE \geq 0$, which distorts the distribution of estimates, even in the asymptotic limit, precisely when $\rho_{0}$ is rank-deficient within $\cH_{d}$. (That is, when $\rho_{0}$ is on the boundary of $\cH_{d}$. See Figure \ref{fig:boundaries}.
+\missingfigure{Picture of $\rhohat$, $\rhoMLE$, etc. w/ anisotropic Fisher information}
+
+It should be noted that when $\rho_{0}$ is full-rank in the model, LAN will hold. (LAN is an \emph{asymptotic} statement, and so, as long as the smallest eigenvalue of $\rho_{0}$ is non-zero, there will exist and $N_\mathrm{samples}$ which is larger than the reciprocal of the smallest eigenvalue.) However if $\rho_{0}$ is rank-deficient, then the boundary looms, and $\mathrm{Pr}(\rhoMLE)$ is not Gaussian, meaning local asymptotic normality does not hold and the Wilks Theorem does not apply! Crucially, \emph{even if $\rho_{0}$ is full-rank in $\M_{d}$, it will be rank-deficient in $\M_{d+1}$}.
 
 Many other authors have recognized this fact \todo[inline]{more references}
 While the behavior of unconstrained MLE is well-studied classically, the behavior of the estimator near boundaries is not. \todo[inline]{WHY??}
@@ -111,14 +150,13 @@ Thus, if we want to use model selection to choose $d$ in state tomography, we mu
 \section{Deriving a Replacement for the Wilks Theorem}
 
 In this section, we show how to derive a replacement for the Wilks Theorem which is valid for rank-deficient $\rho_{0}$. 
-To do so, we start by making assumptions about the \emph{unconstrained} MLE, denoted by $\rhohat$. Because it is unconstrained, this estimator will have the local asymptotic normality property. We will focus on the special and simple case where $\Fi$ at $\rho_{0}$ is  proportional to the Hilbert-Schmidt metric, so the likelihood function (and the distribution of $\rhohat$) is given by 
+To do so, we start by making assumptions about likelihood $\mathcal{L}(\rho)$; namely, that, over the set of bounded, trace-one operators in $\mathcal{B}(\mathcal{H}_{d})$, LAN holds. We will focus on the special and simple case where $\Fi$ at $\rho_{0}$ is  proportional to the Hilbert-Schmidt metric, so the likelihood function (and the distribution of the \emph{unconstrained} MLEs $\rhohat$) is given by 
 \begin{align}
 \label{eq:likelihood}
 \cL(\rho) & \propto e^{-\mathrm{Tr}[(\rho - \rhohat)^{2}]/2\epsilon^{2}}\\
 \mathrm{Pr}(\rhohat) &\propto e^{-\mathrm{Tr}[(\rho_{0} - \rhohat)^{2}]/2\epsilon^{2}}
 \end{align}
-for some $\epsilon$ that scales as $1 / \sqrt{N_{\mathrm{samples}}}$.  In practice, $\Fi$  depends  on $\rho_{0}$ and the particular tomographic measurement performed, but the interaction of an arbitrary Fisher information with boundaries \footnote{By which we mean how the distribution of $\rhoMLE$ differs from that of $\rhohat$.} is complex and intractable. The isotropic assumption greatly simplifies our study of the problem, and permits the derivation of analytic results which capture realistic tomographic scenarios surprisingly well \cite{Smolin2012}. In classical statistics, the fact that the models considered typically do not have boundaries allows for the execution of a co\"{o}rdinate transformation to bring the Fisher information into an isotropic form. While it is possible to do such a transformation here, the resulting geometry of the state space (i.e., what $\rhoMLE \geq 0$ looks like) would be difficult to work with. 
-
+for some $\epsilon$ that scales as $1 / \sqrt{N_{\mathrm{samples}}}$.  The isotropic assumption greatly simplifies our study of the problem, and permits the derivation of analytic results which capture realistic tomographic scenarios surprisingly well \cite{Smolin2012}. 
 Because it is unconstrained, $\rhohat$ is often not positive semidefinite (see Figure \ref{fig:boundaries}). For each $\rhohat$, the MLE in $\M_{d}$, $\hat{\rho}_{\mathrm{MLE},d}$ is the solution to the following optimization problem:
 \begin{equation}
 \label{eq:mleopt}
@@ -154,7 +192,7 @@ This identity may be interpreted as saying that when evaluating the plausibility
 
 Now, we derive an equivalent expression for $\lambda(\rho_{0}, \M_{d})$. Observe that, as $\epsilon \rightarrow 0$, the local state space is well approximated by a \emph{cone}.
 
-\todo[inline]{Make this a bit more rigorous}
+\todo[inline]{Make this a bit more rigorous: Jonathan Gross' suggestion: use the tangent cone, and wave hands at the discrepancy}
 \todo[inline]{A figure showing the Pythagorean theorem}
 
 A further simplification is possible by observing that, as $\epsilon \rightarrow 0$, the distribution of $\hat{\rho}$ will become more and more tightly concentrated around $\rho_{0}$. In turn, the local geometry of the Hilbert space will become more and more flat. For such state spaces \footnote{For the \emph{classical} probability simplex, the relationship between $\lambda$ and mean-squared error is \emph{exact} as $\epsilon \rightarrow 0$. Quantum state spaces have non-zero curvature, even as $\epsilon \rightarrow 0$, so the relationship is approximate.}, the loglikelihood ratio statistic reduces to the mean-squared error between $\rhoMLE$ and $\rho_{0}$:
