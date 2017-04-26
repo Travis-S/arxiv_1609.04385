@@ -102,36 +102,47 @@ The first step in doing so is to explain how, and why, the Wilks theorem can bre
 \end{figure}
 
 \section{Quantum State Tomography and Model Selection}
-As mentioned above, the Born rule is the bridge which relates state tomography to statistical inference. A basic state tomography protocol proceeds as follows. Suppose we have access to $N$ copies of an unknown state $\rho_{0}$. For each copy, we measure some POVM, and record the outcome obtained. Repeating the measurement of the POVM on all $N$ copies, we will generate data in the form of a record of the number of times we saw different outcomes: $\mathrm{Data} = \{(n_{j}, E_{j})\}$, with $n_{j}$ as the number of times outcome $E_{j}$ was observed, and $\sum_{j}n_{j} = N$. The task of state tomography is to process this data, and provide an estimate of $\rho_{0}$. As we are concerned with computing the likelihood of a model $\M$, which is given by the likelihood of the most likely state within it, we need some way of finding the maximum likelihood over all the parameters of $\M$. A straightforward (though often computationally intensive) way is to compute the maximum likelihood estimate $\rhoMLE$ itself, thereby allowing us to calculate the likelihood of $\M$ as $\mathcal{L}(\rhoMLE)$. (Of course, it may be possible to calculate $\mathcal{L}(\rhoMLE)$ \emph{without} computing $\rhoMLE$ itself.) Below, we briefly describe how $\rhoMLE$ is calculated.
 
-Given the data, $\rhoMLE$ is the state which which maximizes the probability of the observed data. Assuming the POVM elements are measured independently, the likelihood $\mathcal{L}(\rho)$ is
-\begin{equation}
-\mathcal{L}(\rho) = \prod_{j}\mathrm{Tr}(\rho E_{j})^{n_{j}}.
-\end{equation}
-For some model $\M$, $\rhoMLE$ is the solution to the optimization problem
-\begin{equation}
-\rhoMLE = \underset{\rho \in \M}{\text{argmax}}~\mathcal{L}(\rho).
-\end{equation}
-Typically, $\M$ is taken to be the set of all density matrices over some Hilbert space $\cH$, which is usually chosen by fiat. $\M$ is convex, which allows for the use of efficient algorithms for finding $\rhoMLE$ \cite{Boyd}. For our model selection problem, we will be considering a nested family of different Hilbert spaces, indexed by their dimension $d$: $\cH_{1}  \subset \cdots \cH_{d} \subset \cH_{d+1} \subset \cdots$.
+Quantum state tomography typically begins with $N$ independently and identically prepared quantum systems -- i.e., $N$ copies of an unknown state $\rho_{0}$.  Each copy is measured, and without loss of generality \todo{This isn't obvious to me}we can assume that each measurement is described by the same positive operator-valued measure (POVM).  A POVM is a collection of positive operators $\{E_j\}$ summing to $\Id$, and the probability of outcome ``$j$'' is given by $\Tr(\rho_0 E_j)$.  The results of all $N$ measurements constitute data:  a record of the various possible outcomes' frequencies $\{n_{j}\}$, where $n_{j}$ is the number of times ``$j$'' was observed, and $\sum_{j}n_{j} = N$.  Finally, this data is processed through some \emph{estimator} to yield an estimate $\hat{\rho}$ of $\rho_0$.  A variety of estimators have been proposed \todo{Get the references RBK is citing}\cite{VogelRisken97,Hradil,James01,BlumeKohoutNJP10,BlumeKohoutPRL10,BLUE,FerriePRL16}, but this is not our concern here.  However, since we \emph{are} concerned with computing the likelihood of a model $\M$, which is defined as likelihood of the most likely $\rho\in\M$, we will make extensive use of the \emph{maximum likelihood} (ML) estimator $\rhoML{\M}$.  This should not be taken as advocacy for the ML estimate; it is only a convenient way to find the maximum of $\cL$ over $\M$ as $\mathcal{L}(\rhoML{\M})$, and once a model is chosen, a different estimator could be used.
 
-Given a Hilbert space $\cH_{d}$, we define the model $\mathcal{M}_{d}$ as
+The likelihood $\mathcal{L}(\rho)$ is
 \begin{equation}
-\mathcal{M}_{d} = \{\rho~|~\rho \in \mathcal{B}(\mathcal{H}_{d}),~\mathrm{Tr}(\rho) =1,~\rho \geq 0\},
+\mathcal{L}(\rho) = \prod_{j}\mathrm{Tr}(\rho E_{j})^{n_{j}},
 \end{equation}
-where $\mathcal{B}(\cH_{d})$ is the space of bounded operators on $\cH_{d}$. Model selection for $d$ involves evaluating whether $\M_{d + 1}$ is a better model than $\M_{d}$. To answer that question, we need a null theory for $\lambda$ (i.e, its behavior when $\rho_{0} \in \M_{d},\M_{d + 1}$).
+so $\rhoML{\M}$ is the solution to the optimization problem
+\begin{equation}
+\rhoML{\M} = \underset{\rho \in \M}{\text{argmax}}~\mathcal{L}(\rho).
+\end{equation}
+In state tomography, $\M$ is almost always the set of all density matrices over a Hilbert space $\cH$:
+\begin{equation}
+\mathcal{M}_{\cH} = \{\rho~|~\rho \in \mathcal{B}(\mathcal{H}),~\mathrm{Tr}(\rho) =1,~\rho \geq 0\},
+\end{equation}
+where $\mathcal{B}(\cH)$ is the space of bounded (linear) operators on $\cH$.  To solve the optimization problem, we can use the following facts: (a) $\M_{\cH}$ is a convex set, and (b) $\rhoML{\M}$ also maximizes the value of $\log(\cL(\rho))$, which is a convex function. Because $\rhoML{\M}$ is the solution to an optimization problem involving a convex function defined over a convex set, it can be found efficiently via any of several algorithms for convex optimization \cite{Boyd}.
 
-In classical statistics, the null theory for $\lambda$ (the Wilks Theorem) relies on LAN.  If LAN holds, the likelihood function near $\rhoMLE$ is given by \footnote{Here, we are using the \emph{vector notation}, so that each state $\rho \rightarrow \mathrm{vec}(\rho) = |\rho)$, which returns a column vector with $d^{2}$ entries. In turn, $\mathcal{I}$ and $\mathcal{I}^{-1}$ are $d^{2}\times d^{2}$ operators on the vector space.}
+Usually, $\cH$ is taken for granted or chosen by fiat.  In this paper, we will consider a nested family of different Hilbert spaces, indexed by their dimension $d$: $\cH_{1}  \subset \cdots \subset \cH_{d} \subset \cH_{d+1} \subset \cdots$.  The models we consider are therefore given by:
 \begin{equation}
-\mathcal{L}(\rho) \propto \text{Exp}\left[-(\rho - \rhoMLE|\mathcal{I}^{-1}|\rho - \rhoMLE)/2\right],
+\M_{d} \equiv \mathcal{M}_{\cH_{d}} = \{\rho~|~\rho \in \mathcal{B}(\mathcal{H}_{d}),~\mathrm{Tr}(\rho) =1,~\rho \geq 0\}.
 \end{equation}
-and the distribution of $\rhoMLE$ is
-\begin{equation}
-\mathrm{Pr}(\rhoMLE) \propto \text{Exp}\left[-(\rho_{0} - \rhoMLE|\mathcal{I}|\rho_{0} - \rhoMLE)/2\right],
-\end{equation}
-\todo[inline]{Is the inverse in the right place?}
-where $\mathcal{I}$ is the Fisher information. In classical statistics, it is common to assume that the models either do not have boundaries (such as vector spaces), or that the true parameter values $\rho_{0}$ lie sufficiently far from the boundary that its existence is not a concern. Either assumption allows the statistician to do a co\"{o}rdinate transformation to bring the Fisher information into an isotropic form, which greatly simplifies the analysis of the problem. In state tomography, $\mathcal{I}$ is generally anisotropic. \todo[inline]{See Figure ??} However, performing a co\"{o}rdinate transformation in state space then distorts its geometry; in particular, the positivity constraint $\rho \geq 0$ becomes difficult to compute analytically. Thus, in this paper, we make the simplifying assumption that $\mathcal{I}$ is proportional to the Hilbert-Schmidt metric ($\mathcal{I} \propto \mathbb{I}$).  
+To select between these models, we need to determine whether one model (say, $\M_{d + 1}$) is ``better'' than another (say, $\M_{d}$).  Clearly, the quality of a model corresponds to how well it fits the data, which means we naively would want to choose a model with highest value of $\cL(\M)$.  But to avoid overfitting, it is necessary to penalize or handicap larger models, since (all else being equal) they will \emph{always} fit the data better.  Doing so requires a null theory predicting how our test statistic -- $\lambda(\M_{d}, \M_{d+1})$, the loglikelihood ratio between $\M_d$ and $\M_{d+1}$ -- behaves when both models are valid, i.e. when $\rho_{0} \in \M_{d},\M_{d + 1}$.
 
-When $\rho_{0}$ is full-rank in $\M_{d}$, LAN will hold. In this case, the null theory for $\lambda$ is given by the Wilks Theorem: $\lambda(\M_{d}, \M_{d + 1}) \sim \chi^{2}_{2d + 1}$. However if $\rho_{0}$ is rank-deficient, then the boundary looms, and $\mathrm{Pr}(\rhoMLE)$ is not Gaussian. This distortion occurs, even in the asymptotic limit,  precisely when $\rho_{0}$ is rank-deficient within $\cH_{d}$. (That is, when $\rho_{0}$ is on the boundary of $\cH_{d}$. See Figure \ref{fig:boundaries}.) If $\mathrm{Pr}(\rhoMLE)$ is not Gaussian, LAN does not hold, and the Wilks Theorem does not apply! Crucially, \emph{even if $\rho_{0}$ is full-rank in $\M_{d}$, it will be rank-deficient in $\M_{d+1}$}. Thus, if we want to use model selection to choose $d$ in state tomography, we must understand the null behavior of $\lambda$ -- i.e., derive a replacement Wilks Theorem -- for rank-deficient $\rho_{0}$. Because $\mathrm{Pr}(\rhoMLE)$ is complicated, depending strongly on the local geometry of the state space around $\rho_{0}$, we will not attempt to compute $\mathrm{Pr}(\lambda)$ directly. Instead, we approximate $\langle \lambda \rangle$. Deriving this approximation under the assumption $\mathcal{I} \propto \Id$ is the bulk of the remaining content of this paper; to jump straight to the result, see Equation \eqref{eq:ourLLRS}.
+In classical statistics, the null theory for $\lambda$ (the Wilks theorem) relies on local asymptotic normality (LAN).  If LAN holds, the likelihood function near $\rhohat_{\mathrm{ML}}$ is given by
+\begin{equation}
+\mathcal{L}(\rho) \propto \text{Exp}\left[-(\rho - \rhohat_{\mathrm{ML}})\mathcal{I}(\rho - \rhohat_{\mathrm{ML}})/2\right],
+\end{equation}
+and the distribution of $\rhohat_{\mathrm{ML}}$ is
+\begin{equation}
+\mathrm{Pr}(\rhohat_{\mathrm{ML}}) \propto \text{Exp}\left[-(\rho_{0} - \rhohat_{\mathrm{ML}})\mathcal{I}(\rho_{0} - \rhohat_{\mathrm{ML}})/2\right],
+\end{equation}
+where $\mathcal{I}$ is the \emph{Fisher information matrix}.  (Note that in expressions involving $\mathcal{I}$, states $\rho$ are treated as vectors in state space, and $\mathcal{I}$ is a matrix or 2-index tensor acting on that state space).  In classical statistics, it is common to assume that boundaries are not relevant, either because the models of interest have none, or by assuming that the true parameter values $\rho_{0}$ lie far away from them.  In the absence of boundaries, and in the asymptotic limit where curvature of the Fisher metric is also negligible, many statistics calculations can be simplified by changing to \emph{Fisher-adjusted} coordinates in which the Fisher information is isotropic (i.e., $\mathcal{I}\propto\Id$).
+\todo{Write out that transformation?}
+
+But the statistical models used for quantum state tomography \emph{do} have boundaries.  When $\rho_{0}\in \M_{d}$ and has rank $r = d$, LAN will hold -- which is to say that, asymptotically, the boundary can indeed be ignored.  In that case, the Wilks Theorem applies, and $\lambda(\M_{d}, \M_{d + 1}) \sim \chi^{2}_{2d + 1}$.  But when $\rho_{0}$ has rank $r<d$, it lies \emph{on} the boundary of the model (see Figure \ref{fig:boundaries}).  LAN does not hold, because even asymptotically, positivity constrains $\rhohat_{\mathrm{ML}}$, and so $\mathrm{Pr}(\rhohat_{\mathrm{ML}})$ is not Gaussian.  The Wilks theorem does not apply in this case.  Moreover, this is \emph{the} relevant situation for our analysis, because \emph{even if $\rho_{0}$ is full-rank in $\M_{d}$, it must be rank-deficient in $\M_{d+1}$}.  So we are forced to derive a replacement for the Wilks theorem, a null theory for $\lambda$ when $\rho_0$ is rank-deficient.
+
+The distribution of $\rhoML{}$ is complicated, highly non-Gaussian, and singular (because estimates ``pile up'' on the various faces of the boundary).  For this reason, we will not attempt to compute $\mathrm{Pr}(\lambda)$ directly.  Instead, we focus on deriving a good approximation for $\langle \lambda \rangle$.
+
+Furthermore, the Fisher information $\mathcal{I}$ is generally anisotropic. \todo{See Figure ??} And while the constraint $\rho\geq0$ that invalidates LAN in the first place is at least somewhat tractable in standard (Hilbert-Schmidt) coordinates, it becomes completely intractable in Fisher-adjusted coordinates.  So, to obtain a semi-analytic null theory for $\lambda$, we will make the simplifying assumption that $\mathcal{I}$ is proportional to the Hilbert-Schmidt metric ($\mathcal{I} \propto \Id$).
+
+The main section of this paper is devoted to approximating $\expect{\lambda}$ under the assumption $\mathcal{I} \propto \Id$; the main result is given in Equation \eqref{eq:ourLLRS}.  Then, in the last section of the paper, we check the robustness of the results that we derive with this simplifying assumption, by performing a numerical study of a tomography problem where $\mathcal{I}$ is \emph{extremely} anisotropic and comparing the results to the predictions derived with $\mathcal{I} \propto \Id$.
 
 \missingfigure{Picture of $\rhohat$, $\rhoMLE$, etc. w/ anisotropic Fisher information}
 
