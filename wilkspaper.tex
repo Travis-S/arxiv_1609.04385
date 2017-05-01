@@ -69,7 +69,7 @@ Quantum state tomography on a $d$-dimensional system demands resources that grow
 
 \todo{I hate that phrase. Need a new one} In quantum information science, an experimentalist may wish to determine the quantum state $\rho_{0}$ that is produced by a specific initialization procedure.  This can be done using quantum state tomography \cite{Paris2004}:  many copies of $\rho_{0}$ are produced; they are measured in diverse ways; and finally the outcomes of those measurements (data) are collated and analyzed to produce an estimate $\rhohat$.  This is a straightforward statistical inference process \cite{Reid2015, Wasserman2004}, where the data are used to fit the parameters of a statistical model.  However, we don't always know what model to use.  In state tomography, the parameter is $\rho$, and the model is the set of all possible density matrices on a Hilbert space $\cH$ (equipped with the Born rule). It is not always \emph{a priori} obvious what $\cH$ or its dimension is; examples include optical modes \cite{Altepeter2005, Bertrand1987, Lvovsky2009, Breitenbach1997, Leonhardt1995} and leakage levels in AMO and superconducting \cite{Motzoi2009, Fazio1999} qubits. In such situations, we seek to let the data itself determine which of many candidate Hilbert spaces is best suited for reconstructing $\rho_{0}$.
 
-Choosing an appropriate Hilbert space on the fly is an instance of a general statistical problem called \emph{model selection}.  Although model selection has been thoroughly explored in classical statistics \cite{Burnham2004}, its application to quantum tomography encounters some obstacles.  They stem from the fact that quantum states (and thus, estimates of them) must satisfy a \emph{positivity constraint} ($\rho\geq0$).  A similar constraint (complete positivity) applies to process tomography.  The impact of positivity constraints on state and process tomography is an active area of research \cite{Candes2006, Flammia2012a, Suess2016, Carpentier2015}, and its implications for model selection have also been considered \cite{Schwarz2013a, Guta2012a, VanEnk2013a, Langford2013, Yin2011, Moroder2013, Knips2015}.  In this paper, we address a specific question at the heart of this matter:  \emph{How does the loglikelihood ratio statistic used in many model selection protocols, including (but not limited to) information criteria such as Akaike's AIC, \todo{ref?}behave in the presence of the positivity constraint $\rho\geq0$?}  We begin by introducing $\lambda$, the loglikelihood ratio statistic, and outlining how it can be used to choose a Hilbert space dimension.  Then, we show how and why the standard model of its behavior, the Wilks theorem, falls apart in the presence of positivity constraints.  We propose a new theory that explicitly accounts for state-space boundaries, and we derive a closed-form approximation for $\lambda$'s expected value under the same conditions as the Wilks theorem -- but \emph{with} the $\rho\geq0$ constraint.  Finally, we test the validity of our approximate theory under harsh conditions by comparing it to numerical results for the realistic problem of optical heterodyne tomography.
+Choosing an appropriate Hilbert space on the fly is an instance of a general statistical problem called \emph{model selection}.  Although model selection has been thoroughly explored in classical statistics \cite{Burnham2004}, its application to quantum tomography encounters some obstacles.  They stem from the fact that quantum states (and thus, estimates of them) must satisfy a \emph{positivity constraint} ($\rho\geq0$).  A similar constraint (complete positivity) applies to process tomography.  The impact of positivity constraints on state and process tomography is an active area of research \cite{Candes2006, Flammia2012a, Suess2016, Carpentier2015}, and its implications for model selection have also been considered \cite{Schwarz2013a, Guta2012a, VanEnk2013a, Langford2013, Yin2011, Moroder2013, Knips2015}.  In this paper, we address a specific question at the heart of this matter:  \emph{How does the loglikelihood ratio statistic used in many model selection protocols, including (but not limited to) information criteria such as Akaike's AIC, \todo{ref?}behave in the presence of the positivity constraint $\rho\geq0$?}  We begin by introducing $\lambda$, the loglikelihood ratio statistic, and outlining how it can be used to choose a Hilbert space dimension.  Then, we show how and why the standard model of its behavior, the Wilks theorem, falls apart in the presence of positivity constraints.  We propose a new theory that explicitly accounts for state space boundaries, and we derive a closed-form approximation for $\lambda$'s expected value under the same conditions as the Wilks theorem -- but \emph{with} the $\rho\geq0$ constraint.  Finally, we test the validity of our approximate theory under harsh conditions by comparing it to numerical results for the realistic problem of optical heterodyne tomography.
 
 \todo[inline]{Is there some figure we could draw here?}
 
@@ -81,14 +81,15 @@ Suppose we have some data obtained from an unknown state $\rho_{0}$, and two can
 
 Within this framework, models can be compared using the \emph{loglikelihood ratio} \cite{Neyman1933, Blume-Kohout2010, Moroder2013}:
 \begin{align}
-\lambda(\M_{1}, \M_{2}) &= -2 \log \left(\frac{\cL(\rhoML{\M_{1}})}{\cL(\rhoML{\M_{2}})}\right)\\
+\lambda(\M_{1}, \M_{2}) &= -2 \log \left(\frac{\cL(\M_{1})}{\cL(\M_{2})}\right)\\
+&= -2 \log \left(\frac{\cL(\rhoML{\M_{1}})}{\cL(\rhoML{\M_{2}})}\right)\\
 &= -2 \log \left(\frac{\underset{\rho \in \M_{1}}{\max}~\cL(\rho)}{\underset{\rho \in \M_{2}}{\max}~\cL(\rho)}\right).
 \end{align}
 All else being equal, a positive $\lambda$ favors $\M_2$ -- i.e., the model with the higher likelihood is more plausible, because it fits the data better.  However, all else is rarely equal.  If both models are equally valid -- e.g. they both contain $\rho_0$ -- but $\M_2$ has more parameters, then $\M_2$ will very probably fit the data better.  Models with more adjustable parameters do a better job of fitting \emph{noise} (e.g. finite sample fluctuations) in the data.  This becomes strictly true when the models are \emph{nested}, so that $\M_{1} \subset \M_{2}$.  In this case, the maximum likelihood of $\M_{2}$ is at least as high as that of $\M_{1}$.  Not only is $\lambda \geq 0$, but almost surely $\lambda > 0$.  Remarkably, the same effect also makes $\M_{2}$'s fit less accurate (almost surely), because that fit incorporates more of the noise in the data.  These two effects constitute \emph{overfitting}, which can be summed up as ``Extra parameters make the fit look better, but perform worse.''  This provides strong motivation to correct for overfitting by handicapping larger models, to prevent them from being chosen over smaller models that are no less valid, and may even yield better estimates in practice \cite{Akaike1974}.
 
 For this reason, any model selection method that relies (explicitly or implicitly) on a statistic to quantify ``how well model $\M$ fits the data'' also relies on a \emph{null theory} to predict how that statistic will behave if $\rho_{0} \in \M$.  A model selection criterion based on an invalid null theory (or a criterion used in a context where its null theory does not apply) will tend to choose the wrong model.
 
-The null theory may be used to formulate a \emph{decision rule} for choosing between two models. By knowing how the statistic behaves when both models are equally good, we may then compare the observed value of the statistic to the null theory. Should the observed value be very improbable under the null theory, then that constitutes evidence against the smaller model, and justifies rejecting it. On the other hand, if the observed value is \emph{consistent} with the null theory, there is no reason to reject the smaller model.
+The null theory may be used to formulate a \emph{decision rule} for choosing between two models. By knowing how the statistic behaves when both models are equally good, we may then compare the observed value of the statistic to the null theory. If the observed value is very improbable under the null theory, then that constitutes evidence against the smaller model, and justifies rejecting it. On the other hand, if the observed value is \emph{consistent} with the null theory, there is no reason to reject the smaller model.
 
 The standard null theory for $\lambda$, the \emph{Wilks theorem} \cite{Wilks1938}, relies on \emph{local asymptotic normality} (LAN) \cite{LeCam1970, LeCam1956}. LAN means that: (1) as $N_{\mathrm{samples}}\rightarrow \infty$,  $\rhohat_{\mathrm{ML}}$ is normally distributed around $\rho_{0}$ with covariance matrix $\Fi^{-1}$, and (2) the likelihood function in a neighborhood of $\rhohat_{\mathrm{ML}}$ is locally Gaussian with Hessian $\Fi$, where $\Fi$ is the classical \emph{Fisher information matrix} associated with the POVM. It quantifies how much information the data carries about a parameter in the model. Generally speaking, the Fisher information depends strongly on $\rho_{0}$ and the POVM being measured.
 
@@ -127,7 +128,8 @@ Usually, $\cH$ is taken for granted or chosen by fiat.  In this paper, we will c
 \begin{equation}
 \M_{d} \equiv \mathcal{M}_{\cH_{d}} = \{\rho~|~\rho \in \mathcal{B}(\mathcal{H}_{d}),~\mathrm{Tr}(\rho) =1,~\rho \geq 0\}.
 \end{equation}
-To select between these models, we need to determine whether one model (say, $\M_{d + 1}$) is ``better'' than another (say, $\M_{d}$).  Clearly, the quality of a model corresponds to how well it fits the data, which means we naively would want to choose a model with highest value of $\cL(\M)$.  But to avoid overfitting, it is necessary to penalize or handicap larger models, since (all else being equal) they will \emph{always} fit the data better.  Doing so requires a null theory predicting how our test statistic -- $\lambda(\M_{d}, \M_{d+1})$, the loglikelihood ratio between $\M_d$ and $\M_{d+1}$ -- behaves when both models are valid, i.e. when $\rho_{0} \in \M_{d},\M_{d + 1}$.
+To select between these models, we need to determine whether one model (say, $\M_{d + 1}$) is ``better'' than another (say, $\M_{d}$).  Clearly, the quality of a model corresponds to how well it fits the data, which means we naively would want to choose a model with highest value of $\cL(\M)$.
+\todo{fix this, and split} But to avoid overfitting, it is necessary to penalize or handicap larger models, since (all else being equal) they will \emph{always} fit the data better.  Doing so requires a null theory predicting how our test statistic -- $\lambda(\M_{d}, \M_{d+1})$, the loglikelihood ratio between $\M_d$ and $\M_{d+1}$ -- behaves when both models are valid, i.e. when $\rho_{0} \in \M_{d},\M_{d + 1}$.
 
 In classical statistics, the null theory for $\lambda$ (the Wilks theorem) relies on local asymptotic normality (LAN).  If LAN holds, the likelihood function near $\rhohat_{\mathrm{ML}}$ is given by
 \begin{equation}
@@ -153,7 +155,7 @@ The main section of this paper is devoted to approximating $\expect{\lambda}$ un
 \section{Deriving a Replacement for the Wilks Theorem}
 
 In this section, we show how to derive a replacement for the Wilks Theorem which is valid for rank-deficient $\rho_{0}$. 
-To do so, we start by making assumptions about likelihood $\mathcal{L}(\rho)$; namely, that, over the set of bounded, trace-one operators in $\mathcal{B}(\mathcal{H}_{d})$, LAN holds. We will focus on the special and simple case where $\Fi$ at $\rho_{0}$ is  proportional to the Hilbert-Schmidt metric, so the likelihood function (and the distribution of the \emph{unconstrained} MLEs $\rhohat$) is given by 
+To do so, we start by utilizing the fact that, if quantum state space didn't have any boundaries (i.e, we removed the positivity constraint from our estimator), then LAN would hold. We will focus on the special and simple case where $\Fi$ at $\rho_{0}$ is  proportional to the Hilbert-Schmidt metric, so the likelihood function (and the distribution of the \emph{unconstrained} MLEs $\rhohat$) is given by 
 \todo[inline]{We've used MLE = maximum likelihood estimation. Is it confusing to do MLE = maximum likelihood estimate?}
 \begin{align}
 \label{eq:likelihood}
@@ -161,7 +163,7 @@ To do so, we start by making assumptions about likelihood $\mathcal{L}(\rho)$; n
 \mathrm{Pr}(\rhohat) &\propto e^{-\mathrm{Tr}[(\rho_{0} - \rhohat)^{2}]/2\epsilon^{2}}
 \end{align}
 for some $\epsilon$ that scales as $1 / \sqrt{N_{\mathrm{samples}}}$.  The isotropic assumption greatly simplifies our study of the problem, and permits the derivation of analytic results which capture realistic tomographic scenarios surprisingly well \cite{Smolin2012}. 
-Because it is unconstrained, $\rhohat$ is often not positive semidefinite (see Figure \ref{fig:boundaries}). For each $\rhohat$, the MLE in $\M_{d}$, $\hat{\rho}_{\mathrm{MLE},d}$ is the solution to the following optimization problem:
+Because it is unconstrained, $\rhohat$ is often not positive semidefinite (see Figure \ref{fig:boundaries}). For each $\rhohat$, the MLE in $\M_{d}$, $\hat{\rho}_{\mathrm{MLE},d}$, is the solution to the following optimization problem:
 \begin{equation}
 \label{eq:mleopt}
 \hat{\rho}_{\mathrm{MLE}, d} = \underset{\rho \in \M_{d}}{\mathrm{argmin}}~\mathrm{Tr}[(\rhohat - \rho)^{2}].
@@ -192,7 +194,7 @@ where
 \mathcal{L}(\rho)}\right)\\
 & = (\mathrm{Tr}[(\rho_{0} - \hat{\rho})^{2}]- \mathrm{Tr}[(\rhoMLE - \hat{\rho})^{2}])/\epsilon^{2}.
 \end{align}
-This identity may be interpreted as saying that when evaluating the plausibility of two models, we may compare each to any \emph{reference model}. Here, we take that reference model to be the $\rho_{0}$ itself.
+This identity may be interpreted as saying that when evaluating the plausibility of two models, we may compare each to any \emph{reference model}. Here, we take that reference model to be $\rho_{0}$ itself.
 
 Now, we derive an equivalent expression for $\lambda(\rho_{0}, \M_{d})$. To do so, we show that replacing the local state space with a \emph{tangent cone} at $\rho_{0}$, denoted $C(\rho_{0})$ allows us to ???
 
@@ -201,7 +203,7 @@ Now, we derive an equivalent expression for $\lambda(\rho_{0}, \M_{d})$. To do s
 \todo[inline]{Check these definitions}
 \textbf{Definition}: Given a state $\rho_{0}\in \M_{d}$, the tangent cone at $\rho_{0}$, denoted $C(\rho_{0})$ is given by the closure of the set of rays emanating from $\rho_{0}$ to any $\sigma \in \M_{d}$.
 
-For example, if $\rho_{0}$ is a pure state in $\M_{2}$, then $C(\rho_{0})$ is the two-dimensional plane which touches the surface of the Bloch sphere at $\rho_{0}$. If $\rho_{0}$ is a mixed state in $\M_{2}$, $C(\rho_{0})$ is $\mathbb{R}^{3}$.
+For example, if $\rho_{0}$ is a pure state in $\M_{2}$, then $C(\rho_{0})$ is the halfspace which contains the Bloch sphere, and whose boundary touches the Bloch sphere at $\rho_{0}$. If $\rho_{0}$ is a mixed state in $\M_{2}$, $C(\rho_{0})$ is $\mathbb{R}^{3}$.
 
 Notice that $\M_{d} \subset C$, by construction. With the tangent cone defined, we now define the maximum likelihood estimate within it.
 
@@ -218,7 +220,7 @@ Note that $\hat{\rho}_{\mathrm{MLE}, C}$ \emph{need not be positive semi-definit
 & = (\mathrm{Tr}[(\rho_{0} - \rhohat^{2})] - \mathrm{Tr}[(\hat{\rho}_{\mathrm{MLE}, C} - \rhohat)^{2}])/\epsilon^{2}
 \end{align}
 
-\missingfigure{Picture of Pythagorean Theorem}
+\todo[inline]{Do we need a figure for this?}
 
 It turns out $\lambda(\rho_{0}, C)$ has a particularly pleasing form.
 
@@ -235,38 +237,47 @@ Dividing Equation \eqref{eq:pythag} by $\epsilon^{2}$, and combining with Equati
 
 \emph{Case 2}: Assume $\rhohat \in C$. Then, $\hat{\rho}_{\mathrm{MLE}, C} = \rhohat$, and Equation \eqref{eq:tangentLLRS} simplifies to the theorem statement.
 ~\\~\\
-Finally, it turns out that as $\epsilon \rightarrow 0$, the values of $\lambda(\rho_{0}, \M_{d})$ and $\lambda(\rho_{0}, C)$ coincide.
+Finally, it turns out that the values of $\lambda(\rho_{0}, \M_{d})$ and $\lambda(\rho_{0}, C)$ are close to one another.
 
-\textbf{Theorem} $\lim_{\epsilon \rightarrow 0} [\lambda(\rho_{0}, \M_{d}) - \lambda(\rho_{0}, C)] = 0$
-\todo[inline]{Or is it in expectation? Or what?}
+\begin{figure}[h]
+\includegraphics[width=\columnwidth]{Images/fig.jpg}
+ \caption{\todo[inline]{Replace this}}
+\label{fig:proof_cases}
+\end{figure}
+
+\textbf{Theorem} $|\langle \lambda(\rho_{0}, \M_{d})\rangle - \langle\lambda(\rho_{0}, C)\rangle| \leq 1$
+
 \textbf{Proof} We consider three cases:
 
-\emph{Case 1}: $\rhohat \in \M_{d}$. In this case, $\rhoMLE = \hat{\rho}_{\mathrm{MLE}, C} = \rhohat$, so $\lambda(\rho_{0}, \M_{d}) = \lambda(\rho_{0}, C)$, and the limit trivially holds.
+
+\emph{Case 1}: $\rhohat \in \M_{d}$. In this case, $\rhoMLE = \hat{\rho}_{\mathrm{MLE}, C} = \rhohat$, so $\lambda(\rho_{0}, \M_{d}) - \lambda(\rho_{0}, C) = 0$.
 
 \emph{Case 2}: $\rhohat \not \in \M_{d}$, but $\rhohat \in C$. In this case, $\hat{\rho}_{\mathrm{MLE}, C} = \rhohat$, so $\epsilon^{2}\lambda(\rho_{0}, C) = \mathrm{Tr}[(\rho_{0}-\hat{\rho}_{\mathrm{MLE}, C})^{2}]$, and $\epsilon^{2}\lambda(\rho_{0}, \M_{d}) = \mathrm{Tr}[(\rho_{0} - \hat{\rho}_{\mathrm{MLE}, C})^{2}] - \mathrm{Tr}[(\rhoMLE - \hat{\rho}_{\mathrm{MLE}, C})^{2}]$. So we have
 \[\lambda(\rho_{0}, \M_{d}) - \lambda(\rho_{0}, C) = -\frac{1}{\epsilon^{2}}\mathrm{Tr}[(\rhoMLE - \hat{\rho}_{\mathrm{MLE}, C})^{2}]\] 
-\todo[inline]{And???}
+Consider the right triangle shown in Figure \ref{fig:proof_cases}, Case 2. By the Pythagorean theorem, we have
+\[\mathrm{Tr}[(\rhoMLE - \hat{\rho}_{\mathrm{MLE}, C})^{2}] \leq \mathrm{Tr}[(\rhohat - \rho')^{2}]\]
+for some $\rho'$ which lies on the line joining $\rho_{0}$ and $\hat{\rho}_{\mathrm{MLE}, C}$. Further, it is clear that $\mathrm{Tr}[(\rho_{0} - \rho')^{2}] \leq \mathrm{Tr}[(\rho_{0} - \hat{\rho}_{\mathrm{MLE}, C})^{2}]$.
+In turn, this means
+\begin{align*}
+&\langle\mathrm{Tr}[(\rhoMLE - \hat{\rho}_{\mathrm{MLE}, C})^{2}]\rangle \leq \langle\mathrm{Tr}[(\rho_{0} - \hat{\rho}_{\mathrm{MLE},C})^{2}]\rangle = \epsilon^{2}\\
+&\implies -\frac{\langle\mathrm{Tr}[(\rhoMLE - \hat{\rho}_{\mathrm{MLE}, C})^{2}]\rangle}{\epsilon^{2}} \geq 1
+\end{align*}
+
+Thus, $\langle \lambda(\rho_{0}, \M_{d})\rangle - \langle\lambda(\rho_{0}, C)\rangle \geq -1$.
+
 \emph{Case 3}: $\rhohat \not \in \M_{d}, C$. In this case, $\epsilon^{2}\lambda(\rho_{0}, C) = \mathrm{Tr}[(\rho_{0} - \rhohat^{2})] - \mathrm{Tr}[(\hat{\rho}_{\mathrm{MLE}, C} - \rhohat)^{2}]$ and $\epsilon^{2}\lambda(\rho_{0},\M_{d}) = \mathrm{Tr}[(\rho_{0} - \hat{\rho})^{2}]- \mathrm{Tr}[(\rhoMLE - \hat{\rho})^{2}]$, so
 
 \[\lambda(\rho_{0}, \M_{d}) - \lambda(\rho_{0}, C) = \frac{1}{\epsilon^{2}}\left[\mathrm{Tr}[(\hat{\rho}_{\mathrm{MLE}, C} - \rhohat)^{2}] -  \mathrm{Tr}[(\rhoMLE - \hat{\rho})^{2}]\right]\]
 
-Consider a triangle whose vertices are located at $\rhoMLE, \rhohat$, and $\hat{\rho}_{\mathrm{MLE}, C}$. Defining $\theta$ as the angle between $\rhoMLE - \rhohat$ and $\hat{\rho}_{\mathrm{MLE}, C} - \rhohat$, $A$ as $\sqrt{\mathrm{Tr}[(\rhoMLE - \hat{\rho})^{2}]}$, $B$ as $\sqrt{\mathrm{Tr}[(\rhoMLE - \hat{\rho}_{\mathrm{MLE}, C})^{2}]}$, and $C$ as $\sqrt{\mathrm{Tr}[(\hat{\rho}_{\mathrm{MLE}, C} - \rhohat)^{2}]}$ (see Figure ??), we then have
-\[\lambda(\rho_{0}, \M_{d}) - \lambda(\rho_{0}, C) = \frac{1}{\epsilon^{2}}\left[C^{2} - A^{2}\right]\]
+Do the simple thing! 
+\[\lambda(\rho_{0}, \M_{d}) - \lambda(\rho_{0}, C) \leq \frac{1}{\epsilon^{2}}\left[\mathrm{Tr}[(\hat{\rho}_{\mathrm{MLE}, C} - \rhohat)^{2}]\right]\]
+Consider the right triangle shown in Figure \ref{fig:proof_cases}, Case 3. By the Pythagorean theorem we have
+\[\mathrm{Tr}[(\hat{\rho}_{\mathrm{MLE}, C} - \rhohat)^{2}]  \leq \mathrm{Tr}[(\rhohat - \rho')^{2}]\]
+For some $\rho'$ lying on the line joining $\rho_{0}$ and $\hat{\rho}_{\mathrm{MLE},C}$. Further, it is clear that $\mathrm{Tr}[(\rho_{0} - \rho')^{2}] \leq \mathrm{Tr}[(\rho_{0} - \hat{\rho}_{\mathrm{MLE}, C})^{2}]$.
+ Chaining these inequalities, and taking expected values, yields
+\[\langle\lambda(\rho_{0}, \M_{d})\rangle - \langle\lambda(\rho_{0}, C) \rangle \leq \frac{1}{\epsilon^{2}}\langle\left[\mathrm{Tr}[(\rho_{0} - \rhohat)^{2}]\right]\rangle \leq 1\]
 
-An application of the law of cosines yields
-\[C^{2} = A^{2} + B^{2} - 2AB\cos\theta\]
-which implies
-\[\lambda(\rho_{0}, \M_{d}) - \lambda(\rho_{0}, C) = \frac{1}{\epsilon^{2}}\left[B^{2} - 2AB\cos\theta\right]\]
-which, in terms of the original variables, means
-\begin{align}
-\nonumber \epsilon^{2}(\lambda(\rho_{0}, \M_{d}) - \lambda(\rho_{0}, C)) = \mathrm{Tr}[(\rhoMLE - \hat{\rho}_{\mathrm{MLE}, C})^{2}]\\
--2\sqrt{\mathrm{Tr}[(\rhoMLE - \hat{\rho})^{2}]\mathrm{Tr}[(\rhoMLE - \hat{\rho}_{\mathrm{MLE}, C})^{2}]}\cos\theta
-\end{align}
-\missingfigure{Picture for Case 3}
-
-\todo[inline]{And??}
-
-\todo[inline]{Need to show that $B^{2}$ either goes as $\epsilon^{3}$ or higher, or is $\mathcal{O}(\epsilon^{2})$}
+Combining these three cases by taking absolute values yields the theorem statement.
 
 To summarize, through these identities and approximations, we have reduced the problem of computing $\lambda(\M_{d}, \M_{d+1})$ to that of computing the (scaled) mean-squared error $\mathrm{Tr}[(\rhoMLE - \rho_{0})^{2}]/\epsilon^{2}$ for each $\hat{\rho}_{\mathrm{MLE},d}$ in both $\M_{d}$ and $\M_{d+1}$ by replacing the local state space with a tangent cone.
 Now, we must determine an approximate form for $\langle\mathrm{Tr}[(\rhoMLE - \rho_{0})^{2}]\rangle/\epsilon^{2}$.
