@@ -237,50 +237,11 @@ Dividing Equation \eqref{eq:pythag} by $\epsilon^{2}$, and combining with Equati
 
 \emph{Case 2}: Assume $\rhohat \in C$. Then, $\hat{\rho}_{\mathrm{MLE}, C} = \rhohat$, and Equation \eqref{eq:tangentLLRS} simplifies to the theorem statement.
 ~\\~\\
-Finally, it turns out that the values of $\lambda(\rho_{0}, \M_{d})$ and $\lambda(\rho_{0}, C)$ are close to one another.
 
-\begin{figure}[h]
-\includegraphics[width=\columnwidth]{Images/fig.jpg}
- \caption{\todo[inline]{Replace this}}
-\label{fig:proof_cases}
-\end{figure}
+\todo[inline]{Some theorems and proofs go here}
 
-\textbf{Theorem} $|\langle \lambda(\rho_{0}, \M_{d})\rangle - \langle\lambda(\rho_{0}, C)\rangle| \leq 1$
-
-\textbf{Proof} We consider three cases:
-
-
-\emph{Case 1}: $\rhohat \in \M_{d}$. In this case, $\rhoMLE = \hat{\rho}_{\mathrm{MLE}, C} = \rhohat$, so $\lambda(\rho_{0}, \M_{d}) - \lambda(\rho_{0}, C) = 0$.
-
-\emph{Case 2}: $\rhohat \not \in \M_{d}$, but $\rhohat \in C$. In this case, $\hat{\rho}_{\mathrm{MLE}, C} = \rhohat$, so $\epsilon^{2}\lambda(\rho_{0}, C) = \mathrm{Tr}[(\rho_{0}-\hat{\rho}_{\mathrm{MLE}, C})^{2}]$, and $\epsilon^{2}\lambda(\rho_{0}, \M_{d}) = \mathrm{Tr}[(\rho_{0} - \hat{\rho}_{\mathrm{MLE}, C})^{2}] - \mathrm{Tr}[(\rhoMLE - \hat{\rho}_{\mathrm{MLE}, C})^{2}]$. So we have
-\[\lambda(\rho_{0}, \M_{d}) - \lambda(\rho_{0}, C) = -\frac{1}{\epsilon^{2}}\mathrm{Tr}[(\rhoMLE - \hat{\rho}_{\mathrm{MLE}, C})^{2}]\] 
-Consider the right triangle shown in Figure \ref{fig:proof_cases}, Case 2. By the Pythagorean theorem, we have
-\[\mathrm{Tr}[(\rhoMLE - \hat{\rho}_{\mathrm{MLE}, C})^{2}] \leq \mathrm{Tr}[(\rhohat - \rho')^{2}]\]
-for some $\rho'$ which lies on the line joining $\rho_{0}$ and $\hat{\rho}_{\mathrm{MLE}, C}$. Further, it is clear that $\mathrm{Tr}[(\rho_{0} - \rho')^{2}] \leq \mathrm{Tr}[(\rho_{0} - \hat{\rho}_{\mathrm{MLE}, C})^{2}]$.
-In turn, this means
-\begin{align*}
-&\langle\mathrm{Tr}[(\rhoMLE - \hat{\rho}_{\mathrm{MLE}, C})^{2}]\rangle \leq \langle\mathrm{Tr}[(\rho_{0} - \hat{\rho}_{\mathrm{MLE},C})^{2}]\rangle = \epsilon^{2}\\
-&\implies -\frac{\langle\mathrm{Tr}[(\rhoMLE - \hat{\rho}_{\mathrm{MLE}, C})^{2}]\rangle}{\epsilon^{2}} \geq 1
-\end{align*}
-
-Thus, $\langle \lambda(\rho_{0}, \M_{d})\rangle - \langle\lambda(\rho_{0}, C)\rangle \geq -1$.
-
-\emph{Case 3}: $\rhohat \not \in \M_{d}, C$. In this case, $\epsilon^{2}\lambda(\rho_{0}, C) = \mathrm{Tr}[(\rho_{0} - \rhohat^{2})] - \mathrm{Tr}[(\hat{\rho}_{\mathrm{MLE}, C} - \rhohat)^{2}]$ and $\epsilon^{2}\lambda(\rho_{0},\M_{d}) = \mathrm{Tr}[(\rho_{0} - \hat{\rho})^{2}]- \mathrm{Tr}[(\rhoMLE - \hat{\rho})^{2}]$, so
-
-\[\lambda(\rho_{0}, \M_{d}) - \lambda(\rho_{0}, C) = \frac{1}{\epsilon^{2}}\left[\mathrm{Tr}[(\hat{\rho}_{\mathrm{MLE}, C} - \rhohat)^{2}] -  \mathrm{Tr}[(\rhoMLE - \hat{\rho})^{2}]\right]\]
-
-Do the simple thing! 
-\[\lambda(\rho_{0}, \M_{d}) - \lambda(\rho_{0}, C) \leq \frac{1}{\epsilon^{2}}\left[\mathrm{Tr}[(\hat{\rho}_{\mathrm{MLE}, C} - \rhohat)^{2}]\right]\]
-Consider the right triangle shown in Figure \ref{fig:proof_cases}, Case 3. By the Pythagorean theorem we have
-\[\mathrm{Tr}[(\hat{\rho}_{\mathrm{MLE}, C} - \rhohat)^{2}]  \leq \mathrm{Tr}[(\rhohat - \rho')^{2}]\]
-For some $\rho'$ lying on the line joining $\rho_{0}$ and $\hat{\rho}_{\mathrm{MLE},C}$. Further, it is clear that $\mathrm{Tr}[(\rho_{0} - \rho')^{2}] \leq \mathrm{Tr}[(\rho_{0} - \hat{\rho}_{\mathrm{MLE}, C})^{2}]$.
- Chaining these inequalities, and taking expected values, yields
-\[\langle\lambda(\rho_{0}, \M_{d})\rangle - \langle\lambda(\rho_{0}, C) \rangle \leq \frac{1}{\epsilon^{2}}\langle\left[\mathrm{Tr}[(\rho_{0} - \rhohat)^{2}]\right]\rangle \leq 1\]
-
-Combining these three cases by taking absolute values yields the theorem statement.
-
-To summarize, through these identities and approximations, we have reduced the problem of computing $\lambda(\M_{d}, \M_{d+1})$ to that of computing the (scaled) mean-squared error $\mathrm{Tr}[(\rhoMLE - \rho_{0})^{2}]/\epsilon^{2}$ for each $\hat{\rho}_{\mathrm{MLE},d}$ in both $\M_{d}$ and $\M_{d+1}$ by replacing the local state space with a tangent cone.
-Now, we must determine an approximate form for $\langle\mathrm{Tr}[(\rhoMLE - \rho_{0})^{2}]\rangle/\epsilon^{2}$.
+To summarize, through these identities and approximations, we have reduced the problem of computing $\lambda(\M_{d}, \M_{d+1})$ to that of computing the (scaled) mean-squared error $\mathrm{Tr}[(\rhoML{d} - \rho_{0})^{2}]/\epsilon^{2}$ for $\rhoML{d}, \rhoML{d+1}$ by replacing the local state space with a tangent cone.
+Now, we must determine an approximate form for $\langle\mathrm{Tr}[(\rhoML{d} - \rho_{0})^{2}]\rangle/\epsilon^{2}$.
 
 \subsection{Separating out Degrees of Freedom in $\rhohat$}
 
