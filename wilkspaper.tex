@@ -149,10 +149,152 @@ The main section of this paper is devoted to approximating $\expect{\lambda}$ un
 
 \missingfigure{Picture of $\rhohat$, $\hat{\rho}_{\mathrm{ML}}$, etc. w/ anisotropic Fisher information}
 
-\section{Deriving a Replacement for the Wilks Theorem}
+\section{Deriving a Replacement for the Wilks theorem}
 
-In this section, we show how to derive a replacement for the Wilks Theorem which is valid for rank-deficient $\rho_{0}$. 
-To do so, we start by utilizing the fact that, if quantum state space didn't have any boundaries (i.e, we removed the positivity constraint from our estimator), then LAN would hold. We will focus on the special and simple case where $\Fi$ at $\rho_{0}$ is  proportional to the Hilbert-Schmidt metric, so the likelihood function and the distribution of the \emph{unconstrained} ML estimates $\rhohat$ are given by 
+In this section, we show how to derive a replacement for the Wilks theorem which is valid for rank-deficient $\rho_{0}$. To do so, we provide a replacement for LAN in the presence of boundaries, which we call \emph{Local Asymptotic Metric-Projected Normality} (LAMPN). The choice of name for this property comes from the fact that we borrow terminology and ideas from convex optimization and compressed sensing. Briefly, LAMPN is a property of our constrained statistical model $\M_{d}$, under the following assumptions:
+
+\begin{itemize}
+\item $\M_{d}$ may be written as a subset of a larger, unconstrained model $\M'$.
+\item For each point $\rho_{0} \in \M_{d}$ (the ``true state"), LAN holds in $\M'$.
+\end{itemize}
+
+In state tomography, $\M'$ is the set of all trace-1, Hermitian matrices. (That is, a matrix $\hat{\rho} \in \M'$ need not satisfy $\hat{\rho} \geq 0$.) Each $\hat{\rho} \in \M'$ is an \emph{unconstrained} MLE, and LAN holds.
+
+With these two assumptions, it's possible to show that, asymptotically, the \emph{local state space} around $\rho_{0}$ converges to its \emph{tangent cone}. In turn, this implies the distribution of MLEs we would obtain by maximizing the likelihood in Equation ?? is the same as that which we would obtain by taking an \emph{unconstrained} distribution, and projecting them onto the tangent cone.
+
+The reason for using ``metric-projected normality", as opposed to ``projected normality", is because in the convex optimization community, the phrase ``metric projection" is used to denote the vector $\Pi_{C}(\bs{x})$ that is the projection of $\bs{x}$ onto a cone $C$ (and where the metric defining the projection is Euclidean):
+\[\Pi_{C}(\bs{x}) = \underset{\bs{y}\in C}{\text{argmin}}~||\bs{x}  -\bs{y}||^{2}\]
+\todo[inline]{citation?}
+There's a clear connection between metric projections and MLEs over $\M_{d}$; namely, $\rhoML{d}$ is simply the metric projection of $\sigma$ onto $M_{d}$!
+\[\rhoML{d} = \underset{\rho \in \M_{d}}{\text{argmin}}~||\rho  -\hat{\rho}||^{2}\]
+\todo[inline]{More clear explanation}
+
+The exact behavior of $\rhoML{d}$, and $\lambda(\M_{d}, \M_{d+1})$ is complicated; however, by assuming $N_{\mathrm{samples}} \rightarrow \infty$, it's possible to replace projecting $\sigma$ onto $\M_{d}$ with projecting it onto the \emph{tangent cone} at $\rho_{0}$, $T(\rho_{0})$:
+\[\rhoML{d} = \underset{\rho \in T(\rho_{0})}{\text{argmin}}~||\rho  -\hat{\rho}||^{2}\]
+What's more, it's possible to derive an exact expression for $\lambda(\M_{d}, \M_{d+1})$:
+\[\lambda(\M_{d}, \M_{d+1}) = \mathrm{Tr}[(\rho_{0} - \rhoML{d+1})^{2}] -  \mathrm{Tr}[(\rho_{0} - \rhoML{d})^{2}] \]
+
+
+
+\todo[inline]{Something about $\lambda$ being equal to (scaled) mean-squared error.}
+
+
+
+
+\subsection{Technical Details}
+
+\subsubsection{Defining LAMPN}
+
+In this section, we provide the technical details and proofs omitted in the previous section. To set up the problem, we consider a constrained statistical model $\M$, and assume $\M \subset \M'$, where $\M'$ is an \emph{unconstrained} model. Further, we assume that for each $\rho_{0} \in \M$, LAN holds in $\M'$. As LAN is an asymptotic property of the model $\M'$, all of our results will be derived in the $N \rightarrow \infty$ limit.
+
+Consider a $\rho_{0} \in \M$ such that LAN holds in $\M'$. Letting $\hat{\rho}$ denote the ML estimate in $\M'$, as $N \rightarrow \infty$,
+\[\mathrm{Pr}(\hat{\rho})\xrightarrow[]{\text{d}} \mathcal{N}\left(\rho_{0}, \Sigma\right)\]
+where $\xrightarrow[]{\text{d}}$ means ``converges in distribution to", and $\Sigma$ is the \emph{covariance matrix} of the MLEs. Above, we assumed $\Sigma \propto \Id$; in what follows, we assume $\Sigma = \Id/N$.
+
+Suppose we draw a closed ball $\mathcal{B}$ around $\rho_{0}$, whose radius is $N^{-1/4}$:
+\[\mathcal{B}(\rho_{0}, N) =\{\rho~|~||\rho - \rho_{0}||_{2} \leq 1/N^{1/4}\}\]
+
+It turns out that, asymptotically, $\mathcal{B}$ contains all the MLEs:
+ \[\lim_{N \rightarrow \infty}\left[\mathrm{Pr}\left(\hat{\rho} \in \mathcal{B}\right)\right] \rightarrow 1\]
+
+Showing this requires doing a few integrals:
+\begin{align*}
+\end{align*}
+\todo[inline]{Um....?}
+ 
+Further, we observe that $\M_{d}$ has a finite \emph{diameter} and in turn, a finite \emph{radius} $R$. Independent of $d$, the diameter of quantum state space is $2$ (consider the Hilbert-Schmidt distance between $\rho$ and $\sigma$, where $\rho$ and $\sigma$ are orthogonal pure states.
+
+ To summarize, in Hilbert-Schmidt coordinates, we have
+ 
+ \begin{itemize}
+ \item $\Sigma = \Id/N$
+ \item $\mathcal{B}$ has a radius $1/N^{1/4}$
+ \item $\M_{d}$ has radius $1$
+ \item $\mathrm{Pr}\left(\hat{\rho} \in \mathcal{B}\right) = 1$, asymptotically.
+ \end{itemize}
+ 
+Now, we switch to \emph{Fisher-adjusted} coordinates, so that the covariance matrix of the MLEs is equal to the identity, not just proportional to it. This coordinate transformation may be obtained simply by sending $\rho \rightarrow N^{1/2}\rho$.
+
+This transformation then changes the covariance matrix of the MLEs, because for any random variable $\bs{x}$,
+\[\mathrm{Cov}(A\bs{x}) = A\mathrm{Cov}(\bs{x})A^{T} \]
+for any $A$. Choosing $A = N^{1/2}\Id$ gives
+\[\mathrm{Cov}(N^{1/2}\Id\hat{\rho}) = \Id\]
+
+ Thus, in Fisher-adjusted coordinates, the covariance matrix of the MLEs is the identity.
+
+Further, the radius of the state space changes, because the diameter is enlarged, due to the fact that distances are rescaled:
+\[||\rho - \sigma||^{2} \rightarrow N||\rho - \sigma||^{2}\]
+Therefore, the diameter and radius of the state space are each increased by a factor of $N^{1/2}$. In turn, this implies the radius of $\mathcal{B}$ is increased to $N^{1/2}*N^{-1/4} = N^{1/4}$.
+\todo[inline]{Show that Pr MLE in ellipsoid still 1}
+
+In Fisher-adjusted coordinates, we have
+
+ \begin{itemize}
+ \item $\Sigma = \Id$
+ \item $\mathcal{B}$ has radius $N^{1/4}$
+ \item $\M_{d}$ has radius $\sqrt{N}$.
+ \item $\mathrm{Pr}\left(\hat{\rho} \in \mathcal{B}\right)$ approaches 1, asymptotically.
+ \end{itemize}
+
+Finally, we translate the entire inference problem by establishing $\rho_{0}$ as the \emph{origin} of our parameter space. (That is, we send $\rho \rightarrow \rho - \rho_{0}$.) Because translation doesn't change Euclidean distance, all the properties above still hold in this new coordinate system.
+
+By going to these coordinates, we are able to prove a useful result about the geometry of the region contained in the intersection of the state space and $\mathcal{B}$ --  the \emph{local state space} converges to a \emph{tangent cone}. Tangent cones are a general feature of points on the surface of convex sets (see \cite{Rockafellar1998}, Chapter 6, Section A), and are defined as follows:
+
+\textbf{Definition: Tangent Cone} 
+For each point $X$ on a convex surface $S$, the tangent cone $T(X)$ is defined as the following limit:
+\[T(X) = \lim_{N\rightarrow \infty} S_{N}\]
+where $S_{N}$ is a \emph{homothetic transformation} of $S$ with respect to $X$, with homothety coefficient $N$:
+\[S_{N} = \{X + NY  |~\forall ~Y \neq X \in S\}\]
+
+Under this definition, the tangent cone naturally arises as the limit of surfaces formed by fixing $X$, and then scaling up every other point on the surface with respect to it. ($X$ itself is known as the \emph{homothetic center} of the tangent cone.) Such a picture naturally arises in the context of LAMPN, as we are interested in what the local state space looks like as the distribution of unconstrained MLEs becomes more and more tightly concentrated around $\rho_{0}$.
+
+In the asymptotic limit, the behavior of the MLEs is entirely determined by their behavior within $\mathcal{B}$, as it contains almost all of them. Further, in Fisher-adjusted coordinates, as $N\rightarrow \infty$, both the ball and the state space expand, but at different rates. Because the state space expands at a faster rate than the ball, it can never be the case that $\M_{d}\subset \mathcal{B}$, meaning there is always some part of the state space we are ignoring. That's acceptable, as we are interested in the \emph{local asymptotic} behavior of the MLEs.
+
+To complete the proof, we define the surface $S_{N}$ as the surface of the intersection of $\M_{d}$ and $\mathcal{B}$:
+\[S_{N} = \text{Surface}(\M_{d} \cap \mathcal{B}(\rho_{0}, N))\]
+If $\rho_{0}$ is rank-deficient within $\M_{d}$, then $S_{N}$ is a genuine surface. \todo{what does that even mean?}. Considering $N \rightarrow \infty$, $S_{N}$ will converge to the tangent cone at $\rho_{0}$, $T(\rho_{0})$. However, if $\mathrm{Rank}(\rho)  = d$, then $S_{N}$ will converge to $\mathbb{R}^{d^{2}-1}$.\todo{this isn't clear}
+
+\subsubsection{Expression for $\lambda(\M_{d}, \M_{d+1})$}
+
+In comparing any two models using the loglikelihood ratio statistic, it's possible to do so by comparing each to any \emph{reference model} $\M$. Here, we take $\M = \rho_{0}$:
+\[\lambda(\M_{d}, \M_{d+1}) = \lambda(\rho_{0},\M_{d+1}) - \lambda(\rho_{0},\M_{d})\]
+Under the assumption of LAMPN, $\lambda(\rho_{0}, \M_{d})$ has a simple form. This follows from the fact that under this assumption
+\[\rhoML{d} = \underset{\rho \in T(\rho_{0})}{\text{argmin}}~||\rho  -\hat{\rho}||^{2}.\]
+and
+\begin{equation}
+\label{eq:tangentLLRS}
+\lambda(\rho_{0}, \M_{d}) = \mathrm{Tr}[(\rho_{0} -\hat{\rho})^{2}] -   \mathrm{Tr}[(\rhoML{d} - \hat{\rho})^{2}]
+\end{equation}
+
+\textbf{Lemma:}
+
+Under LAMPN, $\lambda(\rho_{0}, \M_{d}) = \mathrm{Tr}[(\rho_{0} - \rhoML{d})^{2}]$.
+
+\textbf{Proof:}
+
+\emph{Case 1}: Assume $\hat{\rho} \not \in T$. Because $\rhoML{d}$ is the closest point to $\hat{\rho}$ in $T$, and because $T$ contains $\rho_{0}$ (the origin), the lines joining $\rho_{0}$ to $\rhoML{d}$, and $\rhoML{d}$ to $\hat{\rho}$, are at right angles to one another. (See Figure ??) Applying the Pythagorean theorem, we have
+\begin{equation}
+\label{eq:pythag}
+\mathrm{Tr}[(\rho_{0} -\hat{\rho})^{2}] =  \mathrm{Tr}[(\rho_{0} - \rhoML{d})^{2}] + \mathrm{Tr}[(\rhoML{d} - \hat{\rho})^{2}]
+\end{equation}
+Doing a subtraction, and comparing with Equation \eqref{eq:tangentLLRS}, yields the result.
+
+\emph{Case 2}: Assume $\hat{\rho} \in T$. Then, $\rhoML{d}= \hat{\rho}$, and Equation \eqref{eq:tangentLLRS} simplifies to the theorem statement.
+
+\todo[inline]{Illuminates why the isotropic assumption is so crucial!}
+
+Applying the lemma above to both $\lambda(\rho_{0},\M_{d})$ and $\lambda(\rho_{0},\M_{d+1})$, we arrive the following useful result for the loglikelihood ratio statistic comparing two Hilbert space dimensions under LAMPN:
+
+\textbf{Corollary:}
+
+Under LAMPN, $\lambda(\M_{d}, \M_{d+1}) = \mathrm{Tr}[(\rho_{0} - \rhoML{d+1})^{2}] -\mathrm{Tr}[(\rho_{0} - \rhoML{d})^{2}]$
+
+
+
+
+\section{Computing $\langle \lambda \rangle$}
+
+We will focus on the special and simple case where $\Fi$ at $\rho_{0}$ is  proportional to the Hilbert-Schmidt metric, so the likelihood function and the distribution of the \emph{unconstrained} ML estimates $\rhohat$ are given by 
 \begin{align}
 \label{eq:likelihood}
 \cL(\rho) & \propto e^{-\mathrm{Tr}[(\rho - \rhohat)^{2}]/2\epsilon^{2}}\\
@@ -178,66 +320,7 @@ Our derivation of $\langle \lambda \rangle$ involves three main steps:
 \item For the degrees of freedom of $\rhohat$ which are affected by the positivity constraint (which will turn out to be \emph{spectral} in nature), derive an analytic approximation to the optimization problem given in Equation \eqref{eq:mleopt}.
 \end{itemize}
 
-\subsection{Relating $\langle \lambda \rangle$ to Mean-Squared Error}
 
-To simplify our derivation, we first show how we may reduce the problem of computing the expected value of $\lambda$ given in Equation \eqref{eq:llrs} to that of computing the mean-squared error between $\rhoML{d}$ and $\rho_{0}$. We start by relating $\lambda(\M_{d},\M_{d+1})$ to $\lambda(\rho_{0}, \M_{d})$ and $\lambda(\rho_{0}, \M_{d+1})$ using the identity
-\begin{equation}
-\lambda(\mathcal{M}_{d}, \mathcal{M}_{d + 1}) = \lambda(\rho_{0}, \mathcal{M}_{d+1}) - \lambda(\rho_{0}, \mathcal{M}_{d}),
-\end{equation}
-where
-\begin{align}
-\nonumber\lambda(\rho_{0}, \mathcal{M}_{d}) &= -2 \log \left(\frac{\mathcal{L}(\rho_{0})}{\underset{\rho \in \mathcal{M}_{d}}{\max}
-\mathcal{L}(\rho)}\right)\\
-& = (\mathrm{Tr}[(\rho_{0} - \hat{\rho})^{2}]- \mathrm{Tr}[(\rhoML{d} - \hat{\rho})^{2}])/\epsilon^{2}.
-\end{align}
-This identity may be interpreted as saying that when evaluating the plausibility of two models, we may compare each to any \emph{reference model}. Here, we take that reference model to be $\rho_{0}$ itself.
-
-Now, we derive an equivalent expression for $\lambda(\rho_{0}, \M_{d})$. To do so, we show that replacing the local state space with a \emph{tangent cone} at $\rho_{0}$, denoted $C(\rho_{0})$ allows us to ???
-
-\todo[inline]{What does it allow us to do, succinctly?}
-
-\todo[inline]{Check these definitions}
-\textbf{Definition}: Given a state $\rho_{0}\in \M_{d}$, the tangent cone at $\rho_{0}$, denoted $C(\rho_{0})$ is given by the closure of the set of rays emanating from $\rho_{0}$ to any $\sigma \in \M_{d}$.
-
-For example, if $\rho_{0}$ is a pure state in $\M_{2}$, then $C(\rho_{0})$ is the halfspace which contains the Bloch sphere, and whose boundary touches the Bloch sphere at $\rho_{0}$. If $\rho_{0}$ is a mixed state in $\M_{2}$, $C(\rho_{0})$ is $\mathbb{R}^{3}$.
-
-Notice that $\M_{d} \subset C$, by construction. With the tangent cone defined, we now define the maximum likelihood estimate within it.
-
-\textbf{Definition} Given $\hat{\rho}$, and the tangent cone $C(\rho_{0})$, define $\hat{\rho}_{\mathrm{MLE}, C}$ as the solution to the following optimization problem:
-\begin{equation}
-\hat{\rho}_{\mathrm{MLE}, C} = \underset{M \in C}{\text{argmin}}~\mathrm{Tr}[(M - \rhohat)^{2}]
-\end{equation}
-Note that $\hat{\rho}_{\mathrm{MLE}, C}$ \emph{need not be positive semi-definite}!
-
-\textbf{Definition} Define the loglikelihood ratio statistic comparing $\rho_{0}$ to the model $C(\rho_{0})$ as 
-\begin{align}
-\nonumber\lambda(\rho_{0}, C) &\equiv -2 \log \left(\frac{\mathcal{L}(\rho_{0})}{\mathcal{L}(\hat{\rho}_{\mathrm{MLE}, C})}\right)\\
-\label{eq:tangentLLRS}
-& = (\mathrm{Tr}[(\rho_{0} - \rhohat^{2})] - \mathrm{Tr}[(\hat{\rho}_{\mathrm{MLE}, C} - \rhohat)^{2}])/\epsilon^{2}
-\end{align}
-
-\todo[inline]{Do we need a figure for this?}
-
-It turns out $\lambda(\rho_{0}, C)$ has a particularly pleasing form.
-
-\textbf{Theorem} $\lambda(\rho_{0}, C) = \mathrm{Tr}[(\rho_{0} - \hat{\rho}_{\mathrm{MLE}, C})^{2}]$.
-
-\textbf{Proof}
-
-\emph{Case 1}: Assume $\rhohat \not \in C$. Because $\hat{\rho}_{\mathrm{MLE}, C}$ is the closest point to $\rhohat$ in $C$, and because $C$ contains $\rho_{0}$, the lines joining $\rho_{0}$ to $\hat{\rho}_{\mathrm{MLE}, C}$, and $\hat{\rho}_{\mathrm{MLE}, C}$ to $\rhohat$, are at right angles to one another. (See Figure ??) Applying the Pythagorean theorem, we have
-\begin{equation}
-\label{eq:pythag}
-\mathrm{Tr}[(\rho_{0} - \rhohat)^{2}] = \mathrm{Tr}[(\rho_{0} - \hat{\rho}_{\mathrm{MLE}, C})^{2}] + \mathrm{Tr}[(\rhohat - \hat{\rho}_{\mathrm{MLE}, C})^{2}]
-\end{equation}
-Dividing Equation \eqref{eq:pythag} by $\epsilon^{2}$, and combining with Equation \eqref{eq:tangentLLRS}, yields the theorem statement.
-
-\emph{Case 2}: Assume $\rhohat \in C$. Then, $\hat{\rho}_{\mathrm{MLE}, C} = \rhohat$, and Equation \eqref{eq:tangentLLRS} simplifies to the theorem statement.
-~\\~\\
-
-\todo[inline]{Some theorems and proofs go here}
-
-To summarize, through these identities and approximations, we have reduced the problem of computing $\lambda(\M_{d}, \M_{d+1})$ to that of computing the (scaled) mean-squared error $\mathrm{Tr}[(\rhoML{d} - \rho_{0})^{2}]/\epsilon^{2}$ for $\rhoML{d}, \rhoML{d+1}$ by replacing the local state space with a tangent cone.
-Now, we must determine an approximate form for $\langle\mathrm{Tr}[(\rhoML{d} - \rho_{0})^{2}]\rangle/\epsilon^{2}$.
 
 \subsection{Separating out Degrees of Freedom in $\rhohat$}
 
