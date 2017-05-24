@@ -138,19 +138,23 @@ where $\mathcal{I}$ is the \emph{Fisher information matrix}.  (Note that in expr
 
 But the statistical models used for quantum state tomography \emph{do} have boundaries.  When $\rho_{0}\in \M_{d}$ and has rank $r = d$, LAN will hold -- which is to say that, asymptotically, the boundary can indeed be ignored.  In that case, the Wilks theorem applies, and $\lambda(\M_{d}, \M_{d + 1}) \sim \chi^{2}_{2d + 1}$.  But when $\rho_{0}$ has rank $r<d$, it lies \emph{on} the boundary of the model (see Figure \ref{fig:boundaries}).  LAN does not hold, because even asymptotically, positivity constrains $\rhoML{d}$, and so $\mathrm{Pr}(\rhoML{d})$ is not Gaussian.  The Wilks theorem does not apply in this case.  (See Figure \ref{fig:boundaries2}.) Moreover, this is the relevant situation for our analysis, because \emph{even if $\rho_{0}$ is full-rank in $\M_{d}$, it must be rank-deficient in $\M_{d+1}$}.  So we are forced to derive a replacement for the Wilks theorem, a null theory for $\lambda$ when $\rho_0$ is rank-deficient.
 
-\begin{figure}[h]
-\includegraphics[width=\columnwidth]{Images/Figure_2.pdf}
+\begin{figure}
+\includegraphics[width=\columnwidth]{Images/Figure_2A.pdf}
  \caption{Comparison of the classical theory (Wilks theorem) prediction for the loglikelihood ratio $\expect{\lambda}$ to numerical data for states $\rho_{0}$ with ranks $r=1,\ldots ,10$.  The Wilks theorem fails badly for low-rank states; our main result (Equation \ref{eq:ourLLRS}) fixes this problem (see Figure \ref{fig:modelcomp-iso}).}
 \label{fig:boundaries2}
 \end{figure}
 
 The distributions of $\rhoML{d}, \rhoML{d+1}$ are complicated, highly non-Gaussian, and singular (because estimates ``pile up'' on the various faces of the boundary; recall Figure \ref{fig:boundaries}).  For this reason, we will not attempt to compute $\mathrm{Pr}(\lambda)$ directly.  Instead, we focus on deriving a good approximation for $\langle \lambda \rangle$.
 
-Furthermore, the Fisher information $\mathcal{I}$ is generally anisotropic. \todo{See Figure ??} And while the constraint $\rho\geq0$ that invalidates LAN in the first place is at least somewhat tractable in standard (Hilbert-Schmidt) coordinates, it becomes completely intractable in Fisher-adjusted coordinates.  So, to obtain a semi-analytic null theory for $\lambda$, we will make the simplifying assumption that $\mathcal{I}$ is proportional to the Hilbert-Schmidt metric ($\mathcal{I} \propto \Id$).
+Furthermore, the Fisher information $\mathcal{I}$ is generally anisotropic. (See Figure \ref{fig:anisofi}.) And while the constraint $\rho\geq0$ that invalidates LAN in the first place is at least somewhat tractable in standard (Hilbert-Schmidt) coordinates, it becomes completely intractable in Fisher-adjusted coordinates.  So, to obtain a semi-analytic null theory for $\lambda$, we will make the simplifying assumption that $\mathcal{I}$ is proportional to the Hilbert-Schmidt metric ($\mathcal{I} \propto \Id$).
 
 The main section of this paper is devoted to approximating $\expect{\lambda}$ under the assumption $\mathcal{I} \propto \Id$; the main result is given in Equation \eqref{eq:ourLLRS}.  Then, in the last section of the paper, we check the robustness of the results that we derive with this simplifying assumption, by performing a numerical study of a tomography problem where $\mathcal{I}$ is \emph{extremely} anisotropic and comparing the results to the predictions derived with $\mathcal{I} \propto \Id$.
 
-\missingfigure{Picture of $\rhohat$, $\hat{\rho}_{\mathrm{ML}}$, etc. w/ anisotropic Fisher information}
+\begin{figure}
+\includegraphics[width=\columnwidth]{Images/Figure_2.pdf}
+ \caption{Anisotropy of the Fisher information for a rebit. Depending on $\rho_{0}$ (star), the distribution of the unconstrained estimates $\hat{\rho}$ (ellipses) may be anisotropic. Imposing the positivity constraint $\rho \geq 0$ is difficult to do in Fisher-adjusted coordinates, as performing that transformation distorts the state-space geometry. In this paper, we simplify these complexities to the case where $\mathcal{I} \propto \Id$, \emph{and is independent of $\rho_{0}$}.}
+\label{fig:anisofi}
+\end{figure}
 
 \section{Deriving a Replacement for the Wilks theorem}
 
