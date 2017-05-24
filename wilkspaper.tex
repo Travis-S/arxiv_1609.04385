@@ -71,7 +71,7 @@ Choosing an appropriate Hilbert space on the fly is an instance of a general sta
 \begin{figure}[h]
 \includegraphics[width=\columnwidth]{Images/Figure_1.pdf}
  \caption{Impact of the boundary on maximum likelihood tomography. \textbf{Top}: Two views through the qutrit state space. Without the positivity constraint, some estimates (orange squares) are not positive semidefinite, and do not represent valid estimates of a quantum state. The distribution of $\rhoML{3}$ (blue circles) is generally non-normal, and depends on the true state $\rho_{0}$ (star).
-\textbf{Bottom}:  Comparison of the classical theory (Wilks theorem) prediction for the loglikelihood ratio $\expect{\lambda}$ to numerical data for states $\rho_{0}$ with ranks $r=1,\ldots ,10$.  The Wilks theorem fails badly for low-rank states; our main result (Equation \ref{eq:ourLLRS}) fixes this problem (see Figure \ref{fig:modelcomp-iso}).}
+\textbf{Bottom}:  Imposing the positivity constraint causes the (previously unconstrained) estimates to ``pile up" on the boundary of state space, meaning that the \emph{Local Asymptotic Normality} property doesn't hold, thereby invalidating the assumptions necessary to use the Wilks Theorem in model selection.}
 \label{fig:boundaries}
 \end{figure}
 
