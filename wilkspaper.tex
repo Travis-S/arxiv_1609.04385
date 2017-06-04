@@ -118,7 +118,7 @@ In state tomography, $\M$ is almost always the set of all density matrices over 
 \begin{equation}
 \mathcal{M}_{\cH} = \{\rho~|~\rho \in \mathcal{B}(\mathcal{H}),~\mathrm{Tr}(\rho) =1,~\rho \geq 0\},
 \end{equation}
-where $\mathcal{B}(\cH)$ is the space of bounded (linear) operators on $\cH$.  To solve the optimization problem, we can use the following facts: (a) $\M_{\cH}$ is a convex set, and (b) $\rhoML{\M}$ also maximizes the value of $\log(\cL(\rho))$, which is a convex function. Because $\rhoML{\M}$ is the solution to an optimization problem involving a convex function defined over a convex set, it can be found efficiently via any of several algorithms for convex optimization \cite{Boyd}.
+where $\mathcal{B}(\cH)$ is the space of bounded (linear) operators on $\cH$.  To solve the optimization problem, we can use the following facts: (a) $\M_{\cH}$ is a convex set, and (b) $\rhoML{\M}$ also maximizes the value of $\log(\cL(\rho))$, which is a convex function. Thus, because $\rhoML{\M}$ is the solution to an optimization problem involving a convex function defined over a convex set, it can be found efficiently via any of several algorithms for convex optimization \cite{Boyd}.
 
 Usually, $\cH$ is taken for granted or chosen by fiat.  In this paper, we will consider a nested family of different Hilbert spaces, indexed by their dimension $d$: $\cH_{1}  \subset \cdots \subset \cH_{d} \subset \cH_{d+1} \subset \cdots$.  The models we consider are therefore given by:
 \begin{equation}
@@ -128,10 +128,12 @@ To select between these models, we need to determine whether one model (say, $\M
 
 The Wilks theorem, which is the classical null theory for $\lambda$, relies on local asymptotic normality (LAN).  If LAN holds, the likelihood function near $\rhohat_{\mathrm{ML}}$ is given by
 \begin{equation}
+\label{eq:lanl}
 \mathcal{L}(\rho) \propto \exp\left[-(\rho - \rhohat_{\mathrm{ML}})\mathcal{I}(\rho - \rhohat_{\mathrm{ML}})/2\right],
 \end{equation}
 and the distribution of $\rhohat_{\mathrm{ML}}$ is
 \begin{equation}
+\label{eq:landist}
 \mathrm{Pr}(\rhohat_{\mathrm{ML}}) \propto \exp\left[-(\rho_{0} - \rhohat_{\mathrm{ML}})\mathcal{I}(\rho_{0} - \rhohat_{\mathrm{ML}})/2\right],
 \end{equation}
 where $\mathcal{I}$ is the \emph{Fisher information matrix}.  (Note that in expressions involving $\mathcal{I}$, states $\rho$ are treated as vectors in state space, and $\mathcal{I}$ is a matrix or 2-index tensor acting on that state space).  In classical statistics, it is common to assume that boundaries are not relevant, either because the models of interest have none, or by assuming that the true parameter values $\rho_{0}$ lie far away from them.  In the absence of boundaries, and in the asymptotic limit where curvature of the Fisher metric is also negligible, many statistics calculations can be simplified by changing to \emph{Fisher-adjusted} coordinates in which the Fisher information is isotropic (i.e., $\mathcal{I}\propto\Id$).
@@ -148,7 +150,7 @@ The distributions of $\rhoML{d}, \rhoML{d+1}$ are complicated, highly non-Gaussi
 
 Furthermore, the Fisher information $\mathcal{I}$ is generally anisotropic (ee Figure \ref{fig:anisofi}). And while the constraint $\rho\geq0$ that invalidates LAN in the first place is at least somewhat tractable in standard (Hilbert-Schmidt) coordinates, it becomes completely intractable in Fisher-adjusted coordinates.  So, to obtain a semi-analytic null theory for $\lambda$, we will make the simplifying assumption that $\mathcal{I}$ is proportional to the Hilbert-Schmidt metric ($\mathcal{I} \propto \Id$).
 
-The next section of this paper is devoted to approximating $\expect{\lambda}$ under the assumption $\mathcal{I} \propto \Id$; the main result is given in Equation \eqref{eq:ourLLRS}.  Then, in the last section of the paper, we check the robustness of the results that we derive with this simplifying assumption, by performing a numerical study of a tomography problem where $\mathcal{I}$ is \emph{extremely} anisotropic and comparing the results to the predictions derived with $\mathcal{I} \propto \Id$.
+The next section of this paper is devoted to approximating $\expect{\lambda}$ under the assumption $\mathcal{I} \propto \Id$; the main result is given in Equation \eqref{eq:ourLLRS}.  Then, in the \todo{is that really in the last section?}last section of the paper, we check the robustness of the results that we derive with this simplifying assumption, by performing a numerical study of a tomography problem where $\mathcal{I}$ is \emph{extremely} anisotropic and comparing the results to the predictions derived with $\mathcal{I} \propto \Id$.
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{Images/Figure_2.pdf}
@@ -562,7 +564,7 @@ The Wilks theorem is not generally reliable in quantum state tomography, but our
 \cite{Hunter2007}, mpi4py \cite{Dalcin2011},  NumPy \cite{VanDerWalt2011}, pandas \cite{mckinney2010}, Python 2.7 
 \cite{vanRossum}, seaborn \cite{Waskom2016}, and SciPy \cite{Oliphant2007a}. TLS thanks Jonathan A Gross for helpful 
 discussions on software design, coding, and statistics, John King Gamble for useful insights on parallelized 
-computation and feedback on earlier drafts of this paper, and Daniel Seuss for proofreading edits.
+computation and feedback on earlier drafts of this paper, and Daniel Suess, as well as Anupam Mitra, for proofreading edits.
 
 Sandia National Laboratories is a multi-mission laboratory managed and operated by National Technology and Engineering Solutions of Sandia, LLC., a wholly owned subsidiary of Honeywell International, Inc., for the U.S. Department of Energy's National Nuclear Security Administration under contract DE-NA-0003525.
 
