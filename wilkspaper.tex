@@ -161,24 +161,31 @@ The next section of this paper is devoted to approximating $\expect{\lambda}$ un
 In this section, we show how to derive a replacement for the Wilks theorem that is valid for rank-deficient $\rho_{0}$. To do so, we provide a replacement for LAN in the presence of boundaries, which we call \emph{Local Asymptotic Metric-Projected Normality} (LAMPN). LAMPN is a condition defined to hold for a constrained statistical model $\M$ when:
 
 \begin{itemize}
-\item $\M$ may be written as a subset of a larger, unconstrained model $\M'$.
+\item $\M$ may be written as a \todo{sub-??}subset of a larger, unconstrained model $\M'$.
 \item For each point true state $\rho_{0} \in \M$, LAN holds in $\M'$.
 \end{itemize}
 
 In state tomography, $\M'$ is the set of all trace-1, Hermitian matrices. (That is, a matrix $\sigma \in \M'$ need not satisfy $\sigma \geq 0$.)
 
-When LAMPN holds, it's possible to show that, asymptotically, the \emph{local state space} around $\rho_{0}$ converges to its \emph{tangent cone} $T(\rho_{0})$. This implies that the distribution of MLEs that we would obtain by solving the optimization problem in Equation \eqref{eq:mle} is the same as that which we would obtain by taking the \emph{unconstrained} MLEs and projecting them onto $T(\rho_{0})$:
-\[\rhoML{d} = \underset{\rho \in T(\rho_{0})}{\text{argmin}}~||\rho  -\hat{\rho}||^{2}\]
-where the unconstrained MLEs, satisfying LAN, are distributed around $\rho_{0}$ in $\M'$ as
-\[\hat{\rho}\sim \mathcal{N}\left(\rho_{0}, \Id\right)\]
-In the convex optimization community, $\rhoML{d}$ is known as the \emph{metric projection} of $\hat{\rho}$ onto the cone $T(\rho_{0})$ \cite{McCoy2014}. \todo{More clarifying text?}
-Further,  it's possible to derive an exact expression for $\lambda(\M_{d}, \M_{d+1})$:
-\[\lambda(\M_{d}, \M_{d+1}) = \mathrm{Tr}[(\rho_{0} - \rhoML{d+1})^{2}] -  \mathrm{Tr}[(\rho_{0} - \rhoML{d})^{2}] \]
+When LAMPN holds, it's possible to show that, asymptotically, the \emph{local state space} around $\rho_{0}$ converges to the \emph{tangent cone} at $\rho_{0}$, denoted $T(\rho_{0})$. Because LAN holds in $\M'$, the likelihood function around $\rhoML{\M'}$ is given by Equation \eqref{eq:lanl}, and the distribution $\mathrm{Pr}(\rhoML{\M'})$ is given by Equation \eqref{eq:landist}, where $\mathcal{I} = \Id$. In turn, this implies that $\rhoML{\M}$ is the solution to the following optimization problem
+\begin{equation}
+\label{eq:lampnmle}
+\rhoML{\M} = \underset{\rho \in T(\rho_{0})}{\text{argmin}}~||\rho  -\rhoML{\M'}||^{2}
+\end{equation}
+In the convex optimization community, $\rhoML{\M}$ is known as the \emph{metric projection} of $\rhoML{\M'}$ onto the cone $T(\rho_{0})$ \cite{McCoy2014}. \todo{More clarifying text?}
+
+Further, when LAMPN holds, the loglikelihood ratio $\lambda(\rho_{0}, \M)$, given by
+\[\lambda(\rho_{0}, \M) = -2 \log \left(\frac{\cL(\rho_{0})}{\underset{\rho \in \M}{\max}~\cL(\rho)}\right)\]
+takes the following simple form
+\[\lambda(\rho_{0}, \M) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M})^{2}]\]
+
+In state tomography, the models $\M_{d}$ satisfy the conditions for LAMPN to hold. \todo{is that rigorously true?}Thus, as long as $N_{\mathrm{samples}}$ is large enough, $\rhoML{\M_{d}}$ is the solution to Equation \eqref{eq:lampnmle}, and $\lambda(\M_{d},\M_{d+1})$ is given by
+\begin{equation}
+\lambda(\M_{d}, \M_{d+1}) = \mathrm{Tr}[(\rho_{0} - \rhoML{d+1})^{2}] -  \mathrm{Tr}[(\rho_{0} - \rhoML{d})^{2}]
+\end{equation}
 That is, $\lambda$ is a \emph{difference} in Hilbert-Schmidt distances. This expression makes it clear why a null theory for $\lambda$ is necessary: even if $\rho_{0} \in \M_{d},\M_{d+1}$, the error in $\rhoML{d+1}$ will be greater than that in $\rhoML{d}$ (because there are more parameters which can fit noise in the data); to know if $\M_{d+1}$ is actually fitting additional \emph{signal} in the data, we need to know how much noise we would naively accept as being additional signal.
 
-The following subsection presents the technical details and definitions to show the above results. The reader may skip this section without loss of continuity, and proceed to section \todo{????}.
-
-
+The following subsection presents the technical details and definitions to show the above results. The reader may skip it without loss of continuity, and proceed to Section \ref{sec:computingllrs}.
 
 \subsection{Technical Details}
 
