@@ -483,8 +483,7 @@ Now that we know how much to subtract off in the truncation process, we can appr
 & - \frac{z(z^{2}+26N)}{24\pi}\sqrt{4N-z^{2}}
 \end{align}
 
-\section{Result for $\langle \lambda \rangle$, Comparison to Numerical Experiments}
-\label{sec:theorycomparison}
+\subsubsection{Complete Expression for $\langle \lambda \rangle$}
 The total expected value, $\expect{\lambda} = \expect{\lambda_{\mathrm{L}}} + \expect{\lambda_{\mathrm{kite}}}$, is thus
 \begin{align}
 \label{eq:ourLLRS}
@@ -493,6 +492,9 @@ The total expected value, $\expect{\lambda} = \expect{\lambda_{\mathrm{L}}} + \e
 & - \frac{z(z^{2}+26N)}{24\pi}\sqrt{4N-z^{2}}
 \end{align}
 where $z$ is given in Equation \eqref{eq:truncation}, $N=d-r$, and $r = \mathrm{Rank}(\rho_{0})$.
+
+\section{Comparison to Numerical Experiments}
+\label{sec:theorycomparison}
 
 Equation \eqref{eq:ourLLRS} is our main result.  To test its validity, we compare it to numerical simulations for $d=2,\ldots,30$ and $r=1,\ldots,10$, in Figure \ref{fig:modelcomp-iso}.  The prediction of the Wilks theorem is wildly incorrect for $r\ll d$. In contrast, Equation \eqref{eq:ourLLRS} is almost perfectly accurate when $r \ll d$, but it does begin to break down (albeit fairly gracefully) as $r$ becomes comparable to $d$.  We conclude that our analysis (and Equation \eqref{eq:ourLLRS}) correctly models tomography \emph{if} the Fisher information is isotropic ($\Fi \propto \Id$).
 
