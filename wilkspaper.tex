@@ -101,7 +101,7 @@ The standard null theory for $\lambda$ is the \emph{Wilks theorem} \cite{Wilks19
 \mathcal{L}(\rho) \propto \exp\left[-(\rho - \rhohat_{\mathrm{ML}})\mathcal{I}(\rho - \rhohat_{\mathrm{ML}})/2\right]
 \end{equation}
 \end{itemize}
-Here, $\Fi$ is the (classical) \emph{Fisher information matrix} associated with the POVM. It quantifies how much information the data carries about a parameter in the model.  (Note that in expressions involving $\mathcal{I}$, states $\rho$ are treated as vectors in state space, and $\mathcal{I}$ is a matrix or 2-index tensor acting on that state space). Generally speaking, the Fisher information depends strongly on $\rho_{0}$ and the POVM being measured (see Figure \ref{fig:anisofi} for an example involving rebits). However, as detailed the next section details, in classical statistics, it's common to assume sufficient \emph{regularity conditions} so that it's possible to change to \emph{Fisher-adjusted} coordinates, in which $\mathcal{I}$ is isotropic (i.e., $\mathcal{I} \propto \Id$).
+Here, $\Fi$ is the (classical) \emph{Fisher information matrix} associated with the POVM. It quantifies how much information the data carries about a parameter in the model.  (Note that in expressions involving $\mathcal{I}$, states $\rho$ are treated as vectors in state space, and $\mathcal{I}$ is a matrix or 2-index tensor acting on that state space). Generally speaking, the Fisher information depends strongly on $\rho_{0}$ and the POVM being measured. However, as detailed the next section details, in classical statistics, it's common to assume sufficient \emph{regularity conditions} so that it's possible to change to \emph{Fisher-adjusted} coordinates, in which $\mathcal{I}$ is isotropic (i.e., $\mathcal{I} \propto \Id$).
 
 Most statistical models satisfy LAN.  When LAN holds \emph{and} $N_{\mathrm{samples}}$ is large enough to reach the ``asymptotic" regime, the Wilks theorem states that, under sufficient regularity conditions, if $\rho_{0}\in \M_{1}\subset \M_{2}$, where $\M_{1}$ has $k$ free parameters and $\M_{2}$ has $K+k$ free parameters, then $\lambda$ is a $\chi^{2}_{K}$ random variable.  This is a complete null theory for $\lambda$ (under the specified conditions), and implies that $\langle \lambda \rangle = K$ and $(\Delta \lambda)^{2} = 2K$.
 
@@ -152,23 +152,13 @@ However, the statistical models used for quantum state tomography \emph{do} have
 \label{fig:boundaries2}
 \end{figure}
 
-In deriving such a replacement, we face the obstacle that the distributions of $\rhoML{d}, \rhoML{d+1}$ are complicated, highly non-Gaussian, and singular (because estimates ``pile up'' on the various faces of the boundary; se Figure \ref{fig:boundaries}).  For this reason, we will not attempt to compute $\mathrm{Pr}(\lambda)$ directly.  Instead, we focus on deriving a good approximation for $\langle \lambda \rangle$.
-
-Furthermore, the Fisher information $\mathcal{I}$ is generally anisotropic (see Figure \ref{fig:anisofi}). And while the constraint $\rho\geq0$ that invalidates LAN in the first place is at least somewhat tractable in standard (Hilbert-Schmidt) coordinates, it becomes completely intractable in Fisher-adjusted coordinates.  So, to obtain a semi-analytic null theory for $\lambda$, we will make the simplifying assumption that $\mathcal{I}$ is proportional to the Hilbert-Schmidt metric ($\mathcal{I} \propto \Id$). The isotropic assumption greatly simplifies our study of
-the problem, and permits the derivation of analytic results which capture realistic tomographic scenarios surprisingly well \cite{Smolin2012}.
-
-The next section of this paper is devoted to developing a framework for deriving a replacement for the Wilks theorem. This framework involves defining the \emph{Local Asymptotic Metric-Projected Normality} (LAMPN) property for statistical models, and showing how an exact expression for $\lambda$ may be derived for models which satisfy it. In Section \ref{sec:computingllrs}, we show how the models $\M_{d}$ satisfy LAMPN, and derive an approximation for $\expect{\lambda}$; the main result is given in Equation \eqref{eq:ourLLRS}.  Sections \ref{sec:theorycomparison} and \ref{sec:heterotomo}, compare our theory to numerical results, under the assumptions of LAMPN, and for the case of heterodyne tomography, respectively.
-
-\begin{figure}
-\includegraphics[width=\columnwidth]{Images/Figure_2.pdf}
- \caption{Anisotropy of the Fisher information for a rebit. Depending on $\rho_{0}$ (star), the distribution of the unconstrained estimates $\hat{\rho}_{\mathrm{ML}}$ (ellipses) may be anisotropic. Imposing the positivity constraint $\rho \geq 0$ is difficult to do in Fisher-adjusted coordinates, as performing that transformation distorts the state-space geometry. In this paper, we simplify these complexities to the case where $\mathcal{I} \propto \Id$, \emph{and is independent of $\rho_{0}$}.}
-\label{fig:anisofi}
-\end{figure}
+The next section of this paper is devoted to developing a framework for deriving a replacement for the Wilks theorem. This framework involves defining the \emph{Local Asymptotic Metric-Projected Normality} (LAMPN) property for statistical models, and showing how an exact expression for $\lambda$ may be derived for models which satisfy it. In Section \ref{sec:computingllrs}, we show how the models $\M_{d}$ satisfy LAMPN, and derive an approximation for $\expect{\lambda}$; the main result is given in Equation \eqref{eq:ourLLRS}.  Section \ref{sec:theorycomparison} compares our theory to numerical results. Finally, Section \ref{sec:heterotomo}, applies our theory to the problem of heterodyne tomography.
+\todo[inline]{Better synopsis?}
 
 \section{LAMPN: A Framework for Deriving a Replacement for the Wilks theorem}
 \label{sec:wilksreplacement}
 
-In this section, we show how to derive a replacement for the Wilks theorem that is valid for rank-deficient $\rho_{0}$. To do so, we define a replacement for LAN in the presence of boundaries, which we call \emph{Local Asymptotic Metric-Projected Normality}.
+In this section, we define a framework which will allow us to derive a replacement for the Wilks theorem that is valid for rank-deficient $\rho_{0}$. To do so, we define a replacement for LAN in the presence of boundaries, which we call \emph{Local Asymptotic Metric-Projected Normality}.
 \subsection{Definitions; Overview of Results}
 
 \textbf{Definition: Local Asymptotic Metric-Projected Normality (LAMPN)}
@@ -327,8 +317,10 @@ Thus, when LAMPN is satisfied, it's possible to relate the loglikelihood ratio s
 
 With these technical results in hand, we may proceed to compute $\langle \lambda(\M_{d}, \M_{d+1})\rangle$. Doing so is the subject of the next section.
 
-\section{Computing $\langle \lambda \rangle$}
+\section{Deriving a Replacement for the Wilks theorem in Tomography}
 \label{sec:computingllrs}
+
+With the framework of LAMPN in hand, we are ready to derive a replacement for the Wilks theorem. In deriving such a replacement, we face the obstacle that the distributions of $\rhoML{d}, \rhoML{d+1}$ are complicated, highly non-Gaussian, and singular (because estimates ``pile up'' on the various faces of the boundary; recall Figure \ref{fig:boundaries}).  For this reason, we will not attempt to compute $\mathrm{Pr}(\lambda)$ directly.  Instead, we focus on deriving a good approximation for $\langle \lambda \rangle$.
 
 To compute $\langle \lambda(\M_{d}, \M_{d+1}) \rangle$, we would like to invoke the results from the previous section. To do so, we first need to show that the models $\M_{d}$ satisfy LAMPN. Thankfully, it is easy to do so.
 
@@ -340,13 +332,19 @@ As mentioned in the previous section, it's useful to reduce the problem of compu
 \[\lambda(\M_{d}, M_{d+1}) = \lambda(\rho_{0}, \M_{d+1}) - \lambda(\rho_{0}, \M_{d})\]
 Because each model satisfies LAMPN, it is possible to write $\lambda(\rho_{0}, \M_{k})$ in a very simple form:
 \[\lambda(\rho_{0}, \M_{k}) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M_{k}})\mathcal{I}_{k}(\rho_{0} - \rhoML{\M_{k}})]\]
-where $\mathcal{I}_{k}$ is the Fisher information for model $\M_{k}$. We will make the simplification that $\mathcal{I}_{k} = \Id_{k}/\epsilon $, for some $\epsilon$ that scales as $1/\sqrt{N_{\mathrm{samples}}}$, where $\Id_{k}$ is the $k$-dimensional identity matrix. In turn, $\lambda(\M_{d},\M_{d+1})$ is given by
+The Fisher information $\mathcal{I}_{k}$ is generally anisotropic (see Figure \ref{fig:anisofi}). And while the constraint $\rho\geq0$ that invalidated LAN in the first place is at least somewhat tractable in standard (Hilbert-Schmidt) coordinates, it becomes completely intractable in Fisher-adjusted coordinates.  So, to obtain a semi-analytic null theory for $\lambda$, we will simplify to the case where   $\mathcal{I}_{k} = \Id_{k}/\epsilon $ for some $\epsilon$ that scales as $1/\sqrt{N_{\mathrm{samples}}}$. (That is, $\mathcal{I}_{k}$ is proportional to the Hilbert-Schmidt metric.) The isotropic assumption greatly simplifies our study of the problem, and permits the derivation of analytic results which capture realistic tomographic scenarios surprisingly well \cite{Smolin2012}.
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{Images/Figure_2.pdf}
+ \caption{Anisotropy of the Fisher information for a rebit. Depending on $\rho_{0}$ (star), the distribution of the unconstrained estimates $\hat{\rho}_{\mathrm{ML}}$ (ellipses) may be anisotropic. Imposing the positivity constraint $\rho \geq 0$ is difficult to do in Fisher-adjusted coordinates, as performing that transformation distorts the state-space geometry. In this paper, we simplify these complexities to the case where $\mathcal{I} \propto \Id$, \emph{and is independent of $\rho_{0}$}.}
+\label{fig:anisofi}
+\end{figure}
+ In turn, $\lambda(\M_{d},\M_{d+1})$ is given by
 \begin{equation}
 \lambda(\M_{d}, \M_{d+1}) = \frac{1}{\epsilon^{2}}\left[\mathrm{Tr}[(\rho_{0} - \rhoML{d+1})^{2}] -  \mathrm{Tr}[(\rho_{0} - \rhoML{d})^{2}]\right]
 \end{equation}
 That is, $\lambda$ is a \emph{difference} in (scaled) Hilbert-Schmidt distances. This expression makes it clear why a null theory for $\lambda$ is necessary: even if $\rho_{0} \in \M_{d},\M_{d+1}$, the error in $\rhoML{d+1}$ will be greater than that in $\rhoML{d}$ (because there are more parameters which can fit noise in the data); to know if $\M_{d+1}$ is actually fitting additional \emph{signal} in the data, we need to know how much noise we would erroneously accept as being actual signal.
 
-Calculating the exact distribution $\mathrm{Pr}(\lambda)$ is complicated by the fact that the distributions $\mathrm{Pr}(\rhoML{d})$ and $\mathrm{Pr}(\rhoML{d+1})$ are highly non-Gaussian. As such, we focus instead on computing $\langle \lambda \rangle$.
 Because $\lambda$ itself depends on two terms, each of which has a similar form, we can further simplify the task of computing $\langle \lambda \rangle$ to that of computing $\epsilon^{2}\langle \lambda(\rho_{0}, \M_{d}) \rangle = \langle \mathrm{Tr}[(\rhoML{d}  - \rho_{0})^{2}] \rangle$ for arbitrary $d$.
 The task of calculating $\epsilon^{2}\langle \lambda(\rho_{0}, \M_{d})\rangle$ involves two main steps:
 \begin{itemize}
