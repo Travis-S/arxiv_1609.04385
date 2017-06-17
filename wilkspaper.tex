@@ -93,12 +93,12 @@ The standard null theory for $\lambda$ is the \emph{Wilks theorem} \cite{Wilks19
 \item[(1)] As $N_{\mathrm{samples}}\rightarrow \infty$,  $\rhohat_{\mathrm{ML}}$ is normally distributed around $\rho_{0}$ with covariance matrix $\Fi^{-1}$:
 \begin{equation}
 \label{eq:landist}
-\mathrm{Pr}(\rhohat_{\mathrm{ML}}) \propto \exp\left[-(\rho_{0} - \rhohat_{\mathrm{ML}})\mathcal{I}(\rho_{0} - \rhohat_{\mathrm{ML}})/2\right]
+\mathrm{Pr}(\rhohat_{\mathrm{ML}}) \propto \exp\left[-\mathrm{Tr}[(\rho_{0} - \rhohat_{\mathrm{ML}})\mathcal{I}(\rho_{0} - \rhohat_{\mathrm{ML}})]/2\right]
 \end{equation}
 \item[(2)]The likelihood function in a neighborhood of $\rhohat_{\mathrm{ML}}$ is locally Gaussian with Hessian $\Fi$:
 \begin{equation}
 \label{eq:lanl}
-\mathcal{L}(\rho) \propto \exp\left[-(\rho - \rhohat_{\mathrm{ML}})\mathcal{I}(\rho - \rhohat_{\mathrm{ML}})/2\right]
+\mathcal{L}(\rho) \propto \exp\left[-\mathrm{Tr}[(\rho - \rhohat_{\mathrm{ML}})\mathcal{I}(\rho - \rhohat_{\mathrm{ML}})]/2\right]
 \end{equation}
 \end{itemize}
 Here, $\Fi$ is the (classical) \emph{Fisher information matrix} associated with the POVM. It quantifies how much information the data carries about a parameter in the model.  (Note that in expressions involving $\mathcal{I}$, states $\rho$ are treated as vectors in state space, and $\mathcal{I}$ is a matrix or 2-index tensor acting on that state space). Generally speaking, the Fisher information depends strongly on $\rho_{0}$ and the POVM being measured. However, as detailed the next section details, in classical statistics, it's common to assume sufficient \emph{regularity conditions} so that it's possible to change to \emph{Fisher-adjusted} coordinates, in which $\mathcal{I}$ is isotropic (i.e., $\mathcal{I} \propto \Id$).
@@ -172,21 +172,21 @@ Given a statistical model $\M$ for which LAN does not hold, $\M$ is said to sati
 
 \todo[inline]{Explain differences b/t the two?}
 
-If $\M$ satisfies LAMPN, then several nice results follow. The first is that, asymptotically, the \emph{local state space} around $\rho_{0}$ converges to the \emph{tangent cone} at $\rho_{0}$, denoted $T(\rho_{0})$. This makes it possible to compute $\rhoML{\M}$ by replacing the optimization in Equation ??? over $\M$ with an optimization over $T(\rho_{0})$. Because LAN holds in $\M'$, the likelihood function around $\rhoML{\M'}$ is given by Equation \eqref{eq:lanl}. This result, plus the convergence of the local state space to the tangent cone, implies that $\rhoML{\M}$ is the solution to the following optimization problem
+If $\M$ satisfies LAMPN, then several nice results follow. The first is that, asymptotically, the \emph{local state space} around $\rho_{0}$ converges to the \emph{tangent cone} at $\rho_{0}$, denoted $T(\rho_{0})$. This, plus the fact that LAN holds in $\M'$, implies $\rhoML{\M}$ is the solution to the following optimization problem
 \begin{equation}
 \label{eq:lampnmle}
-\rhoML{\M} = \underset{\rho \in T(\rho_{0})}{\text{argmin}}~(\rho  -\rhoML{\M'})\mathcal{I}(\rho  -\rhoML{\M'})
+\rhoML{\M} = \underset{\sigma \in T(\rho_{0})}{\text{argmin}}~(\sigma  -\rhoML{\M'})\mathcal{I}(\sigma  -\rhoML{\M'})
 \end{equation}
-This form of the optimization problem, along with the fact that $T(\rho_{0})$ is a cone, means that $\rhoML{\M}$ is the \emph{metric projection} of $\rhoML{\M'}$ onto the cone $T(\rho_{0})$, a term which has its origins in the convex optimization literature \cite{McCoy2014, Amelunxen2014}. (However, it should be noted that in the problem setting considered in those references, $\mathcal{I} = \Id$.)
+This form of the optimization problem, along with the fact that $T(\rho_{0})$ is a cone, means that $\rhoML{\M}$ is the \emph{metric projection} of $\rhoML{\M'}$ onto the cone $T(\rho_{0})$, a term which has its origins in the convex optimization literature \cite{McCoy2014, Amelunxen2014}. (However, it should be noted that in the problem setting considered in those references, $\mathcal{I} = \Id$.) 
 
-Further, when LAMPN holds, the loglikelihood ratio $\lambda(\rho_{0}, \M)$, given by
+Second, when LAMPN is satisfied, the loglikelihood ratio $\lambda(\rho_{0}, \M)$, given by
 \[\lambda(\rho_{0}, \M) = -2 \log \left(\frac{\cL(\rho_{0})}{\underset{\rho \in \M}{\max}~\cL(\rho)}\right)\]
 takes the following simple form
-\[\lambda(\rho_{0}, \M) =  (\rho_{0} - \rhoML{\M})\mathcal{I}(\rho_{0} - \rhoML{\M})\]
+\[\lambda(\rho_{0}, \M) =  \mathrm{Tr}[(\rho_{0} - \rhoML{\M})\mathcal{I}(\rho_{0} - \rhoML{\M})]\]
 \todo[inline]{Make sure this is actually correct, and shown in the next section}
 It is this relationship which enables our derivation in Section \ref{sec:computingllrs} of $\langle \lambda \rangle$.
 
-It should be noted that LAMPN is an \emph{asymptotic} property of $\M$, meaning that, for any finite $N_{\mathrm{samples}}$, $\M$ will not satisfy LAMPN exactly. However, for sufficiently large $N_{\mathrm{samples}}$ such that we are in an ``asymptotic" regime, we may (and will!) use results derived under LAMPN. The following subsection presents the technical details and definitions to show the above results. The reader may skip it without loss of continuity, and proceed to Section \ref{sec:computingllrs}.
+It should be noted that LAMPN is an \emph{asymptotic} property of $\M$, meaning that, for any finite $N_{\mathrm{samples}}$, $\M$ will not satisfy LAMPN exactly. However, for sufficiently large $N_{\mathrm{samples}}$ such that we are in an ``asymptotic" regime, we can (and will!) use results derived under LAMPN. The following subsection presents the technical details and definitions to show the above results. The reader may skip it without loss of continuity, and proceed to Section \ref{sec:computingllrs}.
 
 \subsection{Technical Details}
 
@@ -201,7 +201,7 @@ Because $\M$ satisfies LAMPN, there exists a model $\M'$ such that, when we embe
 where $\xrightarrow[]{\text{d}}$ means ``converges in distribution to", and $\Sigma = N^{-1}_{\mathrm{samples}}\mathcal{I}^{-1}$.
 The shape of the ellipsoid of estimates is entirely determined by the eigenvectors and eigenvalues of $\mathcal{I}$. As $N_{\mathrm{samples}} \rightarrow \infty$, this ellipsoid becomes more and more tightly concentrated around $\rho_{0}$. However, there is still a non-zero probability of obtaining a $\rhoML{\M'}$ which is arbitrarily far away from $\rho_{0}$, which makes determining the behavior of $\rhoML{\M}$ difficult. Thankfully, it is sufficient to consider only those $\rhoML{\M'}$ in a ball $B$ whose radius is determined by $N_{\mathrm{samples}}$ and the smallest eigenvalue of $\mathcal{I}$. Letting $\{e_{j}\}$ denote the eigenvalues of $\mathcal{I}$, and assuming $\mathcal{I} > 0$, consider a closed ball around $\rho_{0}$ whose radius is related to the smallest eigenvalue, $e_{\min}$:
 \[B(\rho_{0}, N_{\mathrm{samples}}) =\{\rho \in \M'~|~\sqrt{\mathrm{Tr}[(\rho - \rho_{0})^{2}]} \leq 1/\sqrt{N_{\mathrm{samples}}e_{\min}}\}\]
-
+\todo[inline]{Is this the right scaling?}
 This scaling is chosen because, as $N_{\mathrm{samples}} \rightarrow \infty$, $B$ contains almost all $\rhoML{\M'}$:
  \[\lim_{N_{\mathrm{samples}} \rightarrow \infty}\left[\mathrm{Pr}\left(\rhoML{\M'} \in B\right)\right] \rightarrow 1\]
 
@@ -280,6 +280,8 @@ Because the local state space converges to the tangent cone, and because, with h
 \label{eq:lampnmle2}
 \rhoML{\M} = \underset{\sigma \in T(\rho_{0})}{\text{argmin}}~\mathrm{Tr}[(\sigma  -\rhoML{\M'})^{2}]
 \end{equation}
+
+\todo[inline]{Should we put the optimization problem back into HS coordinates?}
 \subsubsection{Expression for $\lambda(\rho_{0}, \M)$}
 
 In comparing any two models using the loglikelihood ratio statistic $\lambda(\M_{1}, \M_{2})$, it's possible to do so by comparing each to any \emph{reference model} $\mathcal{R}$: 
@@ -302,15 +304,14 @@ If $\M$ satisfies LAMPN, $\rhoML{\M}$ is the solution to Equation \eqref{eq:lamp
 
  By the Pythagorean theorem, we have
 \[\mathrm{Tr}[(\rho_{0} -\rhoML{\M'})^{2}] =  \mathrm{Tr}[(\rho_{0} - \rhoML{\M})^{2}] + \mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})^{2}]\]
-Subtracting $\mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})^{2}]$from both sides, and comparing to Equation \eqref{eq:lambdalan}, yields the lemma statement.
+Subtracting $\mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})^{2}]$ from both sides, and comparing to Equation \eqref{eq:lambdalan}, yields the lemma statement.
 
 \emph{Case 2}: Assume $\rhoML{\M'} \in T(\rho_{0})$. Then, $\rhoML{\M}= \rhoML{\M'}$, and Equation \eqref{eq:lambdalan} simplifies to the lemma statement.
-\begin{figure}[h]
-\includegraphics[width=\columnwidth]{Images/Figure_temp.pdf}
- \caption{Example of the tangent cone for a rebit. In Fisher-adjusted coordinates, it's easy to show that $\lambda(\rho_{0}, \M)$ is related to the squared error between $\rhoML{\M}$ and $\rho_{0}$.}
+\begin{figure}
+\includegraphics[width=.75\columnwidth]{Images/Figure_temp.pdf}
+ \caption{Example of the tangent cone for a rebit. As $N_{\mathrm{samples}} \rightarrow \infty$, the local state space of $\M$ around $\rho_{0}$ converges to $T(\rho_{0})$. In Fisher-adjusted coordinates, it's easy to show that $\lambda(\rho_{0}, \M)$ is related to the squared error between $\rhoML{\M}$ and $\rho_{0}$.}
 \label{fig:tangentcone}
 \end{figure}
-\todo[inline]{Change $\rho_{T} -> \rhoML{\M}$}
 Thus, when LAMPN is satisfied, it's possible to relate the loglikelihood ratio statistic to \emph{squared error}. 
 \todo[inline]{Maybe some words about how this result is useful for information criteria?}
 \todo[inline]{Provide expression in non-Fisher adjusted coordinates - how to handle factor of $N_{\mathrm{samples}}$?}
@@ -320,9 +321,9 @@ With these technical results in hand, we may proceed to compute $\langle \lambda
 \section{Deriving a Replacement for the Wilks theorem in Tomography}
 \label{sec:computingllrs}
 
-With the framework of LAMPN in hand, we are ready to derive a replacement for the Wilks theorem. In deriving such a replacement, we face the obstacle that the distributions of $\rhoML{d}, \rhoML{d+1}$ are complicated, highly non-Gaussian, and singular (because estimates ``pile up'' on the various faces of the boundary; recall Figure \ref{fig:boundaries}).  For this reason, we will not attempt to compute $\mathrm{Pr}(\lambda)$ directly.  Instead, we focus on deriving a good approximation for $\langle \lambda \rangle$.
+With the framework of LAMPN available to us, we are ready to derive a replacement for the Wilks theorem. In doing so, we face the obstacle that the distributions of $\rhoML{d}, \rhoML{d+1}$ are complicated, highly non-Gaussian, and singular (because estimates ``pile up'' on the various faces of the boundary; recall Figure \ref{fig:boundaries}).  For this reason, we will not attempt to compute $\mathrm{Pr}(\lambda)$ directly.  Instead, we focus on deriving a good approximation for $\langle \lambda \rangle$.
 
-To compute $\langle \lambda(\M_{d}, \M_{d+1}) \rangle$, we would like to invoke the results from the previous section. To do so, we first need to show that the models $\M_{d}$ satisfy LAMPN. Thankfully, it is easy to do so.
+To justify using the LAMPN framework to compute $\langle \lambda(\M_{d}, \M_{d+1}) \rangle$, we first need to show that the models $\M_{d}$ satisfy it. Thankfully, it is straightforward to do so.
 
 \textbf{Lemma}: The models $\M_{d}$, defined in Equation \eqref{eq:modelsd}, satisfy LAMPN.
 
@@ -332,8 +333,8 @@ As mentioned in the previous section, it's useful to reduce the problem of compu
 \[\lambda(\M_{d}, M_{d+1}) = \lambda(\rho_{0}, \M_{d+1}) - \lambda(\rho_{0}, \M_{d})\]
 Because each model satisfies LAMPN, it is possible to write $\lambda(\rho_{0}, \M_{k})$ in a very simple form:
 \[\lambda(\rho_{0}, \M_{k}) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M_{k}})\mathcal{I}_{k}(\rho_{0} - \rhoML{\M_{k}})]\]
-The Fisher information $\mathcal{I}_{k}$ is generally anisotropic (see Figure \ref{fig:anisofi}). And while the constraint $\rho\geq0$ that invalidated LAN in the first place is at least somewhat tractable in standard (Hilbert-Schmidt) coordinates, it becomes completely intractable in Fisher-adjusted coordinates.  So, to obtain a semi-analytic null theory for $\lambda$, we will simplify to the case where   $\mathcal{I}_{k} = \Id_{k}/\epsilon $ for some $\epsilon$ that scales as $1/\sqrt{N_{\mathrm{samples}}}$. (That is, $\mathcal{I}_{k}$ is proportional to the Hilbert-Schmidt metric.) The isotropic assumption greatly simplifies our study of the problem, and permits the derivation of analytic results which capture realistic tomographic scenarios surprisingly well \cite{Smolin2012}.
-
+The Fisher information $\mathcal{I}_{k}$ is generally anisotropic, and depends on $\rho_{0}$ and the POVM being measured (see Figure \ref{fig:anisofi}). And while the constraint $\rho\geq0$ that invalidated LAN in the first place is at least somewhat tractable in standard (Hilbert-Schmidt) coordinates, it becomes completely intractable in Fisher-adjusted coordinates.  So, to obtain a semi-analytic null theory for $\lambda$, we will simplify to the case where   $\mathcal{I}_{k} = \Id_{k}/\epsilon $ for some $\epsilon$ that scales as $1/\sqrt{N_{\mathrm{samples}}}$. (That is, $\mathcal{I}_{k}$ is proportional to the Hilbert-Schmidt metric for model $\M_{k}$) This simplification permits the derivation of analytic results which capture realistic tomographic scenarios surprisingly well \cite{Smolin2012}.
+\todo[inline]{More references, besides MLME?}
 \begin{figure}
 \includegraphics[width=\columnwidth]{Images/Figure_2.pdf}
  \caption{Anisotropy of the Fisher information for a rebit. Depending on $\rho_{0}$ (star), the distribution of the unconstrained estimates $\hat{\rho}_{\mathrm{ML}}$ (ellipses) may be anisotropic. Imposing the positivity constraint $\rho \geq 0$ is difficult to do in Fisher-adjusted coordinates, as performing that transformation distorts the state-space geometry. In this paper, we simplify these complexities to the case where $\mathcal{I} \propto \Id$, \emph{and is independent of $\rho_{0}$}.}
