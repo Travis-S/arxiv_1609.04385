@@ -354,14 +354,10 @@ The task of calculating $\epsilon^{2}\langle \lambda(\rho_{0}, \M_{d})\rangle$ i
 \item[(2)] For both sets of degrees of freedom, evaluate the contributions of each degree of freedom to the value of $\langle \lambda \rangle$.
 \end{itemize}
 
-Although our result for $\langle \lambda \rangle$ was derived in Fisher-adjusted coordinates, in practice, it's easier to work in Hilbert-Schmidt coordinates. Thankfully, because we have assumed $\mathcal{I} \propto \Id$, the transformation between both coordinate systems amounts to division or multiplication by some factor. In Hilbert-Schmidt coordinates, we make the concrete assumption $\mathcal{I} = \epsilon \Id$, for some $\epsilon$ that scales as $1/\sqrt{N_{\mathrm{samples}}}$. In turn, the likelihood function $\mathcal{L}(\rho)$, and $\lambda(\rho_{0},\M_{d})$ take the following forms:
-\begin{align*}
-\mathcal{L}(\rho) &\propto \text{exp}\left[-\frac{\mathrm{Tr}[(\rho - \rhoML{\M'_{d}})^{2}]}{2\epsilon^{2}}\right]\\
-\lambda(\rho_{0}, \M_{d}) &=\frac{\mathrm{Tr}[(\rhoML{d}  - \rho_{0})^{2}]}{\epsilon^{2}}
-\end{align*}
+The remainder of this section is devoted to doing both steps. In Section \ref{subsec:dof}, we identify two sets of degrees of freedom in $\rhoML{\M'}$, which we call the ``L" and the ``kite", respectively. Section \ref{subsec:L} computes the contribution of degrees of freedom in the ``L", and Section \ref{subsec:kite} computes the contribution from the ``kite". The total expected value is given in Equation \eqref{eq:ourLLRS} in Section \ref{subsec:LLRS}.
 
 \subsection{Separating out Degrees of Freedom in $\rhoML{\M'_{d}}$}
-
+\label{subsec:dof}
 We begin by observing that $\lambda(\rho_{0}, \M_{d})$ can be written as a sum over matrix elements,
 \begin{align}
 \label{eq:llrserrors}
@@ -387,9 +383,9 @@ Performing this division is also supported by numerical simulations (see Figure 
 In the following subsections, we develop a theory to explain the behavior of $\langle \lambda_{\mathrm{L}}\rangle$ and \expect{\lambda_{\mathrm{kite}}}.
 In doing so, it is helpful to think about the error of the unconstrained estimate $\delta \equiv \rhoML{\M'_{d}}- \rho_{0}$, a normally-distributed \emph{traceless} matrix.  To simplify the analysis, we explicitly drop the $\Tr(\delta)=0$ constraint and let $\delta$ be $\mathcal{N}(0,\epsilon^2\Id)$ distributed over the $d^2$-dimensional space of Hermitian matrices (a good approximation when $d\gg2$) \footnote{That is, we let $\mathrm{Tr}(\delta)$ fluctuate as well.}, which makes $\delta$ proportional to an element of the Gaussian Unitary Ensemble (GUE) \cite{Fyodorov2005}.
 
-\subsubsection{Computing $\langle \lambda_\mathrm{L}\rangle$}
-
-Under LAMPN, elements of $\delta$ in the ``L'' are unconstrained by the boundary (the surface of the tangent cone $T(\rho_{0})$), and behave exactly as expected from classical theory. (Recall Figure \ref{fig:tangentcone} - as the component of $\rhoML{\M'}$ along $T(\rho_{0})$ changes, the component of $\rhoML{T}$ changes by the same amount. Because $\M'$ satisfies LAN, it follows that this component is a Gaussian random variable.) Thus, for each element of $\delta$ in the ``L", we have $(\rhoML{\M_{d}})_{jk} = (\rhoML{\M'_{d}})_{jk}$, and $\langle \lambda_{jk} \rangle = \langle \delta_{jk}^{2}\rangle /\epsilon^{2} = 1$. The surface of the tangent cone is $2rd - r(r+1)$-dimensional, so $\expect{\lambda_{\mathrm{L}}} = 2rd - r(r+1)$. \todo{is there some way of showing this?}
+\subsection{Computing $\langle \lambda_\mathrm{L}\rangle$}
+\label{subsec:L}
+Under LAMPN, elements of $\delta$ in the ``L'' are unconstrained by the boundary (the surface of the tangent cone $T(\rho_{0})$), and behave exactly as expected from classical theory. (Recall Figure \ref{fig:tangentcone} - as the component of $\rhoML{\M'}$ along $T(\rho_{0})$ changes, the component of $\rhoML{T}$ changes by the same amount. Because $\M'$ satisfies LAN, it follows that this component is a Gaussian random variable.) Thus, for each element of $\delta$ in the ``L", we have $(\rhoML{\M_{d}})_{jk} = (\rhoML{\M'_{d}})_{jk}$, and $\langle \lambda_{jk} \rangle = \langle \delta_{jk}^{2}\rangle /\epsilon^{2} = 1$. The surface of the tangent cone is $2rd - r(r+1)$-dimensional, so $\expect{\lambda_{\mathrm{L}}} = 2rd - r(r+1)$.
 
 Another way of viewing this result is to observe that the $\delta_{jk}$ in the ``L'' can be seen as errors which arise due to small unitary perturbations of $\rho_{0}$. Writing $\rhoML{\M'_{d}} = U^{\dagger}\rho_{0}U$, where $U=e^{i\epsilon H}$, we have
 \[\rhoML{\M'_{d}} \approx \rho_{0} + i\epsilon [\rho_{0},H]+\mathcal{O}(\epsilon^{2}).\]
@@ -398,8 +394,8 @@ If $j = k$, then $\delta_{jj} = 0$. Thus, small unitaries cannot create errors i
 
 However, if either $j$ or $k$ (or both) lie within the \emph{kernel} of $\rho_{0}$ (i.e., $\langle k | \rho_{0}| k \rangle$ or $\langle j|\rho_{0}|j\rangle$ is 0), then the corresponding $\delta_{jk}$ are zero. The only off-diagonal elements where small unitaries can introduce errors are those which are coherent between the kernel of $\rho_{0}$ and its support. These off-diagonal elements are precisely the ``L", and are  the set $\{\delta_{jk}~|~\langle j | \rho_{0}|j\rangle \neq 0, j\neq k, ~ 0 \leq j,k \leq d - 1\}$. This set contains $2rd - r(r+1)$ elements, each of which has $\langle \lambda_{jk}\rangle = 1$, so we again arrive at $\expect{\lambda_{\mathrm{L}}} = 2rd - r(r+1)$.
 
-\subsubsection{Setting the Stage to Compute $\langle \lambda_\mathrm{kite}\rangle$}
-
+\subsection{Computing $\langle \lambda_\mathrm{kite}\rangle$}
+\label{subsec:kite}
 Computing $\langle \lambda_{\mathrm{L}}\rangle$ was made easy by the fact that the matrix elements of $\delta$ in the ``L" are unaffected by the projection of $\rhoML{\M'_{d}}$ onto $T(\rho_{0})$. Computing $\expect{\lambda_{\mathrm{kite}}}$ is a bit harder, because the boundary \emph{does} constrain its elements. We need a procedure to compute $\rhoML{d}$ given $\rhoML{\M'_{d}}$ -- i.e., to solve the optimization problem in Eq. \eqref{eq:lampnmle}.  Fortunately, an algorithm for doing so was presented in \cite{Smolin2012}:
 \begin{enumerate}[noitemsep]
 \item Subtract $q\Id$ from the unconstrained $\rhoML{\M'_{d}}$, for a particular real scalar $q$,
@@ -509,7 +505,7 @@ z \equiv q/\epsilon \approx 2\sqrt{N}-\frac{(240r\pi)^{2/5}}{4}N^{1/10}+\frac{(2
 \end{equation}
 (Note that $z$ is the \emph{Fisher-adjusted} amount we need to subtract.)
 
-\subsubsection{Computing $\langle \lambda_{\mathrm{kite}}\rangle$}
+\subsubsection{Expression for $\langle \lambda_{\mathrm{kite}}\rangle$}
 Now that we know how much to subtract off in the truncation process, we can approximate $\expect{\lambda_{\mathrm{kite}}}$, originally given in Equation \eqref{eq:llrs_kite}:
 \begin{align}
 \nonumber \expect{\lambda_{\mathrm{kite}}} &\approx  \frac{1}{\epsilon^{2}}\left\langle\sum_{j=1}^{r}[\rho_{jj}- (p_j-q)^{+}]^2 + \sum_{j=1}^{N}\left[(\bar{\kappa}_j-q)^+\right]^2 \right\rangle\\
@@ -519,7 +515,8 @@ Now that we know how much to subtract off in the truncation process, we can appr
 & - \frac{z(z^{2}+26N)}{24\pi}\sqrt{4N-z^{2}}
 \end{align}
 
-\subsubsection{Complete Expression for $\langle \lambda \rangle$}
+\subsection{Complete Expression for $\langle \lambda \rangle$}
+\label{subsec:LLRS}
 The total expected value, $\expect{\lambda} = \expect{\lambda_{\mathrm{L}}} + \expect{\lambda_{\mathrm{kite}}}$, is thus
 \begin{align}
 \label{eq:ourLLRS}
