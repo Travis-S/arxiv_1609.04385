@@ -330,18 +330,28 @@ With these technical results in hand, we may proceed to compute $\langle \lambda
 \section{Computing $\langle \lambda \rangle$}
 \label{sec:computingllrs}
 
-Our replacement for the Wilks theorem states that, under LAMPN and in Fisher-adjusted coordinates, the loglikelihood ratio statistic $\lambda(\M_{d}, \M_{d+1})$ is given by
-\begin{equation}
-\label{eq:llrs}
-\lambda(\M_{d}, \M_{d+1}) = \mathrm{Tr}[(\rhoML{d+1}  - \rho_{0})^{2}] - \mathrm{Tr}[(\rhoML{d} - \rho_{0})^{2}].
-\end{equation}
-As mentioned previously, calculating the exact distribution $\mathrm{Pr}(\lambda)$ is complicated by the fact that the distributions $\mathrm{Pr}(\rhoML{d})$ and $\mathrm{Pr}(\rhoML{d+1})$ are highly non-Gaussian. As such, we focus instead on computing $\langle \lambda \rangle$.
-Because $\lambda$ itself depends on two terms, each of which has a similar form, we can further simplify the task of computing $\langle \lambda \rangle$ to that of computing $\langle \lambda(\rho_{0}, \M_{d}) \rangle = \langle \mathrm{Tr}[(\rhoML{d}  - \rho_{0})^{2}] \rangle$ for arbitrary $d$.
+To compute $\langle \lambda(\M_{d}, \M_{d+1}) \rangle$, we would like to invoke the results from the previous section. To do so, we first need to show that the models $\M_{d}$ satisfy LAMPN. Thankfully, it is easy to do so.
 
-Under the assumption LAMPN holds for $\M_{d}$ (and letting $\M'_{d}$ denote the larger, unconstrained model which contains $\M_{d}$), the task of calculating $\langle \lambda(\rho_{0}, \M_{d})\rangle$ involves two main steps:
+\textbf{Lemma}: The models $\M_{d}$, defined in Equation \eqref{eq:modelsd}, satisfy LAMPN.
+
+\textbf{Proof}: Let $\M'_{d} = \{\sigma ~|~\mathrm{dim}(\sigma) = d, \sigma = \sigma^{\dagger}\}$. (That is, $\M'_{d}$ is the set of all $d \times d$ Hermitian matrices, but we do not require them to be non-negative, nor trace-1.). It is clear $\M_{d} \subset \M'_{d}$. Next, for each $\rho \in \M_{d}$, when it is embedded in $\M'_{d}$, the likelihood $\cL(\sigma)$ is twice continuously differentiable in $\M'_{d}$, meaning LAN holds. Thus, $\M_{d}$ satisfies LAMPN.
+
+As mentioned in the previous section, it's useful to reduce the problem of computing $\lambda(\M_{d}, \M_{d+1})$ to that of computing $\lambda(\rho_{0}, \M_{k})$ for $k = d, d+1$ using the identity
+\[\lambda(\M_{d}, M_{d+1}) = \lambda(\rho_{0}, \M_{d+1}) - \lambda(\rho_{0}, \M_{d})\]
+Because each model satisfies LAMPN, it is possible to write $\lambda(\rho_{0}, \M_{k})$ in a very simple form:
+\[\lambda(\rho_{0}, \M_{k}) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M_{k}})\mathcal{I}_{k}(\rho_{0} - \rhoML{\M_{k}})]\]
+where $\mathcal{I}_{k}$ is the Fisher information for model $\M_{k}$. We will make the simplification that $\mathcal{I}_{k} = \Id_{k}/\epsilon $, for some $\epsilon$ that scales as $1/\sqrt{N_{\mathrm{samples}}}$, where $\Id_{k}$ is the $k$-dimensional identity matrix. In turn, $\lambda(\M_{d},\M_{d+1})$ is given by
+\begin{equation}
+\lambda(\M_{d}, \M_{d+1}) = \frac{1}{\epsilon^{2}}\left[\mathrm{Tr}[(\rho_{0} - \rhoML{d+1})^{2}] -  \mathrm{Tr}[(\rho_{0} - \rhoML{d})^{2}]\right]
+\end{equation}
+That is, $\lambda$ is a \emph{difference} in (scaled) Hilbert-Schmidt distances. This expression makes it clear why a null theory for $\lambda$ is necessary: even if $\rho_{0} \in \M_{d},\M_{d+1}$, the error in $\rhoML{d+1}$ will be greater than that in $\rhoML{d}$ (because there are more parameters which can fit noise in the data); to know if $\M_{d+1}$ is actually fitting additional \emph{signal} in the data, we need to know how much noise we would erroneously accept as being actual signal.
+
+Calculating the exact distribution $\mathrm{Pr}(\lambda)$ is complicated by the fact that the distributions $\mathrm{Pr}(\rhoML{d})$ and $\mathrm{Pr}(\rhoML{d+1})$ are highly non-Gaussian. As such, we focus instead on computing $\langle \lambda \rangle$.
+Because $\lambda$ itself depends on two terms, each of which has a similar form, we can further simplify the task of computing $\langle \lambda \rangle$ to that of computing $\epsilon^{2}\langle \lambda(\rho_{0}, \M_{d}) \rangle = \langle \mathrm{Tr}[(\rhoML{d}  - \rho_{0})^{2}] \rangle$ for arbitrary $d$.
+The task of calculating $\epsilon^{2}\langle \lambda(\rho_{0}, \M_{d})\rangle$ involves two main steps:
 \begin{itemize}
-\item Identify degrees of freedom in $\rhoML{\M'_{d}}$ which are unaffected by projection onto the tangent cone $T(\rho_{0})$, and those which are.
-\item For both sets of degrees of freedom, evaluate the contributions of each degree of freedom to the value of $\langle \lambda \rangle$.
+\item[(1)] Identify degrees of freedom in $\rhoML{\M'_{d}}$ which are unaffected by projection onto the tangent cone $T(\rho_{0})$, and those which are.
+\item[(2)] For both sets of degrees of freedom, evaluate the contributions of each degree of freedom to the value of $\langle \lambda \rangle$.
 \end{itemize}
 
 Although our result for $\langle \lambda \rangle$ was derived in Fisher-adjusted coordinates, in practice, it's easier to work in Hilbert-Schmidt coordinates. Thankfully, because we have assumed $\mathcal{I} \propto \Id$, the transformation between both coordinate systems amounts to division or multiplication by some factor. In Hilbert-Schmidt coordinates, we make the concrete assumption $\mathcal{I} = \epsilon \Id$, for some $\epsilon$ that scales as $1/\sqrt{N_{\mathrm{samples}}}$. In turn, the likelihood function $\mathcal{L}(\rho)$, and $\lambda(\rho_{0},\M_{d})$ take the following forms:
