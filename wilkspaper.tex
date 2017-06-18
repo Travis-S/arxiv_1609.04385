@@ -170,7 +170,7 @@ Given a statistical model $\M$ for which LAN does not hold, $\M$ is said to sati
 \item[(b)] For each true state $\rho_{0} \in \M$, when $\rho_{0}$ is embedded in $\M'$, LAN holds.
 \end{itemize}
 
-\todo[inline]{Explain differences b/t the two?}
+\todo[inline]{Explain differences b/t LAN and LAMPN?}
 
 If $\M$ satisfies LAMPN, then several nice results follow. The first is that, asymptotically, the \emph{local state space} around $\rho_{0}$ converges to the \emph{tangent cone} at $\rho_{0}$, denoted $T(\rho_{0})$. This, plus the fact that LAN holds in $\M'$, implies $\rhoML{\M}$ is the solution to the following optimization problem
 \begin{equation}
@@ -287,7 +287,7 @@ Because the local state space converges to the tangent cone, and because, with h
 In comparing any two models using the loglikelihood ratio statistic $\lambda(\M_{1}, \M_{2})$, it's possible to do so by comparing each to any \emph{reference model} $\mathcal{R}$: 
 \[\lambda(\M_{1}, \M_{2}) = \lambda(\mathcal{R},\M_{2}) - \lambda(\mathcal{R},\M_{1}),\]
 where the quantity $\lambda(\mathcal{R}, \M)$ is given by
-\[\lambda(\rho_{0}, \M) = -2 \log \left(\frac{\cL(\mathcal{R})}{\cL(\M)}\right).\]
+\[\lambda(\mathcal{R}, \M) = -2 \log \left(\frac{\cL(\mathcal{R})}{\cL(\M)}\right).\]
 Taking $\mathcal{R} = \rho_{0}$ itself, and assuming the model $\M$ satisfies LAMPN, then in Fisher-adjusted coordinates
 \begin{equation}
 \label{eq:lambdalan}
