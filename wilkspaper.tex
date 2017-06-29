@@ -167,7 +167,7 @@ The main definitions and results required for the remainder of the paper are pre
 
 Models which satisfy LAMPN have several nice properties.
 
-\underline{First}: asymptotically, the \emph{local state space} -- the region of state space contained within a suitably-chosen ball centered at $\rho_{0}$ -- converges to the \emph{tangent cone} at $\rho_{0}$, denoted $T(\rho_{0})$.
+\underline{First}: asymptotically, the \emph{local state space} -- the region of state space contained within a suitably-chosen ball centered at $\rho_{0}$ -- converges to the \emph{solid tangent cone} at $\rho_{0}$, denoted $T(\rho_{0})$.
 
 \underline{Second}: $\rhoML{\M}$ is given by the \emph{metric projection} of $\rhoML{\M'}$ onto $T(\rho_{0})$:
 \begin{equation}
@@ -193,9 +193,9 @@ The following subsection presents the technical details and definitions to show 
 
 Consider a statistical model $\M$ which satisfies LAMPN. In the next sub-subsections, we prove the properties of $\M$ previously described.
 
-\subsubsection{Convergence of the Local State Space to A Tangent Cone}
+\subsubsection{Convergence of the Local State Space to the Solid Tangent Cone}
 
-In this sub-subsection, we show that, because the distribution of $\rhoML{\M'}$ is tightly concentrated around $\rho_{0}$ as $N_{\mathrm{samples}} \rightarrow \infty$, the behavior of $\rhoML{\M}$ is determined entirely within a shrinking ball around $\rho_{0}$. It turns out that, in the limit, the intersection of the state space and this ball is the \emph{tangent cone}.
+In this sub-subsection, we show that, because the distribution of $\rhoML{\M'}$ is tightly concentrated around $\rho_{0}$ as $N_{\mathrm{samples}} \rightarrow \infty$, the behavior of $\rhoML{\M}$ is determined entirely within a shrinking ball around $\rho_{0}$. It turns out that, in the limit, the intersection of the state space and this ball is the \emph{solid tangent cone}.
 
 Because $\M$ satisfies LAMPN, there exists a model $\M'$ of dimension $d'$ such that, when we embed each $\rho_{0} \in \M$ into $\M'$, LAN holds. This means that as $N_{\mathrm{samples}} \rightarrow \infty$, the distribution of $\rhoML{\M'}$ satisfies
 \[\mathrm{Pr}(\rhoML{\M'})\xrightarrow[]{\text{d}} \mathcal{N}(\rho_{0}, \Sigma/N_{\mathrm{samples}}),\]
@@ -237,9 +237,13 @@ Under this definition, the tangent cone  is the limit of surfaces formed by fixi
 
 To complete our proof, in ``$N_{\mathrm{samples}}$-adjusted" coordinates, define a surface $S$ as the intersection of the surface of $\M$ and $B$:
 \[S = \text{Surface}(\M) \cap B.\]
-Notice that $S$ is actually a homothetic transformation of $\text{Surface}(\M) \cap B$ \emph{in the original coordinate system}, with a homothety coefficient given by $N^{1/4}_{\mathrm{samples}}$, and a homoethetic center given by $\rho_{0}$ (which as been set to $0$ by our first coordinate transformation). Thus, the tangent cone is given by the asymptotic limit of $S$. Therefore, we have shown that, asymptotically, the local state space -- defined by the intersection of $\M$ and $B$ -- converges to the tangent cone, which we denote as $T(\rho_{0})$. (The dependence on $\rho_{0}$ is explicitly included to highlight the fact that the first coordinate transformation, $\rho \rightarrow \rho - \rho_{0}$, was done for convenience.)
+Notice that $S$ is actually a homothetic transformation of $\text{Surface}(\M) \cap B$ \emph{in the original coordinate system}, with a homothety coefficient given by $N^{1/4}_{\mathrm{samples}}$, and a homoethetic center given by $\rho_{0}$ (which as been set to $0$ by our first coordinate transformation). Thus, the tangent cone is given by the asymptotic limit of $S$.
 
-The geometry of the tangent cone depends strongly on $\rho_{0}$. If $\rho_{0}$ is rank-deficient within $\M$, then $T(\rho_{0})$ is the cone whose faces touch $\M$ at $\rho_{0}$. (See Figure \ref{fig:tangentcone} for a rebit example.) However, if $\mathrm{Rank}(\rho)  = d$, then $S$ is the empty set, because $\text{Surface}(\M) \cap B = \{\}$. In the limit, $T(\rho_{0})$ is equivalent to $\mathbb{R}^{d^{2}-1}$ -- a cone which is unbounded in all directions.
+\todo[inline]{How to get to the \emph{solid} tangent cone from here?}
+
+Therefore, we have shown that, asymptotically, the local state space -- defined by the intersection of $\M$ and $B$ -- converges to the tangent cone, which we denote as $T(\rho_{0})$. (The dependence on $\rho_{0}$ is explicitly included to highlight the fact that the first coordinate transformation, $\rho \rightarrow \rho - \rho_{0}$, was done for convenience.)
+
+The geometry of the solid tangent cone depends strongly on $\rho_{0}$. If $\rho_{0}$ is rank-deficient within $\M$, then $T(\rho_{0})$ is the cone whose faces touch $\M$ at $\rho_{0}$. (See Figure \ref{fig:tangentcone} for a rebit example.) However, if $\mathrm{Rank}(\rho)  = d$, then $S$ is the empty set, because $\text{Surface}(\M) \cap B = \{\}$. In the limit, $T(\rho_{0})$ is equivalent to $\mathbb{R}^{d^{2}-1}$ -- a cone which is unbounded in all directions.
 
 \subsubsection{MLE as Metric Projection}
 
@@ -279,7 +283,7 @@ Subtracting $\mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})^{2}]$ from both sides, and c
 \emph{Case 2}: Assume $\rhoML{\M'} \in T(\rho_{0})$. Then, $\rhoML{\M}= \rhoML{\M'}$, and Equation \eqref{eq:lambdalan} simplifies to the lemma statement.
 \begin{figure}
 \includegraphics[width=.75\columnwidth]{Images/Figure_temp.pdf}
- \caption{Example of the tangent cone for a rebit. As $N_{\mathrm{samples}} \rightarrow \infty$, the local state space of $\M$ around $\rho_{0}$ converges to $T(\rho_{0})$. In Fisher-adjusted coordinates, it's easy to show that $\lambda(\rho_{0}, \M)$ is related to the squared error between $\rhoML{\M}$ and $\rho_{0}$.}
+ \caption{Example of the solid tangent cone for a rebit. As $N_{\mathrm{samples}} \rightarrow \infty$, the local state space of $\M$ around $\rho_{0}$ converges to $T(\rho_{0})$. In Fisher-adjusted coordinates, it's easy to show that $\lambda(\rho_{0}, \M)$ is related to the squared error between $\rhoML{\M}$ and $\rho_{0}$.}
 \label{fig:tangentcone}
 \end{figure}
 
@@ -589,7 +593,11 @@ However, our model \emph{does} get some of the qualitative features correct. In 
 
 
 \section{Conclusions and Discussion}
-The Wilks theorem is not generally reliable in quantum state tomography, but our Equation \eqref{eq:ourLLRS} provides a much more broadly applicable replacement that can be used in model selection methods.  This includes protocols like the AIC and BIC \cite{Akaike1974, Schwarz1978, Kass1995, Burnham2004} that do not explicitly use the Wilks theorem, but rely on the same assumptions (asymptotic normality, etc).  Null theories of loglikelihood ratios have many other applications, including hypothesis testing \cite{Blume-Kohout2010,Moroder2013} and confidence regions \cite{Glancy2012a}, and our result is directly applicable to them.  Refs. \cite{Moroder2013,Glancy2012a} both point out explicitly that their methods are unreliable near boundaries and therefore cannot be applied to rank-deficient states; our result fixes this outstanding problem.  However, our numerical experiments with heterodyne tomography show unexpected behavior, indicating that quantum tomography can still surprise, and may violate \emph{all} asymptotic statistics results.  In such cases, bootstrapping \cite{Efron1979, Higgins2004} may be the only reliable way to construct null theories for $\lambda$.  Finally, the \emph{methods} presented here have application beyond the analysis of loglikelihoods.  They shed light on the behavior of $\rhoML{d}$ for rank-deficient states, and can be used to predict other derived properties such as the average rank of the estimate, which is independently interesting for (e.g.) quantum compressed sensing \cite{Flammia2012a, Steffens2016, Kalev2015, Kalev2015a}.
+The Wilks theorem is not generally reliable in quantum state tomography, but our Equation \eqref{eq:ourLLRS} provides a much more broadly applicable replacement that can be used in model selection methods.  This includes protocols like the AIC and BIC \cite{Akaike1974, Schwarz1978, Kass1995, Burnham2004} that do not explicitly use the Wilks theorem, but rely on the same assumptions (asymptotic normality, etc).  Null theories of loglikelihood ratios have many other applications, including hypothesis testing \cite{Blume-Kohout2010,Moroder2013} and confidence regions \cite{Glancy2012a}, and our result is directly applicable to them.  Refs. \cite{Moroder2013,Glancy2012a} both point out explicitly that their methods are unreliable near boundaries and therefore cannot be applied to rank-deficient states; our result fixes this outstanding problem.
+
+However, our numerical experiments with heterodyne tomography show unexpected behavior, indicating that quantum tomography can still surprise, and may violate \emph{all} asymptotic statistics results.  In such cases, bootstrapping \cite{Efron1979, Higgins2004} may be the only reliable way to construct null theories for $\lambda$. 
+
+Finally, the \emph{methods} presented here have application beyond the analysis of loglikelihoods.  They shed light on the behavior of $\rhoML{d}$ for rank-deficient states, and can be used to predict other derived properties such as the average rank of the estimate, which is independently interesting for (e.g.) quantum compressed sensing \cite{Flammia2012a, Steffens2016, Kalev2015, Kalev2015a}.
 
 \section{Acknowledgements:} The authors are grateful for those who provide support for the following software packages: iPython/Jupyter \cite{Perez}, matplotlib
 \cite{Hunter2007}, mpi4py \cite{Dalcin2011},  NumPy \cite{VanDerWalt2011}, pandas \cite{mckinney2010}, Python 2.7 
