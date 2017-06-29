@@ -155,152 +155,123 @@ However, the statistical models used for quantum state tomography \emph{do} have
 The next section of this paper is devoted to developing a framework for deriving a replacement for the Wilks theorem. This framework involves defining the \emph{Local Asymptotic Metric-Projected Normality} (LAMPN) property for statistical models, and showing how an exact expression for $\lambda$ may be derived for models which satisfy it. In Section \ref{sec:computingllrs}, we show how the models $\M_{d}$ satisfy LAMPN, and derive an approximation for $\expect{\lambda}$; the main result is given in Equation \eqref{eq:ourLLRS}.  Section \ref{sec:theorycomparison} compares our theory to numerical results. Finally, Section \ref{sec:heterotomo}, applies our theory to the problem of heterodyne tomography.
 \todo[inline]{Better synopsis?}
 
-\section{LAMPN: A Framework for Deriving a Replacement for the Wilks theorem}
+\section{Generalizing LAN to Deal with Constraints}
 \label{sec:wilksreplacement}
 
-In this section, we define a framework which will allow us to derive a replacement for the Wilks theorem that is valid for rank-deficient $\rho_{0}$. To do so, we define a replacement for LAN in the presence of boundaries, which we call \emph{Local Asymptotic Metric-Projected Normality}.
+In this section, we define a framework that will allow us to derive a replacement for the Wilks theorem that is valid for rank-deficient $\rho_{0}$. To do so, we define a replacement for LAN in the presence of boundaries, which we call \emph{Local Asymptotic Metric-Projected Normality}.
+
 \subsection{Definitions; Overview of Results}
 
-\textbf{Definition: Local Asymptotic Metric-Projected Normality (LAMPN)}
+The main definitions and results required for the remainder of the paper are presented in this subsection. Technical details and proofs are presented in the next subsection.
 
-Given a statistical model $\M$ for which LAN does not hold, $\M$ is said to satisfy LAMPN when the following conditions both hold:
-\todo[inline]{Does $\M$ need to be \emph{bounded} in some way?}
-\begin{itemize}
-\item[(a)] There exists a larger model $\M'$ such that $\M$ may be written as a submanifold of it: $\M \subset \M'$.
-\item[(b)] For each true state $\rho_{0} \in \M$, when $\rho_{0}$ is embedded in $\M'$, LAN holds.
-\end{itemize}
+\textbf{Definition - Local Asymptotic Metric-Projected Normality (LAMPN)}: A statistical model $\M$ satisfies LAMPN if, and only if, $\M$ is a convex subset of a model $\M'$ for which LAN holds.
 
-\todo[inline]{Explain differences b/t LAN and LAMPN?}
+Models which satisfy LAMPN have several nice properties.
 
-If $\M$ satisfies LAMPN, then several nice results follow. The first is that, asymptotically, the \emph{local state space} around $\rho_{0}$ converges to the \emph{tangent cone} at $\rho_{0}$, denoted $T(\rho_{0})$. This, plus the fact that LAN holds in $\M'$, implies $\rhoML{\M}$ is the solution to the following optimization problem
+\underline{First}: asymptotically, the \emph{local state space} -- the region of state space contained within a suitably-chosen ball centered at $\rho_{0}$ -- converges to the \emph{tangent cone} at $\rho_{0}$, denoted $T(\rho_{0})$.
+
+\underline{Second}: $\rhoML{\M}$ is given by the \emph{metric projection} of $\rhoML{\M'}$ onto $T(\rho_{0})$:
 \begin{equation}
 \label{eq:lampnmle}
 \rhoML{\M} = \underset{\sigma \in T(\rho_{0})}{\text{argmin}}~(\sigma  -\rhoML{\M'})\mathcal{I}(\sigma  -\rhoML{\M'})
 \end{equation}
-This form of the optimization problem, along with the fact that $T(\rho_{0})$ is a cone, means that $\rhoML{\M}$ is the \emph{metric projection} of $\rhoML{\M'}$ onto the cone $T(\rho_{0})$, a term which has its origins in the convex optimization literature \cite{McCoy2014, Amelunxen2014}. (However, it should be noted that in the problem setting considered in those references, $\mathcal{I} = \Id$.) 
+The term ``metric projection" has its origins in the convex optimization literature \cite{McCoy2014, Amelunxen2014}, and inspires our choice for the acronym ``LAMPN". (However, it should be noted that in the problem setting considered in those references, $\mathcal{I} = \Id$.)
 
-Second, when LAMPN is satisfied, the loglikelihood ratio $\lambda(\rho_{0}, \M)$, given by
-\[\lambda(\rho_{0}, \M) = -2 \log \left(\frac{\cL(\rho_{0})}{\underset{\rho \in \M}{\max}~\cL(\rho)}\right)\]
+\underline{Third}: asymptotically, the loglikelihood ratio $\lambda(\rho_{0}, \M)$, which is defined as
+\[\lambda(\rho_{0}, \M) = -2 \log \left(\frac{\cL(\rho_{0})}{\underset{\rho \in \M}{\max}~\cL(\rho)}\right),\]
 takes the following simple form
-\[\lambda(\rho_{0}, \M) =  \mathrm{Tr}[(\rho_{0} - \rhoML{\M})\mathcal{I}(\rho_{0} - \rhoML{\M})]\]
-\todo[inline]{Make sure this is actually correct, and shown in the next section}
-It is this relationship which enables our derivation in Section \ref{sec:computingllrs} of $\langle \lambda \rangle$.
+\begin{equation}
+\label{eq:llrs_lan}
+\lambda(\rho_{0}, \M) =  \mathrm{Tr}[(\rho_{0} - \rhoML{\M})\mathcal{I}(\rho_{0} - \rhoML{\M})].
+\end{equation}
+This property follows from the first and second properties, and is necessary for our derivation in Section \ref{sec:computingllrs} of $\langle \lambda \rangle$.
 
-It should be noted that LAMPN is an \emph{asymptotic} property of $\M$, meaning that, for any finite $N_{\mathrm{samples}}$, $\M$ will not satisfy LAMPN exactly. However, for sufficiently large $N_{\mathrm{samples}}$ such that we are in an ``asymptotic" regime, we can (and will!) use results derived under LAMPN. The following subsection presents the technical details and definitions to show the above results. The reader may skip it without loss of continuity, and proceed to Section \ref{sec:computingllrs}.
+It should be noted that LAMPN is a property of $\M$ itself, not of our statistical inference. Further, its \emph{consequences} hold only asymptotically ($N_{\mathrm{samples}} \rightarrow \infty$). However, for sufficiently large $N_{\mathrm{samples}}$ such that we are in an ``asymptotic" regime, we can (and will!) use results derived in the asymptotic limit.
+
+The following subsection presents the technical details and definitions to show the above results. The reader may skip it without loss of continuity, and proceed to Section \ref{sec:computingllrs}.
 
 \subsection{Technical Details}
 
-Consider a statistical model $\M$ which satisfies LAMPN. In the next subsections, we prove properties of $\M$ in the $N_{\mathrm{samples}} \rightarrow \infty$ limit.
+Consider a statistical model $\M$ which satisfies LAMPN. In the next sub-subsections, we prove the properties of $\M$ previously described.
 
 \subsubsection{Convergence of the Local State Space to A Tangent Cone}
 
-\todo[inline]{Do we need more explanation here of why we're proving this?}
+In this sub-subsection, we show that, because the distribution of $\rhoML{\M'}$ is tightly concentrated around $\rho_{0}$ as $N_{\mathrm{samples}} \rightarrow \infty$, the behavior of $\rhoML{\M}$ is determined entirely within a shrinking ball around $\rho_{0}$. It turns out that, in the limit, the intersection of the state space and this ball is the \emph{tangent cone}.
 
-Because $\M$ satisfies LAMPN, there exists a model $\M'$ such that, when we embed each $\rho_{0} \in \M$ into $\M'$, LAN holds. This means that as $N_{\mathrm{samples}} \rightarrow \infty$, the distribution of $\rhoML{\M'}$ satisfies
-\[\mathrm{Pr}(\rhoML{\M'})\xrightarrow[]{\text{d}} \mathcal{N}(\rho_{0}, \Sigma),\]
-where $\xrightarrow[]{\text{d}}$ means ``converges in distribution to", and $\Sigma = N^{-1}_{\mathrm{samples}}\mathcal{I}^{-1}$.
-The shape of the ellipsoid of estimates is entirely determined by the eigenvectors and eigenvalues of $\mathcal{I}$. As $N_{\mathrm{samples}} \rightarrow \infty$, this ellipsoid becomes more and more tightly concentrated around $\rho_{0}$. However, there is still a non-zero probability of obtaining a $\rhoML{\M'}$ which is arbitrarily far away from $\rho_{0}$, which makes determining the behavior of $\rhoML{\M}$ difficult. Thankfully, it is sufficient to consider only those $\rhoML{\M'}$ in a ball $B$ whose radius is determined by $N_{\mathrm{samples}}$ and the smallest eigenvalue of $\mathcal{I}$. Letting $\{e_{j}\}$ denote the eigenvalues of $\mathcal{I}$, and assuming $\mathcal{I} > 0$, consider a closed ball around $\rho_{0}$ whose radius is related to the smallest eigenvalue, $e_{\min}$:
-\[B(\rho_{0}, N_{\mathrm{samples}}) =\{\rho \in \M'~|~\sqrt{\mathrm{Tr}[(\rho - \rho_{0})^{2}]} \leq 1/\sqrt{N_{\mathrm{samples}}e_{\min}}\}\]
-\todo[inline]{Is this the right scaling?}
-This scaling is chosen because, as $N_{\mathrm{samples}} \rightarrow \infty$, $B$ contains almost all $\rhoML{\M'}$:
- \[\lim_{N_{\mathrm{samples}} \rightarrow \infty}\left[\mathrm{Pr}\left(\rhoML{\M'} \in B\right)\right] \rightarrow 1\]
+Because $\M$ satisfies LAMPN, there exists a model $\M'$ of dimension $d'$ such that, when we embed each $\rho_{0} \in \M$ into $\M'$, LAN holds. This means that as $N_{\mathrm{samples}} \rightarrow \infty$, the distribution of $\rhoML{\M'}$ satisfies
+\[\mathrm{Pr}(\rhoML{\M'})\xrightarrow[]{\text{d}} \mathcal{N}(\rho_{0}, \Sigma/N_{\mathrm{samples}}),\]
+where $\xrightarrow[]{\text{d}}$ means ``converges in distribution to", and $\Sigma = \mathcal{I}^{-1}$.
+The shape of the distribution is entirely determined by $\mathcal{I}$. As $N_{\mathrm{samples}} \rightarrow \infty$, this Gaussian distribution becomes more and more tightly concentrated around $\rho_{0}$. There is still a non-zero probability that $\rhoML{\M'}$ will be arbitrarily far away from $\rho_{0}$. However, it is possible to find a ball $B$ of sufficient size such that it contains every $\rhoML{\M'}$ with probability 1 as $N_{\mathrm{samples}}\rightarrow \infty$.
 
-Showing this requires doing a few integrals:
-\begin{align*}
-\end{align*}
-\todo[inline]{Need to put some integrals in here.}
+Before doing so, we switch coordinates, by sending $\rho \rightarrow \rho - \rho_{0}$, thereby establishing $\rho_{0}$ as the origin of our coordinate system. In these coordinates, $\rhoML{\M'} \sim \mathcal{N}(0, \Sigma/N_{\mathrm{samples}})$, and we may easily prove the following lemma.
+
+\textbf{Lemma}: Let $\rhoML{\M'} \sim \mathcal{N}(0, \Sigma/N_{\mathrm{samples}})$. Let $\lambda_{\max}(\Sigma)$ denote the largest eigenvalue of $\Sigma$. Define a ball $B$, centered at $0$, whose radius is $\sqrt{\lambda_{\max}(\Sigma)}/N_{\mathrm{samples}}^{1/4}$. Then, $\lim_{N_{\mathrm{samples}} \rightarrow \infty} \mathrm{Pr}(\rhoML{\M'} \in B) =1$.
+
+\textbf{Proof}: Let $B_{0}$ be an ellipsoidal ball defined by $\{\rho \in \M'~|~\mathrm{Tr}(\rho \Sigma^{-1} \rho) \leq r^{2}/N_{\mathrm{samples}}\}$, where $r^{2} = N^{1/2}_{\mathrm{samples}}$. Change coordinates by defining $\sigma = N_{\mathrm{samples}}^{1/2}\Sigma^{-1/2}\rho$. In these new coordinates
+\[\hat{\sigma}_{\mathrm{ML},\M'} \sim \mathcal{N}(0, \Id_{d'}),~~~B_{0} = \{\sigma \in \M'~|~\mathrm{Tr}(\sigma^{2}) \leq r^{2}\},\]
+and
+\[\mathrm{Pr}(\hat{\sigma}_{\mathrm{ML},\M'} \in B_{0}) = \mathrm{Pr}(\mathrm{Tr}(\hat{\sigma}_{\mathrm{ML},\M'}^{2}) \leq r^{2}) = \int_{0}^{r^{2}}\chi^{2}_{d'}(z)~dz,\]
+because $\mathrm{Tr}(\hat{\sigma}_{\mathrm{ML},\M'}^{2})$ is a $\chi^{2}_{d'}$ random variable. From our choice of $r^{2}$, it follows that
+\[\lim_{N_{\mathrm{samples}} \rightarrow \infty}~\mathrm{Pr}(\hat{\sigma}_{\mathrm{ML},\M'} \in B_{0})  =\int_{0}^{\infty}\chi^{2}_{d'}(z)~dz =1.\]
+Switching back to the original coordinates, we have
+\[B_{0} = \{\rho \in \M'~|~\mathrm{Tr}(\rho \Sigma^{-1} \rho) \leq 1/N_{\mathrm{samples}}^{1/2}\}.\]
+Let's write the defining equation for $B_{0}$ in the standard quadratic form for an ellipsoid:
+\[B_{0} = \{\rho \in \M'~|~\mathrm{Tr}(\rho ( N_{\mathrm{samples}}^{1/2}\Sigma^{-1} ) \rho) \leq 1\}.\]
+The standard ellipsoid $\{\mathbf{x}~|~\mathbf{x}^{T}A\mathbf{x} \leq 1\}$ has semi-major axes whose lengths $s_{j}$ are related to the eigenvalues $a_{j}$ of $A$: $s_{j} = 1/\sqrt{a_{j}}$. The matrix $A = N_{\mathrm{samples}}^{1/2}\Sigma^{-1}$ has eigenvalues $N_{\mathrm{samples}}^{1/2}/\lambda_{j}$, where $\lambda_{j}$ are the eigenvalues of $\Sigma$. Thus, the lengths of the semi-major axes of $B_{0}$ are given by $s_{j} = 1/\sqrt{N_{\mathrm{samples}}^{1/2}/\lambda_{j}} = \sqrt{\lambda_{j}}/N_{\mathrm{samples}}^{1/4}$. Letting $\lambda_{\max}(\Sigma)$ denote the largest eigenvalue of $\Sigma$, the longest semi-major axis of $B_{0}$ has length $\sqrt{\lambda_{\max}(\Sigma)}/N_{\mathrm{samples}}^{1/4}$.
+Because $B$ is a ball whose radius is equal to this length, $B_{0} \subset B$, and it follows that $\mathrm{Pr}(\rhoML{\M'} \in B_{0}) \leq \mathrm{Pr}(\rhoML{\M'} \in B)$. Because $\mathrm{Pr}(\rhoML{\M'} \in B_{0}) \leq \mathrm{Pr}(\rhoML{\M'} \in B) \leq 1$, and the asymptotic limit of $\mathrm{Pr}(\rhoML{\M'} \in B_{0})$ is 1, it follows from the squeeze theorem that $\lim_{N_{\mathrm{samples}\rightarrow \infty}}\mathrm{Pr}(\rhoML{\M'} \in B)=1$.
+~\\~\\
+Informally speaking, this lemma implies that ``all the action" about the MLEs $\rhoML{\M'}$ takes place inside $B$ and we can disregard the rest of the model when analyzing properties of the MLE. 
+\todo[inline]{More explanation?}
+We now change coordinates so that, instead of have $B$ shrink,  $B, \M$, and $\M'$ all grow as $N_{\mathrm{samples}}$ increases. Consider the ``$N_{\mathrm{samples}}$-adjusted" coordinate system defined by $\sigma =  N^{1/4}_{\mathrm{samples}}\rho$. Notice the origin $(\rho_{0})$ remains unchanged, because of our earlier coordinate transformation that established it as the origin. Under this transformation, $B$ is given by
+\[B = \{\sigma \in \M'~|~\mathrm{Tr}(\sigma^{2}) \leq \sqrt{\lambda_{\max}(\Sigma)}N_{\mathrm{samples}}^{1/4}\}\]
+ The models $\M,\M'$ also expand under this transformation. However, they are not strict subsets of $B$ -- consider any $\rho$ satisfying $\mathrm{Tr}(\rho^{2}) \geq \sqrt{\lambda_{\max}(\Sigma)}/N_{\mathrm{samples}}^{1/4}$. Then, $N_{\mathrm{samples}}^{1/4}\rho \not \in B$.
  
- See Figure ??? for a schematic of the geometry.
- \missingfigure{Geometry of the problem in HS coordinates}
- 
-Because $\M$ has boundaries it has a finite \emph{diameter} and in turn, a finite \emph{radius} $R$. \todo[inline]{Does this obviously follow from the idea of constraints? Could $\M$ be unbounded in some way?} If $\M$ is the quantum state space defined over a Hilbert space of dimension $d$, then the radius is the Hilbert-Schmidt distance from any pure state to $\Id_{d}/d$, which is $\sqrt{1-1/d}$.
+ By going to these coordinates, we are able to prove a useful result about the geometry of the region contained in the intersection of the state space and $B$ --  as $N_{\mathrm{samples}} \rightarrow \infty$, it is the \emph{tangent cone}. Tangent cones are a general feature of points on the surface of convex sets (see \cite{Rockafellar1998}, Chapter 6, Section A), and are defined as follows:
 
- To summarize, in Hilbert-Schmidt coordinates, we have
- \begin{itemize}
- \item[1)] $\Sigma = N^{-1}_{\mathrm{samples}}\mathcal{I}^{-1}$
- \item[2)] $B$ has a radius $1/\sqrt{N_{\mathrm{samples}}e_{\min}}$
- \item[3)] $\M$ has radius $R$
- \item[4)] $\mathrm{Pr}\left(\rhoML{\M'} \in B\right) = 1$, asymptotically.
- \end{itemize}
- \todo[inline]{Is there some nicer way of presenting this material?}
-Now, we switch to \emph{Fisher-adjusted} coordinates, so that the covariance matrix of the distribution of $\rhoML{\M'}$ is equal to the identity. This coordinate transformation may be obtained simply by mapping $\rho \rightarrow \Sigma^{-1/2}\rho~\forall~\rho \in \M, \M'$. (For any random variable $\bs{x}, \mathrm{Cov}(A\bs{x}) = A\mathrm{Cov}(\bs{x})A^{T}$ for any $A$.) Under this transformation, we obtain
-\begin{align*}
-\mathrm{Cov}(\Sigma^{-1/2}\rhoML{\M'})  &=\Sigma^{-1/2}\mathrm{Cov}(\rhoML{\M'})(\Sigma^{-1/2})^{T}\\
-&= \Sigma^{1/2}(\Sigma^{-1/2})^{T} = \Id
-\end{align*}
-
- Thus, in Fisher-adjusted coordinates, the covariance matrix of the MLEs is the identity: $\mathrm{Pr}(\rhoML{\M'}) \rightarrow \mathcal{N}(\Sigma^{-1/2}\rho_{0}, \Id)$.
-
-Further, all distances change, because the metric has changed:
-\begin{align*}
-\mathrm{Tr}[(\rho - \sigma)^{2}] &= \mathrm{Tr}[(\rho - \sigma)^{\dagger}(\rho-\sigma)]\\
-&\rightarrow \mathrm{Tr}[(\Sigma^{-1/2}(\rho - \sigma))^{\dagger}\Sigma^{-1/2}(\rho - \sigma)]\\
-& = \mathrm{Tr}[(\rho - \sigma))^{\dagger}(\Sigma^{-1/2})^{\dagger}\Sigma^{-1/2}(\rho - \sigma)]\\
-& = \mathrm{Tr}[(\rho - \sigma))^{\dagger}\Sigma^{-1}(\rho - \sigma)]\\
-& = N_{\mathrm{samples}}\mathrm{Tr}[(\rho - \sigma))^{\dagger}\mathcal{I}(\rho - \sigma)]\\
-\end{align*}
-\todo[inline]{Show how $B$ changes, and radius of state space.}
-\todo[inline]{Show that Pr MLE in ellipsoid still 1}
-
-In Fisher-adjusted coordinates, we have
-
- \begin{itemize}
- \item $\Sigma = \Id$
- \item $B$ has radius ????
- \item $\M$ has radius ????.
- \item $\mathrm{Pr}\left(\rhoML{\M'} \in B\right)$ approaches 1, asymptotically.
- \end{itemize}
-
-Finally, we translate the entire inference problem by establishing $\rho_{0}$ as the \emph{origin} of $\M'$. (That is, we send $\rho \rightarrow \rho - \rho_{0}$.) Because translation doesn't change distances, all the properties above still hold in this new coordinate system.
-
-By going to these coordinates, we are able to prove a useful result about the geometry of the region contained in the intersection of the state space and $B$ --  as $N_{\mathrm{samples}} \rightarrow \infty$, it converges to a \emph{tangent cone}. Tangent cones are a general feature of points on the surface of convex sets (see \cite{Rockafellar1998}, Chapter 6, Section A), and are defined as follows:
-
-\textbf{Definition: Tangent Cone}
-
-For each point $X$ on the surface $S$ of a convex set $C$, the tangent cone $T(X)$ is defined as the following limit:
+\textbf{Definition - Tangent Cone}: For each point $X$ on the surface $S$ of a convex set $C$, the tangent cone $T(X)$ is defined as the following limit:
 \[T(X) = \lim_{N\rightarrow \infty} S_{N}\]
 where $S_{N}$ is the \emph{homothetic transformation} of $S$ with respect to $X$, with homothety coefficient $N$:
 \[S_{N} = \{X + NY  |~\forall ~Y \neq X \in S\}\]
+
 ($T(X)$ may also be equivalently defined as the closure of the set of rays which join $X$ to any point in $C$.)
-Under this definition, the tangent cone  is the limit of surfaces formed by fixing $X$, and then scaling up every other point on the surface with respect to it. ($X$ itself is known as the \emph{homothetic center} of the tangent cone.) Such a picture naturally arises in the context of LAMPN, as we are interested in what the local state space looks like as the distribution of $\rhoML{\M'}$ becomes more and more tightly concentrated around $\rho_{0}$ (i.e., in the asymptotic $N_{\mathrm{samples}}\rightarrow \infty$ limit).
+Under this definition, the tangent cone  is the limit of surfaces formed by fixing $X$, and then scaling up every other point on the surface with respect to it. ($X$ itself is known as the \emph{homothetic center} of the tangent cone.) 
 
-In the asymptotic limit, the behavior of the MLEs is entirely determined by their behavior within $B$, because with high probability, it contains all of them. Further, in Fisher-adjusted coordinates, as $N_{\mathrm{samples}}\rightarrow \infty$, both $B$ and $\M$ expand, but at different rates. Because the $\M$ expands at a faster rate than $B$, it can never be the case that $\M \subset B$, meaning there is always some part of the state space we are ignoring. That's acceptable, as we are interested in the \emph{local} asymptotic behavior of the MLEs.
+To complete our proof, in ``$N_{\mathrm{samples}}$-adjusted" coordinates, define a surface $S$ as the intersection of the surface of $\M$ and $B$:
+\[S = \text{Surface}(\M) \cap B.\]
+Notice that $S$ is actually a homothetic transformation of $\text{Surface}(\M) \cap B$ \emph{in the original coordinate system}, with a homothety coefficient given by $N^{1/4}_{\mathrm{samples}}$, and a homoethetic center given by $\rho_{0}$ (which as been set to $0$ by our first coordinate transformation). Thus, the tangent cone is given by the asymptotic limit of $S$. Therefore, we have shown that, asymptotically, the local state space -- defined by the intersection of $\M$ and $B$ -- converges to the tangent cone, which we denote as $T(\rho_{0})$. (The dependence on $\rho_{0}$ is explicitly included to highlight the fact that the first coordinate transformation, $\rho \rightarrow \rho - \rho_{0}$, was done for convenience.)
 
-To complete the proof, we define the surface $S(N_{\mathrm{samples}})$ as the intersection of the surface of $\M$ and $B$:
-\[S(N_{\mathrm{samples}}) = \text{Surface}(\M) \cap B(\rho_{0}, N_{\mathrm{samples}}).\]
-Then, consider homothetic transformations of the form
-\[S_{N_{\mathrm{samples}}} = \{N_{\mathrm{samples}}\rho~|~\forall~\rho \in S(N_{\mathrm{samples}})\}.\]
-In the asymptotic limit, $S_{N_{\mathrm{samples}}}$ will converge to the tangent cone at the origin of our coordinate system, $\rho_{0}$.
+The geometry of the tangent cone depends strongly on $\rho_{0}$. If $\rho_{0}$ is rank-deficient within $\M$, then $T(\rho_{0})$ is the cone whose faces touch $\M$ at $\rho_{0}$. (See Figure \ref{fig:tangentcone} for a rebit example.) However, if $\mathrm{Rank}(\rho)  = d$, then $S$ is the empty set, because $\text{Surface}(\M) \cap B = \{\}$. In the limit, $T(\rho_{0})$ is equivalent to $\mathbb{R}^{d^{2}-1}$ -- a cone which is unbounded in all directions.
 
-The geometry of the tangent cone depends strongly on $\rho_{0}$. If $\rho_{0}$ is rank-deficient within $\M$, then $T(\rho_{0})$ is the cone whose faces touch $\M$ at $\rho_{0}$. (See Figure \ref{fig:tangentcone} for a rebit example.) However, if $\mathrm{Rank}(\rho)  = d$, then $T(\rho_{0})$ is equivalent to $\mathbb{R}^{d^{2}-1}$.
-\todo[inline]{Do we need more text about this? Finite sample effects + curvature?}
+\subsubsection{MLE as Metric Projection}
 
-Because the local state space converges to the tangent cone, and because, with high probability, all the $\rhoML{\M'}$ are contained within $B$, the optimization problem defining $\rhoML{\M}$ is given (in Fisher adjusted coordinates) by
-\begin{equation}
+Asymptotically, all the $\rhoML{\M'}$ are contained within the ball $B$, and the local state space is the tangent cone. Because LAN holds in $\M'$, the likelihood function around each $\rhoML{\M'}$ is Gaussian, meaning the optimization problem defining $\rhoML{\M}$ is given by \begin{equation}
 \label{eq:lampnmle2}
-\rhoML{\M} = \underset{\sigma \in T(\rho_{0})}{\text{argmin}}~\mathrm{Tr}[(\sigma  -\rhoML{\M'})^{2}]
+\rhoML{\M} = \underset{\sigma \in T(\rho_{0})}{\text{argmin}}~\mathrm{Tr}[(\sigma  -\rhoML{\M'})\mathcal{I}(\sigma  -\rhoML{\M'})]
 \end{equation}
 
-\todo[inline]{Should we put the optimization problem back into HS coordinates?}
+That is, $\rhoML{\M}$ is the \emph{metric projection} of $\rhoML{\M'}$ onto the tangent cone.
+
 \subsubsection{Expression for $\lambda(\rho_{0}, \M)$}
 
 In comparing any two models using the loglikelihood ratio statistic $\lambda(\M_{1}, \M_{2})$, it's possible to do so by comparing each to any \emph{reference model} $\mathcal{R}$: 
 \[\lambda(\M_{1}, \M_{2}) = \lambda(\mathcal{R},\M_{2}) - \lambda(\mathcal{R},\M_{1}),\]
 where the quantity $\lambda(\mathcal{R}, \M)$ is given by
 \[\lambda(\mathcal{R}, \M) = -2 \log \left(\frac{\cL(\mathcal{R})}{\cL(\M)}\right).\]
-Taking $\mathcal{R} = \rho_{0}$ itself, and assuming the model $\M$ satisfies LAMPN, then in Fisher-adjusted coordinates
-\begin{equation}
+Taking $\mathcal{R} = \rho_{0}$ itself, and assuming the model $\M$ satisfies LAMPN, then asymptotically,
+\begin{align}
 \label{eq:lambdalan}
-\lambda(\rho_{0}, \M) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M'})^{2}] -  \mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})^{2}].
-\end{equation}
+\nonumber \lambda(\rho_{0}, \M) &= \mathrm{Tr}[(\rho_{0} - \rhoML{\M'})\mathcal{I}(\rho_{0} - \rhoML{\M'})]\\
+&-  \mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})\mathcal{I}(\rhoML{\M} - \rhoML{\M'})].
+\end{align}
 It turns out $\lambda(\rho_{0}, \M)$ has a simple form.
 ~\\
-\textbf{Lemma:} $\lambda(\rho_{0}, \M) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M})^{2}]$
+\textbf{Lemma:} $\lambda(\rho_{0}, \M) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M})\mathcal{I}(\rho_{0} - \rhoML{\M})]$.
 ~\\
 \textbf{Proof:}
-If $\M$ satisfies LAMPN, $\rhoML{\M}$ is the solution to Equation \eqref{eq:lampnmle2}. To demonstrate the lemma statement, we must consider two cases:
+We switch to Fisher-adjusted coordinates, through the mapping $\rho \rightarrow \mathcal{I}^{1/2}\rho$. Then, we may replace $\mathcal{I}$ by $\Id$.
+If $\M$ satisfies LAMPN, then asymptotically, $\rhoML{\M}$ is the solution to Equation \eqref{eq:lampnmle2}. To demonstrate the lemma statement, we must consider two cases:
 
-\emph{Case 1}: Assume $\rhoML{\M'} \not \in T(\rho_{0})$. Because $\rhoML{\M}$ is the closest point to $\rhoML{\M'}$ in $T(\rho_{0})$, and because $T(\rho_{0})$ contains $\rho_{0}$ (as its origin), the lines joining $\rho_{0}$ to $\rhoML{\M}$, and $\rhoML{\M}$ to $\rhoML{\M'}$, are at right angles to one another. (See Figure \ref{fig:tangentcone}.) \todo[inline]{more explanation for figure}
+\emph{Case 1}: Assume $\rhoML{\M'} \not \in T(\rho_{0})$. Because $\rhoML{\M}$ is the closest point to $\rhoML{\M'}$ in $T(\rho_{0})$, it must be the case that the line joining $\rhoML{\M'}$ and $\rhoML{\M}$ is normal to $T(\rho_{0})$ at $\rhoML{\M}$. Because $T(\rho_{0})$ contains $\rho_{0}$ (as its origin), it follows that the lines joining $\rho_{0}$ to $\rhoML{\M}$, and $\rhoML{\M}$ to $\rhoML{\M'}$, are at right angles to one another. (See Figure \ref{fig:tangentcone}.)
 
  By the Pythagorean theorem, we have
 \[\mathrm{Tr}[(\rho_{0} -\rhoML{\M'})^{2}] =  \mathrm{Tr}[(\rho_{0} - \rhoML{\M})^{2}] + \mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})^{2}]\]
@@ -312,9 +283,10 @@ Subtracting $\mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})^{2}]$ from both sides, and c
  \caption{Example of the tangent cone for a rebit. As $N_{\mathrm{samples}} \rightarrow \infty$, the local state space of $\M$ around $\rho_{0}$ converges to $T(\rho_{0})$. In Fisher-adjusted coordinates, it's easy to show that $\lambda(\rho_{0}, \M)$ is related to the squared error between $\rhoML{\M}$ and $\rho_{0}$.}
 \label{fig:tangentcone}
 \end{figure}
-Thus, when LAMPN is satisfied, it's possible to relate the loglikelihood ratio statistic to \emph{squared error}. 
-\todo[inline]{Maybe some words about how this result is useful for information criteria?}
-\todo[inline]{Provide expression in non-Fisher adjusted coordinates - how to handle factor of $N_{\mathrm{samples}}$?}
+
+Switching back from the Fisher-adjusted coordinates, we have $\lambda(\rho_{0}, \M) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M})\mathcal{I}(\rho_{0} - \rhoML{\M})]$.
+~\\~\\
+Thus, when LAMPN is satisfied, it's possible to relate the loglikelihood ratio statistic to \emph{squared error} (as measured by the metric induced by $\mathcal{I}$.) This result may be of independent interest in, for example, considering/defining new information criteria, which attempt to balance goodness of fit (as measured by $\lambda$) against error/loss (generally, as measured by the mean-squared error).
 
 With these technical results in hand, we may proceed to compute $\langle \lambda(\M_{d}, \M_{d+1})\rangle$. Doing so is the subject of the next section.
 
