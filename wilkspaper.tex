@@ -260,7 +260,7 @@ That is, $\rhoML{\M}$ is the \emph{metric projection} of $\rhoML{\M'}$ onto the 
 In comparing any two models using the loglikelihood ratio statistic $\lambda(\M_{1}, \M_{2})$, it's possible to do so by comparing each to any \emph{reference model} $\mathcal{R}$: 
 \[\lambda(\M_{1}, \M_{2}) = \lambda(\mathcal{R},\M_{2}) - \lambda(\mathcal{R},\M_{1}),\]
 where the quantity $\lambda(\mathcal{R}, \M)$ is given by
-\[\lambda(\mathcal{R}, \M) = -2 \log \left(\frac{\cL(\mathcal{R})}{\cL(\M)}\right).\]
+\[\lambda(\mathcal{R}, \M) = -2 \log \left(\frac{\cL(\mathcal{R})}{\cL(\M)}\right) =  -2 \log \left(\frac{\underset{\rho \in \mathcal{R}}{\max}~\cL(\rho)}{\underset{\rho \in \M}{\max}~\cL(\rho)}\right).\]
 Taking $\mathcal{R} = \rho_{0}$ itself, and assuming the model $\M$ satisfies LAMPN, then asymptotically,
 \begin{align}
 \label{eq:lambdalan}
@@ -272,16 +272,21 @@ It turns out $\lambda(\rho_{0}, \M)$ has a simple form.
 \textbf{Lemma:} $\lambda(\rho_{0}, \M) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M})\mathcal{I}(\rho_{0} - \rhoML{\M})]$.
 ~\\
 \textbf{Proof:}
-We switch to Fisher-adjusted coordinates, through the mapping $\rho \rightarrow \mathcal{I}^{1/2}\rho$. Then, we may replace $\mathcal{I}$ by $\Id$.
-If $\M$ satisfies LAMPN, then asymptotically, $\rhoML{\M}$ is the solution to Equation \eqref{eq:lampnmle2}. To demonstrate the lemma statement, we must consider two cases:
+We switch to Fisher-adjusted coordinates, through the mapping $\rho \rightarrow \mathcal{I}^{1/2}\rho$. Then, we may replace $\mathcal{I}$ by $\Id$:
+\begin{equation}
+\label{eq:lambdalan2}
+\lambda(\rho_{0}, \M) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M'})^{2}]-  \mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})^{2}].
+\end{equation}
+
+Further, asymptotically $\rhoML{\M}$ is the solution to Equation \eqref{eq:lampnmle2}. To demonstrate the lemma statement, we must consider two cases:
 
 \emph{Case 1}: Assume $\rhoML{\M'} \not \in T(\rho_{0})$. Because $\rhoML{\M}$ is the closest point to $\rhoML{\M'}$ in $T(\rho_{0})$, it must be the case that the line joining $\rhoML{\M'}$ and $\rhoML{\M}$ is normal to $T(\rho_{0})$ at $\rhoML{\M}$. Because $T(\rho_{0})$ contains $\rho_{0}$ (as its origin), it follows that the lines joining $\rho_{0}$ to $\rhoML{\M}$, and $\rhoML{\M}$ to $\rhoML{\M'}$, are at right angles to one another. (See Figure \ref{fig:tangentcone}.)
 
  By the Pythagorean theorem, we have
 \[\mathrm{Tr}[(\rho_{0} -\rhoML{\M'})^{2}] =  \mathrm{Tr}[(\rho_{0} - \rhoML{\M})^{2}] + \mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})^{2}]\]
-Subtracting $\mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})^{2}]$ from both sides, and comparing to Equation \eqref{eq:lambdalan}, yields the lemma statement.
+Subtracting $\mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})^{2}]$ from both sides, and comparing to Equation \eqref{eq:lambdalan2}, yields the lemma statement in Fisher-adjusted coordinates.
 
-\emph{Case 2}: Assume $\rhoML{\M'} \in T(\rho_{0})$. Then, $\rhoML{\M}= \rhoML{\M'}$, and Equation \eqref{eq:lambdalan} simplifies to the lemma statement.
+\emph{Case 2}: Assume $\rhoML{\M'} \in T(\rho_{0})$. Then, $\rhoML{\M}= \rhoML{\M'}$, and Equation \eqref{eq:lambdalan2} simplifies to the lemma statement in Fisher-adjusted coordinates.
 \begin{figure}
 \includegraphics[width=.75\columnwidth]{Images/Figure_temp.pdf}
  \caption{Example of the solid tangent cone for a rebit. As $N_{\mathrm{samples}} \rightarrow \infty$, the local state space of $\M$ around $\rho_{0}$ converges to $T(\rho_{0})$. In Fisher-adjusted coordinates, it's easy to show that $\lambda(\rho_{0}, \M)$ is related to the squared error between $\rhoML{\M}$ and $\rho_{0}$.}
