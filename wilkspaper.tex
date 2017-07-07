@@ -197,19 +197,22 @@ Consider a statistical model $\M$ which satisfies LAMPN. In the next sub-subsect
 
 In this sub-subsection, we show that, because the distribution of $\rhoML{\M'}$ is tightly concentrated around $\rho_{0}$ as $N_{\mathrm{samples}} \rightarrow \infty$, the behavior of $\rhoML{\M}$ is determined entirely within a shrinking ball around $\rho_{0}$. It turns out that, in the limit, the intersection of the state space and this ball is the \emph{solid tangent cone}.
 
-Because $\M$ satisfies LAMPN, there exists a model $\M'$ of dimension $d'$ such that, when we embed each $\rho_{0} \in \M$ into $\M'$, LAN holds. This means that as $N_{\mathrm{samples}} \rightarrow \infty$, the distribution of $\rhoML{\M'}$ satisfies
+Because $\M$ satisfies LAMPN, there exists a model $\M'$ of dimension $d'$ which satisfies LAN. This means as $N_{\mathrm{samples}} \rightarrow \infty$, the distribution of $\rhoML{\M'}$ satisfies
 \[\mathrm{Pr}(\rhoML{\M'})\xrightarrow[]{\text{d}} \mathcal{N}(\rho_{0}, \Sigma/N_{\mathrm{samples}}),\]
 where $\xrightarrow[]{\text{d}}$ means ``converges in distribution to", and $\Sigma = \mathcal{I}^{-1}$.
 The shape of the distribution is entirely determined by $\mathcal{I}$. As $N_{\mathrm{samples}} \rightarrow \infty$, this Gaussian distribution becomes more and more tightly concentrated around $\rho_{0}$. There is still a non-zero probability that $\rhoML{\M'}$ will be arbitrarily far away from $\rho_{0}$. However, it is possible to find a ball $B$ of sufficient size such that it contains every $\rhoML{\M'}$ with probability 1 as $N_{\mathrm{samples}}\rightarrow \infty$.
 
-Before doing so, we switch coordinates, by sending $\rho \rightarrow \rho - \rho_{0}$, thereby establishing $\rho_{0}$ as the origin of our coordinate system. In these coordinates, $\rhoML{\M'} \sim \mathcal{N}(0, \Sigma/N_{\mathrm{samples}})$, and we may easily prove the following lemma.
+Before doing so, we switch coordinates, by sending $\rho \rightarrow \rho - \rho_{0}$, thereby establishing $\rho_{0}$ as the origin of our coordinate system. In these coordinates, $\rhoML{\M'} \sim \mathcal{N}(0, \Sigma/N_{\mathrm{samples}})$, and we may easily prove the following lemma showing such a $B$ exists.
 
-\textbf{Lemma}: Let $\rhoML{\M'} \sim \mathcal{N}(0, \Sigma/N_{\mathrm{samples}})$. Let $\lambda_{\max}(\Sigma)$ denote the largest eigenvalue of $\Sigma$. Define a ball $B$, centered at $0$, whose radius is $\sqrt{\lambda_{\max}(\Sigma)}/N_{\mathrm{samples}}^{1/4}$. Then, $\lim_{N_{\mathrm{samples}} \rightarrow \infty} \mathrm{Pr}(\rhoML{\M'} \in B) =1$.
+\textbf{Lemma}: Let $\rhoML{\M'} \sim \mathcal{N}(0, \Sigma/N_{\mathrm{samples}})$, and let $\lambda_{\max}(\Sigma)$ denote the largest eigenvalue of $\Sigma$. Define a ball $B = \{\rho \in \M' ~|~\mathrm{Tr}(\rho^{2}) \leq r^{2}\}$, where $r = \sqrt{\lambda_{\max}(\Sigma)}/N_{\mathrm{samples}}^{1/4}$. Then, $\lim_{N_{\mathrm{samples}} \rightarrow \infty} \mathrm{Pr}(\rhoML{\M'} \in B) =1$.
 
 \textbf{Proof}: Let $B_{0}$ be an ellipsoidal ball defined by $\{\rho \in \M'~|~\mathrm{Tr}(\rho \Sigma^{-1} \rho) \leq r^{2}/N_{\mathrm{samples}}\}$, where $r^{2} = N^{1/2}_{\mathrm{samples}}$. Change coordinates by defining $\sigma = N_{\mathrm{samples}}^{1/2}\Sigma^{-1/2}\rho$. In these new coordinates
 \[\hat{\sigma}_{\mathrm{ML},\M'} \sim \mathcal{N}(0, \Id_{d'}),~~~B_{0} = \{\sigma \in \M'~|~\mathrm{Tr}(\sigma^{2}) \leq r^{2}\},\]
 and
-\[\mathrm{Pr}(\hat{\sigma}_{\mathrm{ML},\M'} \in B_{0}) = \mathrm{Pr}(\mathrm{Tr}(\hat{\sigma}_{\mathrm{ML},\M'}^{2}) \leq r^{2}) = \int_{0}^{r^{2}}\chi^{2}_{d'}(z)~dz,\]
+\begin{align*}
+\mathrm{Pr}(\hat{\sigma}_{\mathrm{ML},\M'} \in B_{0}) &= \mathrm{Pr}(\mathrm{Tr}(\hat{\sigma}_{\mathrm{ML},\M'}^{2}) \leq r^{2})\\
+&= \int_{0}^{r^{2}}\chi^{2}_{d'}(z)~dz,
+\end{align*}
 because $\mathrm{Tr}(\hat{\sigma}_{\mathrm{ML},\M'}^{2})$ is a $\chi^{2}_{d'}$ random variable. From our choice of $r^{2}$, it follows that
 \[\lim_{N_{\mathrm{samples}} \rightarrow \infty}~\mathrm{Pr}(\hat{\sigma}_{\mathrm{ML},\M'} \in B_{0})  =\int_{0}^{\infty}\chi^{2}_{d'}(z)~dz =1.\]
 Switching back to the original coordinates, we have
@@ -219,8 +222,8 @@ Let's write the defining equation for $B_{0}$ in the standard quadratic form for
 The standard ellipsoid $\{\mathbf{x}~|~\mathbf{x}^{T}A\mathbf{x} \leq 1\}$ has semi-major axes whose lengths $s_{j}$ are related to the eigenvalues $a_{j}$ of $A$: $s_{j} = 1/\sqrt{a_{j}}$. The matrix $A = N_{\mathrm{samples}}^{1/2}\Sigma^{-1}$ has eigenvalues $N_{\mathrm{samples}}^{1/2}/\lambda_{j}$, where $\lambda_{j}$ are the eigenvalues of $\Sigma$. Thus, the lengths of the semi-major axes of $B_{0}$ are given by $s_{j} = 1/\sqrt{N_{\mathrm{samples}}^{1/2}/\lambda_{j}} = \sqrt{\lambda_{j}}/N_{\mathrm{samples}}^{1/4}$. Letting $\lambda_{\max}(\Sigma)$ denote the largest eigenvalue of $\Sigma$, the longest semi-major axis of $B_{0}$ has length $\sqrt{\lambda_{\max}(\Sigma)}/N_{\mathrm{samples}}^{1/4}$.
 Because $B$ is a ball whose radius is equal to this length, $B_{0} \subset B$, and it follows that $\mathrm{Pr}(\rhoML{\M'} \in B_{0}) \leq \mathrm{Pr}(\rhoML{\M'} \in B)$. Because $\mathrm{Pr}(\rhoML{\M'} \in B_{0}) \leq \mathrm{Pr}(\rhoML{\M'} \in B) \leq 1$, and the asymptotic limit of $\mathrm{Pr}(\rhoML{\M'} \in B_{0})$ is 1, it follows from the squeeze theorem that $\lim_{N_{\mathrm{samples}\rightarrow \infty}}\mathrm{Pr}(\rhoML{\M'} \in B)=1$.
 ~\\~\\
-Informally speaking, this lemma implies that ``all the action" about the MLEs $\rhoML{\M'}$ takes place inside $B$ and we can disregard the rest of the model when analyzing properties of the MLE. 
-\todo[inline]{More explanation?}
+Informally speaking, this lemma implies that ``all the action" about the MLEs $\rhoML{\M'}$ takes place inside $B$ and we can disregard the rest of the model when analyzing their properties.
+
 We now change coordinates so that, instead of have $B$ shrink,  $B, \M$, and $\M'$ all grow as $N_{\mathrm{samples}}$ increases. Consider the ``$N_{\mathrm{samples}}$-adjusted" coordinate system defined by $\sigma =  N^{1/4}_{\mathrm{samples}}\rho$. Notice the origin $(\rho_{0})$ remains unchanged, because of our earlier coordinate transformation that established it as the origin. Under this transformation, $B$ is given by
 \[B = \{\sigma \in \M'~|~\mathrm{Tr}(\sigma^{2}) \leq \sqrt{\lambda_{\max}(\Sigma)}N_{\mathrm{samples}}^{1/4}\}\]
  The models $\M,\M'$ also expand under this transformation. However, they are not strict subsets of $B$ -- consider any $\rho$ satisfying $\mathrm{Tr}(\rho^{2}) \geq \sqrt{\lambda_{\max}(\Sigma)}/N_{\mathrm{samples}}^{1/4}$. Then, $N_{\mathrm{samples}}^{1/4}\rho \not \in B$.
