@@ -157,13 +157,13 @@ The next section of this paper is devoted to developing a framework for deriving
 \section{Generalizing LAN to Deal with Constraints}
 \label{sec:wilksreplacement}
 
-In this section, we define a framework that will allow us to derive a replacement for the Wilks theorem that is valid for rank-deficient $\rho_{0}$. To do so, we define a replacement for LAN in the presence of boundaries, which we call \emph{Local Asymptotic Metric-Projected Normality}.
+In this section, we define a framework that will allow us to derive a replacement for the Wilks theorem that is valid for rank-deficient $\rho_{0}$. To do so, we define a generalization of LAN in the presence of boundaries, which we call \emph{Local Asymptotic Metric-Projected Normality}.
 
 \subsection{Definitions; Overview of Results}
 
 The main definitions and results required for the remainder of the paper are presented in this subsection. Technical details and proofs are presented in the next subsection.
 
-\textbf{Definition - Local Asymptotic Metric-Projected Normality (LAMPN)}: A statistical model $\M$ satisfies LAMPN if, and only if, $\M$ is a convex subset of a model $\M'$ for which LAN holds.
+\textbf{Definition - Local Asymptotic Metric-Projected Normality (LAMPN)}: A statistical model $\M$ satisfies LAMPN if, and only if, $\M$ is a convex subset of a model $\M'$ which satisfies LAN.
 
 Models which satisfy LAMPN have several nice properties.
 
@@ -172,9 +172,9 @@ Models which satisfy LAMPN have several nice properties.
 \underline{Second}: $\rhoML{\M}$ is given by the \emph{metric projection} of $\rhoML{\M'}$ onto $T(\rho_{0})$:
 \begin{equation}
 \label{eq:lampnmle}
-\rhoML{\M} = \underset{\sigma \in T(\rho_{0})}{\text{argmin}}~(\sigma  -\rhoML{\M'})\mathcal{I}(\sigma  -\rhoML{\M'})
+\rhoML{\M} = \underset{\sigma \in T(\rho_{0})}{\text{argmin}}~(\sigma  -\rhoML{\M'})\mathcal{I}(\sigma  -\rhoML{\M'}).
 \end{equation}
-The term ``metric projection" has its origins in the convex optimization literature \cite{McCoy2014, Amelunxen2014}, and inspires our choice for the acronym ``LAMPN". (However, it should be noted that in the problem setting considered in those references, $\mathcal{I} = \Id$.)
+We first encountered the term ``metric projection" in the convex optimization literature \cite{McCoy2014, Amelunxen2014}, and it inspires our choice for the acronym ``LAMPN". (However, it should be noted that in the problem setting considered in those references, $\mathcal{I} = \Id$.)
 
 \underline{Third}: asymptotically, the loglikelihood ratio $\lambda(\rho_{0}, \M)$, which is defined as
 \[\lambda(\rho_{0}, \M) = -2 \log \left(\frac{\cL(\rho_{0})}{\underset{\rho \in \M}{\max}~\cL(\rho)}\right),\]
@@ -185,7 +185,7 @@ takes the following simple form
 \end{equation}
 This property follows from the first and second properties, and is necessary for our derivation in Section \ref{sec:computingllrs} of $\langle \lambda \rangle$.
 
-It should be noted that LAMPN is a property of $\M$ itself, not of our statistical inference. Further, its \emph{consequences} hold only asymptotically ($N_{\mathrm{samples}} \rightarrow \infty$). However, for sufficiently large $N_{\mathrm{samples}}$ such that we are in an ``asymptotic" regime, we can (and will!) use results derived in the asymptotic limit.
+It should be noted that LAMPN is a property of $\M$ itself, not of our statistical inference. Further, its \emph{consequences} only hold asymptotically ($N_{\mathrm{samples}} \rightarrow \infty$). However, for sufficiently large $N_{\mathrm{samples}}$ such that we are in an ``asymptotic" regime, we can (and will!) use results derived in the asymptotic limit.
 
 The following subsection presents the technical details and definitions to show the above results. The reader may skip it without loss of continuity, and proceed to Section \ref{sec:computingllrs}.
 
