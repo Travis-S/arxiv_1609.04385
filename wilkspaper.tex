@@ -302,9 +302,7 @@ With these technical results in hand, we may proceed to compute $\langle \lambda
 \section{Deriving a Replacement for the Wilks theorem in Tomography}
 \label{sec:computingllrs}
 
-With the framework of LAMPN available to us, we are ready to derive a replacement for the Wilks theorem. In doing so, we face the obstacle that the distributions of $\rhoML{d}, \rhoML{d+1}$ are complicated, highly non-Gaussian, and singular (because estimates ``pile up'' on the various faces of the boundary; recall Figure \ref{fig:boundaries}).  For this reason, we will not attempt to compute $\mathrm{Pr}(\lambda)$ directly.  Instead, we focus on deriving a good approximation for $\langle \lambda \rangle$.
-
-To justify using the LAMPN framework to compute $\langle \lambda(\M_{d}, \M_{d+1}) \rangle$, we first need to show that the models $\M_{d}$ satisfy it. Thankfully, it is straightforward to do so.
+With the framework of LAMPN available to us, we are ready to derive a replacement for the Wilks theorem. We first need to show that the models $\M_{d}$ satisfy LAMPN. Thankfully, it is straightforward to do so.
 
 \textbf{Lemma}: The models $\M_{d}$, defined in Equation \eqref{eq:modelsd}, satisfy LAMPN.
 
@@ -327,7 +325,9 @@ With this simplification, $\lambda(\M_{d},\M_{d+1})$ is given by
 \end{equation}
 That is, $\lambda$ is a \emph{difference} in (scaled) Hilbert-Schmidt distances. This expression makes it clear why a null theory for $\lambda$ is necessary: even if $\rho_{0} \in \M_{d},\M_{d+1}$, the error in $\rhoML{d+1}$ will be greater than that in $\rhoML{d}$ (because there are more parameters which can fit noise in the data); to know if $\M_{d+1}$ is actually fitting additional \emph{signal} in the data, we need to know how much noise we would erroneously accept as being actual signal.
 
-Because $\lambda$ itself depends on two terms, each of which has a similar form, we can further simplify the task of computing $\langle \lambda \rangle$ to that of computing $\epsilon^{2}\langle \lambda(\rho_{0}, \M_{d}) \rangle = \langle \mathrm{Tr}[(\rhoML{d}  - \rho_{0})^{2}] \rangle$ for arbitrary $d$.
+In computing $\lambda$ we face the obstacle that the distributions of $\rhoML{d}, \rhoML{d+1}$ are complicated, highly non-Gaussian, and singular (because estimates ``pile up'' on the various faces of the boundary; recall Figure \ref{fig:boundaries}).  For this reason, we will not attempt to compute $\mathrm{Pr}(\lambda)$ directly.  Instead, we focus on deriving a good approximation for $\langle \lambda \rangle$.
+
+Because $\expect{\lambda}$ itself depends on two terms, each of which has a similar form, we can further simplify the task of computing $\langle \lambda \rangle$ to that of computing $\epsilon^{2}\langle \lambda(\rho_{0}, \M_{d}) \rangle = \langle \mathrm{Tr}[(\rhoML{d}  - \rho_{0})^{2}] \rangle$ for arbitrary $d$.
 The task of calculating $\epsilon^{2}\langle \lambda(\rho_{0}, \M_{d})\rangle$ involves two main steps:
 \begin{itemize}
 \item[(1)] Identify degrees of freedom in $\rhoML{\M'_{d}}$ which are unaffected by projection onto the tangent cone $T(\rho_{0})$, and those which are.
