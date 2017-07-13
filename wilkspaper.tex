@@ -329,7 +329,7 @@ That is, $\lambda$ is a \emph{difference} in (scaled) Hilbert-Schmidt distances.
 In computing $\lambda$ we face the obstacle that the distributions of $\rhoML{d}, \rhoML{d+1}$ are complicated, highly non-Gaussian, and singular (because estimates ``pile up'' on the various faces of the boundary; recall Figure \ref{fig:boundaries}).  For this reason, we will not attempt to compute $\mathrm{Pr}(\lambda)$ directly.  Instead, we focus on deriving a good approximation for $\langle \lambda \rangle$.
 
 Because $\expect{\lambda}$ itself depends on two terms, each of which has a similar form, we can further simplify the task of computing $\langle \lambda \rangle$ to that of computing $\epsilon^{2}\langle \lambda(\rho_{0}, \M_{d}) \rangle = \langle \mathrm{Tr}[(\rhoML{d}  - \rho_{0})^{2}] \rangle$ for arbitrary $d$.
-The task of calculating $\epsilon^{2}\langle \lambda(\rho_{0}, \M_{d})\rangle$ involves two main steps:
+Doing so involves two main steps:
 \begin{itemize}
 \item[(1)] Identify degrees of freedom in $\rhoML{\M'_{d}}$ which are unaffected by projection onto the tangent cone $T(\rho_{0})$, and those which are.
 \item[(2)] For both sets of degrees of freedom, evaluate the contributions of each degree of freedom to the value of $\langle \lambda \rangle$.
@@ -351,7 +351,7 @@ and therefore $\langle \lambda \rangle = \sum_{jk}\langle\lambda_{jk}\rangle$.  
 \item Those for which the corresponding matrix elements of $\rhoML{\M_{d}}$ \emph{are constrained}.
 \item Those for which the corresponding matrix elements of $\rhoML{\M_{d}}$ \emph{are not constrained}, because they lie on the surface of the tangent cone $T(\rho_{0})$.
 \end{enumerate}
-This division is a natural one, given LAMPN - even after projection onto $T(\rho_{0})$ , some matrix elements of $\rhoML{\M_{d}}$ will not be constrained, while others will. The former, which lie in what we call the ``L", comprise all off-diagonal elements on the support of $\rho_0$ \emph{and} between the support and the kernel, while the latter, which lie in what we call the ``kite", are all diagonal elements \emph{and} all elements on the kernel (null space) of $\rho_0$.
+This division is a natural one, given LAMPN - even after projection onto $T(\rho_{0})$, some matrix elements of $\rhoML{\M_{d}}$ will not be constrained, while others will. The former, which lie in what we call the ``L", comprise all off-diagonal elements on the support of $\rho_0$ \emph{and} between the support and the kernel, while the latter, which lie in what we call the ``kite", are all diagonal elements \emph{and} all elements on the kernel (null space) of $\rho_0$.
 
 Performing this division is also supported by numerical simulations (see Figure \ref{fig:L}). Matrix elements in the ``L" appear to contribute $\langle \lambda_{jk}\rangle = 1$, consistent with the Wilks theorem, while those in the ``kite" contribute more (if they are within the support of $\rho_{0}$) or less (if they are in the kernel).  Having performed the division of the matrix elements of $\rhoML{\M'_{d}}$, we observe that $\langle\lambda\rangle = \expect{\lambda_{\mathrm{L}}} + \expect{\lambda_{\mathrm{kite}}}$. Because each $\langle \lambda_{jk}\rangle$ is not necessarily equal to one (as in the Wilks theorem), and because many of them are less than 1, it's clear that their total $\langle \lambda \rangle$ is dramatically lower than that predicted by the Wilks theorem. (Recall Figure \ref{fig:boundaries2}.)
 
@@ -379,7 +379,7 @@ However, if either $j$ or $k$ (or both) lie within the \emph{kernel} of $\rho_{0
 \label{subsec:kite}
 Computing $\langle \lambda_{\mathrm{L}}\rangle$ was made easy by the fact that the matrix elements of $\delta$ in the ``L" are unaffected by the projection of $\rhoML{\M'_{d}}$ onto $T(\rho_{0})$. Computing $\expect{\lambda_{\mathrm{kite}}}$ is a bit harder, because the boundary \emph{does} constrain its elements. We need a procedure to compute $\rhoML{d}$ given $\rhoML{\M'_{d}}$ -- i.e., to solve the optimization problem in Eq. \eqref{eq:lampnmle}.  Fortunately, an algorithm for doing so was presented in \cite{Smolin2012}:
 \begin{enumerate}[noitemsep]
-\item Subtract $q\Id$ from the unconstrained $\rhoML{\M'_{d}}$, for a particular real scalar $q$,
+\item Subtract $q\Id$ from $\rhoML{\M'_{d}}$, for a particular real scalar $q$.
 \item ``Truncate'' $\rhoML{\M'_{d}}-q\Id$, by replacing each of its negative eigenvalues with zero.
 \end{enumerate}
 Here, $q$ is defined implicitly such that $\Tr\left[ \mathrm{Trunc}(\rhoML{\M'_{d}}-q\Id)\right] = 1$.
@@ -529,8 +529,8 @@ Because Equation \eqref{eq:ourLLRS} uses an approximate expression for $z$ given
 
 While our expression for $z$ in Equation \eqref{eq:truncation} suffers from poor accuracy when $r > d/2$, it turns out our expression for $\langle \lambda \rangle$ is \emph{extremely accurate} over a wide range of values of $r$. In Figure \ref{fig:comparez}, we plot our expression for $\langle \lambda \rangle$ as a function of $z - z_{\mathrm{numeric}}$ for a fixed value of $d$, and variable values of $r$. Figure \ref{fig:comparez} shows several important features:
 \begin{itemize}[nosep]
-\item When $r << d$, $\langle \lambda \rangle$ is almost \emph{flat} (as a function of $z$) near the value we predict in Equation \eqref{eq:truncation}. In addition, our prediction (square) is close to the $\langle z \rangle_{\mathrm{numeric}}$ (circle).
-\item However, as $r$ becomes comparable to $d$, $\langle \lambda \rangle$ becomes more curved, meaning errors in predicting the correct value for $z$ dramatically affect our ability to correctly predict $\langle \lambda \rangle$
+\item When $r << d$, $\langle \lambda \rangle$ is almost \emph{flat} (as a function of $z$) near the value we predict in Equation \eqref{eq:truncation}. In addition, our prediction (square) is close to $\langle z \rangle_{\mathrm{numeric}}$ (circle).
+\item As $r$ becomes comparable to $d$, $\langle \lambda \rangle$ becomes more curved, meaning errors in predicting the correct value for $z$ dramatically affect our ability to correctly predict $\langle \lambda \rangle$.
 \item What is more, evaluating Equation \eqref{eq:ourLLRS} \emph{at} $\langle z \rangle_{\mathrm{numeric}}$ appears to give a prediction for $\langle \lambda \rangle$ which is extremely close to its \emph{actual numeric average} (dashed line).
 \end{itemize}
 
@@ -569,11 +569,12 @@ Results of this test are shown in Figure \ref{fig:modelcomp}, where we plot the 
  \includegraphics[width=\columnwidth]{Images/Figure_8.pdf}
  \caption{The Wilks theorem (orange dots) dramatically over-estimates $\langle\lambda(\rho_{0}, \M_{d})\rangle$ in optical heterodyne tomography. Our formula, Equation \ref{eq:ourLLRS} (blue squares), is far more accurate. Residual discrepancies occur in large part because $N_{\mathrm{samples}}$ is not yet ``asymptotically large''. The solid red line corresponds to perfect correlation between theory ($\expect{\lambda}$) and practice ($\bar\lambda$).}
  \label{fig:modelcomp}
+\todo[inline]{Put the right equation number in here}
 \end{figure}
 
 Interestingly, as $d$ grows, Equation \eqref{eq:ourLLRS} also begins to overpredict. As Figure \ref{fig:totalcontrib} indicates, a more accurate description is that the numerical experiments are \emph{underachieving}, because $\bar\lambda$ is still growing with $N_{\mathrm{samples}}$.  Both the Wilks theorem and our analysis are derived in an asymptotic limit $N_{\mathrm{samples}} \rightarrow \infty$; for finite but large $N_{\mathrm{samples}}$, both may be invalid.  Figure \ref{fig:totalcontrib} shows that, even at $N\sim 10^{5}$, the behavior of $\bar{\lambda}$ has failed to become asymptotic. This is surprising, and suggests heterodyne tomography is a particularly exceptional and challenging case to model statistically. 
 
-\begin{figure}[h]
+\begin{figure}
   \includegraphics[width=\columnwidth]{Images/Figure_9.pdf}
  \caption{The empirical average $\bar{\lambda}$  may have achieved its asymptotic value, or is still 
 growing, depending on the true state $\rho_{0}$ and the model dimension $d$. Solid lines indicate the value of our formula
