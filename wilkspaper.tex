@@ -518,7 +518,7 @@ Equation \eqref{eq:ourLLRS} is our main result.  To test its validity, we compar
  \label{fig:modelcomp-iso}
 \end{figure}
 
-Because Equation \eqref{eq:ourLLRS} uses an approximate expression for $z$ given in Equation \eqref{eq:truncation}, it is instructive to compare our expression to the average value over many  numerical experiments $\langle z \rangle_{\mathrm{numeric}}$. This comparison is shown in Figure \ref{fig:modelcomp-iso-z}. It is clear that Equation \eqref{eq:truncation} is most reliable when $r << d$. At first glance, Figure \ref{fig:modelcomp-iso-z} might suggest to the reader that skepticism in the results of Figure \ref{fig:modelcomp-iso} is appropriate. However, this is not the case, as we detail below.
+Because Equation \eqref{eq:ourLLRS} uses an approximate expression for $z$ given in Equation \eqref{eq:truncation}, it is instructive to compare our expression to the average value over many  numerical experiments $\langle z \rangle_{\mathrm{numeric}}$. This comparison is shown in Figure \ref{fig:modelcomp-iso-z}. It is clear that Equation \eqref{eq:truncation} is most reliable when $r << d$. At first glance, Figure \ref{fig:modelcomp-iso-z} might give  the skeptical reader pause regarding  the results displayed in Figure \ref{fig:modelcomp-iso}. However, it turns out Equation \eqref{eq:ourLLRS} \emph{is} accurate, as we detail below.
 
 
 \begin{figure}[h]
@@ -527,11 +527,11 @@ Because Equation \eqref{eq:ourLLRS} uses an approximate expression for $z$ given
  \label{fig:modelcomp-iso-z}
 \end{figure}
 
-While our expression for $z$ in Equation \eqref{eq:truncation} suffers from poor accuracy when $r > d/2$, it turns out our expression for $\langle \lambda \rangle$ is \emph{extremely accurate} over a wide range of values of $r$. In Figure \ref{fig:comparez}, we plot our expression for $\langle \lambda \rangle$ as a function of $z - z_{\mathrm{numeric}}$ for a fixed value of $d$, and variable values of $r$. Figure \ref{fig:comparez} shows several important features:
+In Figure \ref{fig:comparez}, we plot our expression for $\langle \lambda \rangle$ as a function of $z - z_{\mathrm{numeric}}$ for a fixed value of $d$, and variable values of $r$. Figure \ref{fig:comparez} shows several important features:
 \begin{itemize}[nosep]
 \item When $r << d$, $\langle \lambda \rangle$ is almost \emph{flat} (as a function of $z$) near the value we predict in Equation \eqref{eq:truncation}. In addition, our prediction (square) is close to $\langle z \rangle_{\mathrm{numeric}}$ (circle).
 \item As $r$ becomes comparable to $d$, $\langle \lambda \rangle$ becomes more curved, meaning errors in predicting the correct value for $z$ dramatically affect our ability to correctly predict $\langle \lambda \rangle$.
-\item What is more, evaluating Equation \eqref{eq:ourLLRS} \emph{at} $\langle z \rangle_{\mathrm{numeric}}$ appears to give a prediction for $\langle \lambda \rangle$ which is extremely close to its \emph{actual numeric average} (dashed line).
+\item Evaluating Equation \eqref{eq:ourLLRS} \emph{at} $\langle z \rangle_{\mathrm{numeric}}$ appears to give a prediction for $\langle \lambda \rangle$ which is extremely close to its \emph{actual numeric average} (dashed line).
 \end{itemize}
 
 \begin{figure}[h]
@@ -540,7 +540,7 @@ While our expression for $z$ in Equation \eqref{eq:truncation} suffers from poor
  \label{fig:comparez}
 \end{figure}
 
-Thus, we conclude that Equation \eqref{eq:ourLLRS} is extremely accurate on its own, and, given an accurate value for $z$, will yield an accurate prediction for $\langle \lambda \rangle$. Our approximation for $z$ in Equation \eqref{eq:truncation} is accurate when $r << d$; as $r$ becomes comparable to $d$, it begins to break down. However, the main message of Figure \ref{fig:modelcomp-iso} remains: using Equations \eqref{eq:ourLLRS} and \eqref{eq:truncation}, it's possible to predict $\langle \lambda \rangle$ much more accurately than when using the Wilks theorem. 
+Thus, we conclude that Equation \eqref{eq:ourLLRS} is extremely accurate on its own, and given an accurate value for $z$, will yield an accurate prediction for $\langle \lambda \rangle$. Our approximation for $z$ in Equation \eqref{eq:truncation} is accurate when $r << d$; as $r$ becomes comparable to $d$, it begins to break down. The main message of Figure \ref{fig:modelcomp-iso} remains, though: using Equations \eqref{eq:ourLLRS} and \eqref{eq:truncation}, it's possible to predict $\langle \lambda \rangle$ much more accurately than when using the Wilks theorem.
 
 
 
