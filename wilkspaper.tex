@@ -307,16 +307,16 @@ With the framework of LAMPN available to us, we are ready to derive a replacemen
 
 \textbf{Lemma}: The models $\M_{d}$, defined in Equation \eqref{eq:modelsd}, satisfy LAMPN.
 
-\textbf{Proof}: Let $\M'_{d} = \{\sigma ~|~\mathrm{dim}(\sigma) = d, \sigma = \sigma^{\dagger}\}$. (That is, $\M'_{d}$ is the set of all $d \times d$ Hermitian matrices, but we do not require them to be non-negative, nor trace-1.) It is clear $\M_{d} \subset \M'_{d}$. Next, the likelihood $\cL(\sigma)$ is twice continuously differentiable in $\M'_{d}$ at any $\sigma$, meaning LAN is satisfied. Thus, $\M_{d}$ satisfies LAMPN.
+\textbf{Proof}: Let $\M'_{d} = \{\sigma ~|~\mathrm{dim}(\sigma) = d, \sigma = \sigma^{\dagger}\}$. (That is, $\M'_{d}$ is the set of all $d \times d$ Hermitian matrices, but we do not require them to be non-negative, nor trace-1.) It is clear $\M_{d} \subset \M'_{d}$. Next, the likelihood $\cL(\sigma)$ is twice continuously differentiable in $\M'_{d}$ at any $\sigma$, meaning $\M'_{d}$ satisfies LAN. Thus, $\M_{d}$ satisfies LAMPN. \qed
 
 As mentioned in the previous section, it's useful to reduce the problem of computing $\lambda(\M_{d}, \M_{d+1})$ to that of computing $\lambda(\rho_{0}, \M_{k})$ for $k = d, d+1$ using the identity
 \[\lambda(\M_{d}, M_{d+1}) = \lambda(\rho_{0}, \M_{d+1}) - \lambda(\rho_{0}, \M_{d}).\]
 Because each model satisfies LAMPN, it is possible to write $\lambda(\rho_{0}, \M_{k})$ in a very simple form, via Equation \eqref{eq:llrs_lan}:
 \[\lambda(\rho_{0}, \M_{k}) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M_{k}})\mathcal{I}_{k}(\rho_{0} - \rhoML{\M_{k}})].\]
-The Fisher information $\mathcal{I}_{k}$ is generally anisotropic, and depends on $\rho_{0}$ and the POVM being measured (see Figure \ref{fig:anisofi}). And while the constraint $\rho\geq0$ that invalidated LAN in the first place is at least somewhat tractable in standard (Hilbert-Schmidt) coordinates, it becomes completely intractable in Fisher-adjusted coordinates.  So, to obtain a semi-analytic null theory for $\lambda$, we will simplify to the case where   $\mathcal{I}_{k} = \Id_{k}/\epsilon $ for some $\epsilon$ that scales as $1/\sqrt{N_{\mathrm{samples}}}$. (That is, $\mathcal{I}_{k}$ is proportional to the Hilbert-Schmidt metric for model $\M_{k}$.) This simplification permits the derivation of analytic results which capture realistic tomographic scenarios surprisingly well \cite{Smolin2012}.
+The Fisher information $\mathcal{I}_{k}$ is generally anisotropic, and depends on $\rho_{0}$ and the POVM being measured (see Figure \ref{fig:anisofi}). And while the $\rho\geq0$ constraint  that invalidated LAN in the first place is at least somewhat tractable in standard (Hilbert-Schmidt) coordinates, it becomes completely intractable in Fisher-adjusted coordinates.  So, to obtain a semi-analytic null theory for $\lambda$, we will simplify to the case where   $\mathcal{I}_{k} = \Id_{k}/\epsilon $ for some $\epsilon$ that scales as $1/\sqrt{N_{\mathrm{samples}}}$. (That is, $\mathcal{I}_{k}$ is proportional to the Hilbert-Schmidt metric for model $\M_{k}$.) This simplification permits the derivation of analytic results which capture realistic tomographic scenarios surprisingly well \cite{Smolin2012}.
 \begin{figure}
 \includegraphics[width=.85\columnwidth]{Images/Figure_2.pdf}
- \caption{Anisotropy of the Fisher information for a rebit measured using the POVM $\frac{1}{2}\{|0\rangle\langle 0|, |1\rangle\langle 1|, |+\rangle\langle +|, |-\rangle\langle -|\}$. Depending on $\rho_{0}$ (star), the distribution of the unconstrained estimates $\hat{\rho}_{\mathrm{ML}}$ (ellipses) may be anisotropic. Imposing the positivity constraint $\rho \geq 0$ is difficult to do in Fisher-adjusted coordinates, as performing that transformation distorts the state-space geometry. In this paper, we simplify these complexities to the case where $\mathcal{I} \propto \Id$, \emph{and is independent of $\rho_{0}$}.}
+ \caption{Anisotropy of the Fisher information for a rebit measured using the POVM $\frac{1}{2}\{|0\rangle\langle 0|, |1\rangle\langle 1|, |+\rangle\langle +|, |-\rangle\langle -|\}$. Depending on $\rho_{0}$ (star), the distribution of the unconstrained estimates $\hat{\rho}_{\mathrm{ML}}$ (ellipses) may be anisotropic. Imposing the positivity constraint $\rho \geq 0$ is difficult in Fisher-adjusted coordinates; in this paper, we simplify these complexities to the case where $\mathcal{I} \propto \Id$, \emph{and is independent of $\rho_{0}$}.}
 \label{fig:anisofi}
 \end{figure}
 
@@ -324,18 +324,18 @@ With this simplification, $\lambda(\M_{d},\M_{d+1})$ is given by
 \begin{equation}
 \lambda = \frac{1}{\epsilon^{2}}\left(\mathrm{Tr}[(\rho_{0} - \rhoML{d+1})^{2}] -  \mathrm{Tr}[(\rho_{0} - \rhoML{d})^{2}]\right).
 \end{equation}
-That is, $\lambda$ is a \emph{difference} in (scaled) Hilbert-Schmidt distances. This expression makes it clear why a null theory for $\lambda$ is necessary: even if $\rho_{0} \in \M_{d},\M_{d+1}$, the error in $\rhoML{d+1}$ will be greater than that in $\rhoML{d}$ (because there are more parameters which can fit noise in the data); to know if $\M_{d+1}$ is actually fitting additional \emph{signal} in the data, we need to know how much noise we would erroneously accept as being actual signal.
+That is, $\lambda$ is a \emph{difference} in Hilbert-Schmidt distances. This expression makes it clear why a null theory for $\lambda$ is necessary: even if $\rho_{0} \in \M_{d},\M_{d+1}$, the error of $\rhoML{d+1}$ will be greater than that of $\rhoML{d}$ (because there are more parameters which can fit noise in the data); to know if $\M_{d+1}$ is actually fitting additional \emph{structure} in the data, we need to know how much noise we would erroneously accept as structure.
 
-In computing $\lambda$ we face the obstacle that the distributions of $\rhoML{d}, \rhoML{d+1}$ are complicated, highly non-Gaussian, and singular (because estimates ``pile up'' on the various faces of the boundary; recall Figure \ref{fig:boundaries}).  For this reason, we will not attempt to compute $\mathrm{Pr}(\lambda)$ directly.  Instead, we focus on deriving a good approximation for $\langle \lambda \rangle$.
+In computing $\mathrm{Pr}(\lambda)$ we face the obstacle that the distributions of $\rhoML{d}, \rhoML{d+1}$ are complicated, highly non-Gaussian, and singular (because estimates ``pile up'' on the various faces of the boundary; recall Figure \ref{fig:boundaries}).  For this reason, we will not attempt to compute $\mathrm{Pr}(\lambda)$ directly.  Instead, we focus on deriving a good approximation for $\langle \lambda \rangle$.
 
-Because $\expect{\lambda}$ itself depends on two terms, each of which has a similar form, we can further simplify the task of computing $\langle \lambda \rangle$ to that of computing $\epsilon^{2}\langle \lambda(\rho_{0}, \M_{d}) \rangle = \langle \mathrm{Tr}[(\rhoML{d}  - \rho_{0})^{2}] \rangle$ for arbitrary $d$.
+Because $\expect{\lambda}$ itself depends on two terms, each of which has a similar form, we can further simplify our task to that of computing $\epsilon^{2}\langle \lambda(\rho_{0}, \M_{d}) \rangle = \langle \mathrm{Tr}[(\rhoML{d}  - \rho_{0})^{2}] \rangle$ for arbitrary $d$.
 Doing so involves two main steps:
 \begin{itemize}
-\item[(1)] Identify degrees of freedom in $\rhoML{\M'_{d}}$ which are unaffected by projection onto the tangent cone $T(\rho_{0})$, and those which are.
-\item[(2)] For both sets of degrees of freedom, evaluate the contributions of each degree of freedom to the value of $\langle \lambda \rangle$.
+\item[(1)] Identifying degrees of freedom in $\rhoML{\M'_{d}}$ that are unaffected by projection onto the tangent cone $T(\rho_{0})$, and those that are.
+\item[(2)] For both types of degrees of freedom, evaluate the contributions of each degree of freedom to the value of $\langle \lambda \rangle$.
 \end{itemize}
 
-The remainder of this section is devoted to doing both steps. In Section \ref{subsec:dof}, we identify two sets of degrees of freedom in $\rhoML{\M'}$, which we call the ``L" and the ``kite", respectively. Section \ref{subsec:L} computes the contribution of degrees of freedom in the ``L", and Section \ref{subsec:kite} computes the contribution from the ``kite". The total expected value is given in Equation \eqref{eq:ourLLRS} in Section \ref{subsec:LLRS}.
+The remainder of this section is devoted to doing both steps. In Section \ref{subsec:dof}, we identify two types of degrees of freedom in $\rhoML{\M'}$, which we call the ``L" and the ``kite", respectively. Section \ref{subsec:L} computes the contribution of degrees of freedom in the ``L", and Section \ref{subsec:kite} computes the contribution from the ``kite". The total expected value is given in Equation \eqref{eq:ourLLRS} in Section \ref{subsec:LLRS}.
 
 \subsection{Separating out Degrees of Freedom in $\rhoML{\M'_{d}}$}
 \label{subsec:dof}
@@ -345,19 +345,19 @@ We begin by observing that $\lambda(\rho_{0}, \M_{d})$ can be written as a sum o
 \nonumber \lambda &=\epsilon^{-2}\mathrm{Tr}[(\rhoML{d} - \rho_{0})^{2}] = \epsilon^{-2}\sum_{jk}|(\rhoML{d}- \rho_{0} )_{jk}|^{2}\\
 &= \sum_{jk}\lambda_{jk}~~~~\text{where}~~~~\lambda_{jk} = \epsilon^{-2}|(\rhoML{d} - \rho_{0} )_{jk} |^{2},
 \end{align}
-and therefore $\langle \lambda \rangle = \sum_{jk}\langle\lambda_{jk}\rangle$.  Each term $\langle \lambda_{jk}\rangle$ quantifies the average mean-squared error of a single matrix element of $\rhoML{d}$, and while the Wilks theorem predicts $\expect{\lambda_{jk}}=1$ for all $j,k$, due to positivity constraints, this no longer holds. In particular, the matrix elements of $\rhoML{\M'_{d}}$ now fall into two parts:
+and therefore $\langle \lambda \rangle = \sum_{jk}\langle\lambda_{jk}\rangle$.  Each term $\langle \lambda_{jk}\rangle$ quantifies the mean-squared error of a single matrix element of $\rhoML{d}$, and while the Wilks theorem predicts $\expect{\lambda_{jk}}=1$ for all $j,k$, due to positivity constraints, this no longer holds. In particular, the matrix elements of $\rhoML{d}$ now fall into two parts:
 
 \begin{enumerate}[noitemsep]
-\item Those for which the corresponding matrix elements of $\rhoML{\M_{d}}$ \emph{are constrained}.
-\item Those for which the corresponding matrix elements of $\rhoML{\M_{d}}$ \emph{are not constrained}, because they lie on the surface of the tangent cone $T(\rho_{0})$.
+\item Those for which the corresponding matrix elements of $\rhoML{\M'_{d}}$ \emph{are constrained}.
+\item Those for which the corresponding matrix elements of $\rhoML{\M'_{d}}$ \emph{are not constrained}, because they correspond to directions on the surface of the tangent cone $T(\rho_{0})$.
 \end{enumerate}
-This division is a natural one, given LAMPN - even after projection onto $T(\rho_{0})$, some matrix elements of $\rhoML{\M_{d}}$ will not be constrained, while others will. The former, which lie in what we call the ``L", comprise all off-diagonal elements on the support of $\rho_0$ \emph{and} between the support and the kernel, while the latter, which lie in what we call the ``kite", are all diagonal elements \emph{and} all elements on the kernel (null space) of $\rho_0$.
+This division is a natural one, given LAMPN - even after projection onto $T(\rho_{0})$, some matrix elements of $\rhoML{\M_{d}}$ will not be constrained, while others will. (Recall Figure \ref{fig:tangentcone} - as a component of $\rhoML{\M'}$ along $T(\rho_{0})$ changes, the component of $\rhoML{\M}$ changes by the same amount. These elements are unconstrained.) The former, which lie in what we call the ``L", comprise all off-diagonal elements on the support of $\rho_0$ \emph{and} between the support and the kernel, while the latter, which lie in what we call the ``kite", are all diagonal elements \emph{and} all elements on the kernel (null space) of $\rho_0$.
 
 Performing this division is also supported by numerical simulations (see Figure \ref{fig:L}). Matrix elements in the ``L" appear to contribute $\langle \lambda_{jk}\rangle = 1$, consistent with the Wilks theorem, while those in the ``kite" contribute more (if they are within the support of $\rho_{0}$) or less (if they are in the kernel).  Having performed the division of the matrix elements of $\rhoML{\M'_{d}}$, we observe that $\langle\lambda\rangle = \expect{\lambda_{\mathrm{L}}} + \expect{\lambda_{\mathrm{kite}}}$. Because each $\langle \lambda_{jk}\rangle$ is not necessarily equal to one (as in the Wilks theorem), and because many of them are less than 1, it's clear that their total $\langle \lambda \rangle$ is dramatically lower than that predicted by the Wilks theorem. (Recall Figure \ref{fig:boundaries2}.)
 
 \begin{figure}[h]
 \includegraphics[width=\columnwidth]{Images/Figure_3.pdf}
- \caption{When a rank-2 state is reconstructed in $d=8$ dimensions, the total loglikelihood ratio $\lambda(\rho_0,\mathcal{M}_8)$ is the sum of terms $\lambda_{jk}$ from errors in each matrix element $(\rhoML{d})_{jk}$.  \textbf{Left}:  Numerics show a clear division; some matrix elements have $\expect{\lambda_{jk}}\sim1$ as predicted by the Wilks theorem, while others are either more or less. \textbf{Right}:  The numerical results support our theoretical reasoning for dividing the elements of $\rhoML{\M'_{d}}$ into two parts: the ``kite'' and the ``L''.}
+ \caption{When a rank-2 state is reconstructed in $d=8$ dimensions, the total loglikelihood ratio $\lambda(\rho_0,\mathcal{M}_8)$ is the sum of terms $\lambda_{jk}$ from errors in each matrix element $(\rhoML{d})_{jk}$.  \textbf{Left}:  Numerics show a clear division; some matrix elements have $\expect{\lambda_{jk}}\sim1$ as predicted by the Wilks theorem, while others are either more or less. \textbf{Right}:  The numerical results support our theoretical reasoning for dividing the matrix elements of $\rhoML{\M'_{d}}$ into two parts: the ``kite'' and the ``L''.}
 \label{fig:L}
 \end{figure}
 
@@ -366,8 +366,8 @@ In doing so, it is helpful to think about the error of the unconstrained estimat
 
 \subsection{Computing $\langle \lambda_\mathrm{L}\rangle$}
 \label{subsec:L}
-Elements of $\delta$ in the ``L'' are unconstrained by the boundary (the surface of the tangent cone $T(\rho_{0})$), and behave exactly as expected from classical theory. (Recall Figure \ref{fig:tangentcone} - as the component of $\rhoML{\M'}$ along $T(\rho_{0})$ changes, the component of $\rhoML{\M}$ changes by the same amount.) Because $\M'$ satisfies LAN, it follows that this component is a Gaussian random variable. Thus, for each element of $\delta$ in the ``L", we have $(\rhoML{\M_{d}})_{jk} = (\rhoML{\M'_{d}})_{jk}$, and $\langle \lambda_{jk} \rangle = \langle \delta_{jk}^{2}\rangle /\epsilon^{2} = 1$. The surface of the tangent cone is $2rd - r(r+1)$-dimensional, so $\expect{\lambda_{\mathrm{L}}} = 2rd - r(r+1)$.
-
+Elements of $\delta$ in the ``L'' are unconstrained by the boundary (the surface of the tangent cone $T(\rho_{0})$), and behave exactly as expected from classical theory.  Because $\M'$ satisfies LAN, it follows that each component is an i.i.d. Gaussian random variable. Thus, for each element of $\delta$ in the ``L", we have $(\rhoML{\M_{d}})_{jk} = (\rhoML{\M'_{d}})_{jk}$, and $\langle \lambda_{jk} \rangle = \langle \delta_{jk}^{2}\rangle /\epsilon^{2} = 1$. The surface of the tangent cone is $2rd - r(r+1)$-dimensional, so $\expect{\lambda_{\mathrm{L}}} = 2rd - r(r+1)$.
+\todo[inline]{Should we explicitly call out the dimension as being related to the dimension of the manifold of rank-$r$ states in $d$-dimensions?}
 Another way of viewing this result is to observe that the $\delta_{jk}$ in the ``L'' can be seen as errors which arise due to small unitary perturbations of $\rho_{0}$. Writing $\rhoML{\M'_{d}} = U^{\dagger}\rho_{0}U$, where $U=e^{i\epsilon H}$, we have
 \[\rhoML{\M'_{d}} \approx \rho_{0} + i\epsilon [\rho_{0},H]+\mathcal{O}(\epsilon^{2}).\]
 Then, $\delta \approx i\epsilon [\rho_{0},H]$.
@@ -384,7 +384,7 @@ Computing $\langle \lambda_{\mathrm{L}}\rangle$ was made easy by the fact that t
 \end{enumerate}
 Here, $q$ is defined implicitly such that $\Tr\left[ \mathrm{Trunc}(\rhoML{\M'_{d}}-q\Id)\right] = 1$.
 
-Although this was intended as a (very fast) numerical algorithm, we will manipulate it (by a series of approximations) to derive a closed-form approximation for $q$. (While it is true $q$ is a random variable -- after all, it depends on $\rhoML{\M'_{d}}$ -- it turns out that it's possible to develop a deterministic approximation for it.)
+Although this was intended as a very fast numerical algorithm, we will manipulate it (by a series of approximations) to derive a closed-form, deterministic approximation for $q$. (While it is true $q$ is a random variable -- after all, it depends on $\rhoML{\M'_{d}}$ -- it turns out that the \emph{typical} behavior of $q$ is relevant for computing $\langle \lambda_{\mathrm{kite}}\rangle$.)
 
 The truncation algorithm given in \cite{Smolin2012} for finding $\rhoML{d}$ is most naturally performed in the eigenbasis of $\rhoML{\M'_{d}}$.  Exact diagonalization of $\rhoML{\M'_{d}}$ is not feasible analytically, but only its \emph{small} eigenvalues are critical in truncation.  We assume that $N_{\mathrm{samples}}$ is sufficiently large so that all the nonzero eigenvalues of $\rho_0$ are much larger than $\epsilon$. This means the eigenbasis of $\rhoML{\M'_{d}}$ is accurately approximated by: (1) 
 the eigenvectors of $\rho_0$ on its support; and (2) the eigenvectors of $\delta_{\mathrm{ker}} = \Pi_{\mathrm{ker}}\delta\Pi_{\mathrm{ker}}$, where $\Pi_{\mathrm{ker}}
@@ -401,17 +401,17 @@ and $\lambda_{\mathrm{kite}}$ is
 \label{eq:llrs_kite}
 \epsilon^{2}\lambda_{\mathrm{kite}} = \sum_{j=1}^{r}[\rho_{jj}- (p_j-q)^{+}]^2 + \sum_{j=1}^{N}\left[(\kappa_j-q)^+\right]^2,
 \end{equation}
-where $(x)^{+} = \max(x, 0)$. $q$ is implicitly defined such that $f(q) \equiv \Tr\left[\mathrm{Trunc}(\rhoML{\M'_{d}} - q \Id)\right]$ satisfies $f(q) = 1$. In terms of the eigenvalues of $\rhoML{\M'_{d}}$, this means $q$ is the solution to
+where $(x)^{+} = \max(x, 0)$. $q$ is implicitly defined such that $\Tr\left[\mathrm{Trunc}(\rhoML{\M'_{d}} - q \Id)\right] = 1$. In terms of the eigenvalues of $\rhoML{\M'_{d}}$, this means $q$ is the solution to
 \begin{equation}
 \label{eq:q_eqn}
- \sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{N}{(\kappa_j-q)^+} = 1
+ \sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{N}{(\kappa_j-q)^+} = 1.
 \end{equation}
 
-To solve Equation \eqref{eq:q_eqn}, and derive an approximation for \eqref{eq:llrs_kite}, we need to understand the behavior of the eigenvalues of $\delta_{\mathrm{ker}}$. It is to this problem we now turn.
+To solve Equation \eqref{eq:q_eqn}, and derive an approximation for \eqref{eq:llrs_kite}, we need to understand the behavior of $\bvec{\kappa}$. It is to this problem we now turn.
 
 \subsubsection{Approximating the Eigenvalues of a GUE($N$) Matrix}
-We first observe that while the $\kappa_j$ are random variables, they are not normally distributed.  Instead, because $\delta_{\mathrm{ker}}$ is proportional to a $\mathrm{GUE}(N)$ matrix, for $N\gg1$, the distribution of any eigenvalue $\kappa_{j}$
-converges to a Wigner semicircle distribution \cite{Wigner1958} given by $\mathrm{Pr}(\kappa) = \frac{2}{\pi R^{2}}\sqrt{R^{2}-\kappa^{2}}$ for $|\kappa| \leq R$, with $R = 2\epsilon\sqrt{N}$.  The eigenvalues are not independent; they tend to avoid collisions (``level avoidance'' \cite{Tao2013}), 
+We first observe that while the $\kappa_j$ are random variables, they are \emph{not} normally distributed.  Instead, because $\delta_{\mathrm{ker}}$ is proportional to a $\mathrm{GUE}(N)$ matrix, for $N\gg1$, the distribution of any eigenvalue $\kappa_{j}$
+converges to a Wigner semicircle distribution \cite{Wigner1958}, given by $\mathrm{Pr}(\kappa) = \frac{2}{\pi R^{2}}\sqrt{R^{2}-\kappa^{2}}$ for $|\kappa| \leq R$, with $R = 2\epsilon\sqrt{N}$.  The eigenvalues are not independent; they tend to avoid collisions (``level avoidance'' \cite{Tao2013}), 
 and typically form a surprisingly regular array over the support of the Wigner semicircle.  Since our goal is to compute $\expect{\lambda_{\mathrm{kite}}}$, we can capitalize on this behavior by replacing each random sample of $\bvec{\kappa}$ with a 
 \emph{typical sample} $\bar{\bvec{\kappa}}$ given by its order statistics.  These are the average values of the \emph{sorted} 
 $\bvec{\kappa}$, so $\overline{\kappa}_j$ is the average value of the $j^{\mathrm{th}}$ largest value of $\bvec{\kappa}$.  Large random samples 
@@ -448,11 +448,11 @@ We make one further approximation, by assuming that $N\gg1$, so the distribution
 \subsubsection{Deriving an Approximation for $q$}
 The approximations of the previous section allow us to use the following ansatz for the eigenvalues of $\rhoML{\M'_{d}}$; namely, $\{p_j\} \cup \{\overline{\kappa}_j\}$, where the $p_j$ are $\mathcal{N}(\rho_{jj},\epsilon^2)$ random variables, and the $\overline{\kappa}_j$ are the (fixed, smoothed) order statistics of a Wigner semicircle distribution.  In turn, the defining equation for $q$ (Equation \eqref{eq:q_eqn}) is well approximated as
 \begin{equation}
-\sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{N}{(\overline{\kappa}_j-q)^+} \approx 1
+\sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{N}{(\overline{\kappa}_j-q)^+} \approx 1.
 \end{equation}
 To solve this equation, we observe that the $\overline{\kappa}_j$ are symmetrically distributed around $
 \kappa=0$, so half of them are negative.  Therefore, with high probability, $\Tr
-\left[\mathrm{Trunc}(\rhoML{\M'_{d}})\right]>1$, and so we will need to subtract $q\Id$ from $\rhoML{\M'_{d}}$ before truncating. (This is in distinction to the case where we have to \emph{add} $q$.)
+\left[\mathrm{Trunc}(\rhoML{\M'_{d}})\right]>1$, and so we will need to subtract $q\Id$ from $\rhoML{\M'_{d}}$ before truncating.
 
 Because we have assumed $N_{\mathrm{samples}}$ is sufficiently large ($N_{\mathrm{samples}} >> \min_{j}1/\rho_{jj}^{2}$), it follows that the eigenvalues of $\rho_{0}$ are large compared to the perturbations $\delta_{jj}$ and $q$. This implies $(p_{j} - q)^{+} = p_{j} - q$. Under this assumption, $q$ is the solution to
 \begin{align}
@@ -484,7 +484,6 @@ This equation is a quintic polynomial, so it has no closed-form solution.  Howev
 \label{eq:truncation}
 z \equiv q/\epsilon \approx 2\sqrt{N}-\frac{(240r\pi)^{2/5}}{4}N^{1/10}+\frac{(240r\pi)^{4/5}}{80}N^{-3/10}.
 \end{equation}
-(Note that $z$ is the \emph{Fisher-adjusted} amount we need to subtract.)
 
 \subsubsection{Expression for $\langle \lambda_{\mathrm{kite}}\rangle$}
 Now that we know how much to subtract off in the truncation process, we can approximate $\expect{\lambda_{\mathrm{kite}}}$, originally given in Equation \eqref{eq:llrs_kite}:
@@ -493,7 +492,7 @@ Now that we know how much to subtract off in the truncation process, we can appr
 \nonumber &\approx \frac{1}{\epsilon^{2}} \left\langle\sum_{j=1}^{r}[-\delta_{jj} +  q ]^2 + \sum_{j=1}^{N}\left[(\bar{\kappa}_j-q)^+\right]^2 \right\rangle\\
 \nonumber  &\approx r + rz^2 + \frac{N}{\epsilon^{2}}\int_{\kappa=q}^{2\epsilon\sqrt{N}}{ \mathrm{Pr}(\kappa)(\kappa-q)^2 d\kappa} \\
 \nonumber &=r + rz^{2} + \frac{N(N+z^{2})}{\pi}\left(\frac{\pi}{2} - \sin^{-1}\left(\frac{z}{2\sqrt{N}}\right)\right) \\
-& - \frac{z(z^{2}+26N)}{24\pi}\sqrt{4N-z^{2}}
+& - \frac{z(z^{2}+26N)}{24\pi}\sqrt{4N-z^{2}}.
 \end{align}
 
 \subsection{Complete Expression for $\langle \lambda \rangle$}
@@ -503,7 +502,7 @@ The total expected value, $\expect{\lambda} = \expect{\lambda_{\mathrm{L}}} + \e
 \label{eq:ourLLRS}
 \nonumber \langle \lambda(\rho_{0}, \M_{d}) \rangle &\approx 2rd - r^{2}+rz^{2}\\
 \nonumber & + \frac{N(N+z^{2})}{\pi}\left(\frac{\pi}{2} - \sin^{-1}\left(\frac{z}{2\sqrt{N}}\right)\right) \\
-& - \frac{z(z^{2}+26N)}{24\pi}\sqrt{4N-z^{2}}
+& - \frac{z(z^{2}+26N)}{24\pi}\sqrt{4N-z^{2}}.
 \end{align}
 where $z$ is given in Equation \eqref{eq:truncation}, $N=d-r$, and $r = \mathrm{Rank}(\rho_{0})$.
 
