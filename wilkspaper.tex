@@ -508,49 +508,29 @@ The total expected value, $\expect{\lambda} = \expect{\lambda_{\mathrm{L}}} + \e
 where $z$ is given in Equation \eqref{eq:truncation}, $N=d-r$, and $r = \mathrm{Rank}(\rho_{0})$.
 
 \section{Comparison to Numerical Experiments}
-\label{sec:theorycomparison}
 
-Equation \eqref{eq:ourLLRS} is our main result.  To test its validity, we compare it to numerical simulations for $d=2,\ldots,30$ and $r=1,\ldots,10$, in Figure \ref{fig:modelcomp-iso}.  The prediction of the Wilks theorem is wildly incorrect for $r\ll d$. In contrast, Equation \eqref{eq:ourLLRS} is almost perfectly accurate when $r \ll d$, but it does begin to break down (albeit fairly gracefully) as $r$ becomes comparable to $d$.  We conclude that our analysis (and Equation \eqref{eq:ourLLRS}) correctly models tomography \emph{if} the Fisher information is isotropic ($\Fi \propto \Id$).
+\subsection{Isotropic Fisher Information}
+\label{sec:theorycomp1}
 
-\begin{figure}[h]
+Equation \eqref{eq:ourLLRS} is our main result.  To test its validity, we compare it to numerical simulations for the case of an isotropic Fisher information
+with $d=2,\ldots,30$ and $r=1,\ldots,10$ in Figure \ref{fig:modelcomp-iso}.  The prediction of the Wilks theorem is wildly incorrect for $r\ll d$. In contrast, Equation \eqref{eq:ourLLRS} is almost perfectly accurate when $r \ll d$, but it does begin to break down (albeit fairly gracefully) as $r$ becomes comparable to $d$.  We conclude that our analysis (and Equation \eqref{eq:ourLLRS}) correctly models tomography \emph{if} the Fisher information is isotropic ($\Fi \propto \Id$).
+
+\begin{figure}
  \includegraphics[width=\columnwidth]{Images/Figure_6.pdf}
- \caption{Numerical results for $\expect{\lambda}$ compared to the prediction of the Wilks theorem (solid line) and our replacement theory as given in Equation \eqref{eq:ourLLRS}, (dashed lines).  Our formula depends on the rank $r$ of $\rho_0$ (unlike the Wilks prediction), and is nearly perfect for $r\ll d$.  It becomes less accurate as $r$ approaches $d/2$, and is invalid when $r\approx d$.}
+ \caption{Numerical results for $\expect{\lambda}$ compared to the prediction of the Wilks theorem (solid line) and our replacement theory as given in Equation \eqref{eq:ourLLRS} (dashed lines).  Our formula depends on the rank $r$ of $\rho_0$ (unlike the Wilks prediction), and is nearly perfect for $r\ll d$.  It becomes less accurate as $r$ approaches $d/2$, and is invalid when $r\approx d$.}
  \label{fig:modelcomp-iso}
 \end{figure}
 
-Because Equation \eqref{eq:ourLLRS} uses an approximate expression for $z$ given in Equation \eqref{eq:truncation}, it is instructive to compare our expression to the average value over many  numerical experiments $\langle z \rangle_{\mathrm{numeric}}$. This comparison is shown in Figure \ref{fig:modelcomp-iso-z}. It is clear that Equation \eqref{eq:truncation} is most reliable when $r << d$. At first glance, Figure \ref{fig:modelcomp-iso-z} might give  the skeptical reader pause regarding  the results displayed in Figure \ref{fig:modelcomp-iso}. However, it turns out Equation \eqref{eq:ourLLRS} \emph{is} accurate, as we detail below.
-
-
-\begin{figure}[h]
- \includegraphics[width=\columnwidth]{Images/Figure_temp2.pdf}
- \caption{Comparing Equation \eqref{eq:truncation} (dashed lines) to averages of numerical results (solid dots). It is clear Equation \eqref{eq:truncation} is accurate only when $r << d$.}
- \label{fig:modelcomp-iso-z}
-\end{figure}
-
-In Figure \ref{fig:comparez}, we plot our expression for $\langle \lambda \rangle$ as a function of $z - z_{\mathrm{numeric}}$ for a fixed value of $d$, and variable values of $r$. Figure \ref{fig:comparez} shows several important features:
-\begin{itemize}[nosep]
-\item When $r << d$, $\langle \lambda \rangle$ is almost \emph{flat} (as a function of $z$) near the value we predict in Equation \eqref{eq:truncation}. In addition, our prediction (square) is close to $\langle z \rangle_{\mathrm{numeric}}$ (circle).
-\item As $r$ becomes comparable to $d$, $\langle \lambda \rangle$ becomes more curved, meaning errors in predicting the correct value for $z$ dramatically affect our ability to correctly predict $\langle \lambda \rangle$.
-\item Evaluating Equation \eqref{eq:ourLLRS} \emph{at} $\langle z \rangle_{\mathrm{numeric}}$ appears to give a prediction for $\langle \lambda \rangle$ which is extremely close to its \emph{actual numeric average} (dashed line).
-\end{itemize}
-
-\begin{figure}[h]
- \includegraphics[width=\columnwidth]{Images/Figure_temp3.pdf}
- \caption{Plotting Equation \eqref{eq:ourLLRS} as a function of $z-\langle z \rangle_{\mathrm{numeric}}$. The predicted value of $\lambda$ based on using $z$ given in Equation \eqref{eq:truncation} is denoted by a square, while that using $\langle z \rangle_{\mathrm{numeric}}$ is given by a circle. Dashed lines indicate a numerical average of $\lambda$ (the quantity we are trying to predict). As $r$ becomes comparable to $d$, the reason for the breakdown in our prediction has less to do with the accuracy of Equation \eqref{eq:ourLLRS}, and more to do with inaccuracy in Equation \eqref{eq:truncation} - indeed, plugging in $z = \langle z \rangle_{\mathrm{numeric}}$ gives a prediction which is extremely accurate!}
- \label{fig:comparez}
-\end{figure}
-
-Thus, we conclude that Equation \eqref{eq:ourLLRS} is extremely accurate on its own, and given an accurate value for $z$, will yield an accurate prediction for $\langle \lambda \rangle$. Our approximation for $z$ in Equation \eqref{eq:truncation} is accurate when $r << d$; as $r$ becomes comparable to $d$, it begins to break down. The main message of Figure \ref{fig:modelcomp-iso} remains, though: using Equations \eqref{eq:ourLLRS} and \eqref{eq:truncation}, it's possible to predict $\langle \lambda \rangle$ much more accurately than when using the Wilks theorem.
 
 
 
-\section{Comparison to Heterodyne Tomography}
+\subsection{Comparison to Heterodyne Tomography}
 \label{sec:heterotomo}
-In practice, the Fisher information is rarely isotropic.  So we tested our idealized result by applying it to a realistic, challenging, and experimentally relevant problem: quantum heterodyne (equivalent to double homodyne) state tomography \cite{Lvovsky2001a, Bertrand1987, Leonhardt1995, Lvovsky2009} of a single optical mode.  (See Figure \ref{fig:fish_condition} for a plot of the \emph{condition number} -- the ratio of the largest to smallest eigenvalue -- of the estimated Fisher information. It is clear that, for such a tomographic setup, $\mathcal{I} \not \propto \Id$.) States of this continuous-variable system are described by density operators on the infinite-dimensional Hilbert space $L^2(\reals)$.  Fitting these infinitely many parameters to finitely much data demands simpler models.
+In practice, the Fisher information is rarely isotropic.  So we tested our idealized result by applying it to a realistic, challenging, and experimentally relevant problem: quantum heterodyne (equivalent to double homodyne) state tomography \cite{Lvovsky2001a, Bertrand1987, Leonhardt1995, Lvovsky2009} of a single optical mode.  (See Figure \ref{fig:fish_condition} for a plot of the \emph{condition number} -- the ratio of the largest eigenvalue to the smallest -- of the estimated Fisher information. It is clear that $\mathcal{I} \not \propto \Id$.) States of this continuous-variable system are described by density operators on the infinite-dimensional Hilbert space $L^2(\reals)$.  Fitting these infinitely many parameters to finitely much data demands simpler models.
 
 \begin{figure}[h]
   \includegraphics[width=\columnwidth]{Images/Figure_7.pdf}
- \caption{The condition number $\kappa$ -- the ratio of the largest to smallest eigenvalue -- of the estimated heterodyne Fisher information grows with model dimension, indicating an increase in anisotropy. (Estimates are the average over 100 Hessians of the loglikelihood function.) The dashed lines indicate different states $\rho_{0}$, and the solid line is $\kappa = 1$ (i.e., $\mathcal{I} \propto \Id$.).}
+ \caption{The condition number $\kappa$ -- the ratio of the largest eigenvalue to the smallest -- of the estimated heterodyne Fisher information. (Estimates are the average over 100 Hessians of the loglikelihood function.) $\kappa$ grows with model dimension, meaning anisotropy is increasing.  The dashed lines indicate different states $\rho_{0}$, and the solid line is $\kappa = 1$ (i.e., $\mathcal{I} \propto \Id$.).}
 \label{fig:fish_condition}
 \end{figure}
 
@@ -563,9 +543,9 @@ state's Husimi $Q$-function \cite{Husimi1940}.
 We examined the behavior of $\lambda$ for 13 distinct states $\rho_{0}$, both pure and mixed, supported on $\mathcal{H}_{2}, \mathcal{H}_{3}, \mathcal{H}
 _{4}$, and $\mathcal{H}_{5}$.  We used rejection sampling to simulate 100 heterodyne datasets with up to $N_{\mathrm{samples}}=10^5$, and found MLEs over each of the 9 models $\M_2, \ldots, M_{10}$ using numerical optimization \footnote{The model $\M_{1}$ is trivial, as $\M_{1} = \{|0\rangle \langle 0|\}$. This model will almost always be wrong, in general.}.  For each $\rho_{0}$ and each $d$, we averaged $\lambda(\rho_{0}, \M_{d})$ over all 100 datasets to obtain an empirical average loglikelihood ratio $\bar{\lambda}$ for each $(\rho_0,d)$ pair.
 
-Results of this test are shown in Figure \ref{fig:modelcomp}, where we plot the predictions for $\langle \lambda \rangle$ given by the Wilks theorem and Equation \eqref{eq:ourLLRS}, against the empirical average $\bar\lambda$, for a variety of $\rho_{0}$ and $d$. Our formula correlates very well with the empirical average, while the Wilks theorem (unsurprisingly) overestimates $\lambda$ dramatically for low-rank states.  Whereas a model selection procedure based on Wilks theorem would tend to falsely reject larger Hilbert spaces (by setting the threshold for acceptance too high), our formula provides a reliable null theory.
+Results of this test are shown in Figure \ref{fig:modelcomp}, where we plot the predictions for $\langle \lambda \rangle$ given by the Wilks theorem and Equation \eqref{eq:ourLLRS}, against the empirical average $\bar\lambda$, for a variety of $\rho_{0}$ and $d$. Our formula correlates very well with the empirical average, while the Wilks theorem (unsurprisingly) overestimates $\lambda$ dramatically for low-rank states.  Whereas a model selection procedure based on the Wilks theorem would tend to falsely reject larger Hilbert spaces (by setting the threshold for acceptance too high), our formula provides a reliable null theory.
 
-\begin{figure}[h]
+\begin{figure}
  \includegraphics[width=\columnwidth]{Images/Figure_8.pdf}
  \caption{The Wilks theorem (orange dots) dramatically over-estimates $\langle\lambda(\rho_{0}, \M_{d})\rangle$ in optical heterodyne tomography. Our formula, Equation \ref{eq:ourLLRS} (blue squares), is far more accurate. Residual discrepancies occur in large part because $N_{\mathrm{samples}}$ is not yet ``asymptotically large''. The solid red line corresponds to perfect correlation between theory ($\expect{\lambda}$) and practice ($\bar\lambda$).}
  \label{fig:modelcomp}
@@ -583,12 +563,12 @@ for the asymptotic expected value, given in Equation \eqref{eq:ourLLRS}.}
 \end{figure}
 
 
-However, our model \emph{does} get some of the qualitative features correct. In Figure \ref{fig:model_comparison}, we look at $\langle \lambda_{jk}\rangle$, where we assume an isotropic Fisher information, and when we simulate heterodyne tomography. While the numbers given for $\langle \lambda_{jk} \rangle$ do not agree exactly, they still break down into two groups, the ``L" and the ``kite". (See Figure \ref{fig:individcontrib} for an analysis of the exact differences in the values.)
+However, our model \emph{does} get some of the qualitative features correct. In Figure \ref{fig:model_comparison}, we look at $\langle \lambda_{jk}\rangle$, for an isotropic Fisher information, and for simulated heterodyne tomography. While the values of $\langle \lambda_{jk} \rangle$ do not agree exactly, they still break down into two groups, the ``L" and the ``kite". (See Figure \ref{fig:individcontrib} for an analysis of the discrepancies.)
  
  
-\begin{figure}[h]
+\begin{figure}
   \includegraphics[width=\columnwidth]{Images/Figure_10.pdf}
- \caption{The values of $\langle \lambda_{jk} \rangle$ assuming an isotropic Fisher information (left), and for heterodyne tomography (right). \textbf{Top}: $\rho_{0} = |0\rangle\langle 0|$. \textbf{Bottom}: $\rho_{0} = \mathcal{I}_{2}/2$. \textbf{Discussion}: Qualitatively, the behavior is the same, though there are quantitative differences, particularly within the kite.}
+ \caption{The values of $\langle \lambda_{jk} \rangle$ for an isotropic Fisher information (left), and for heterodyne tomography (right). \textbf{Top}: $\rho_{0} = |0\rangle\langle 0|$. \textbf{Bottom}: $\rho_{0} = \mathcal{I}_{2}/2$. \textbf{Discussion}: Qualitatively, the behavior is the same, though there are quantitative differences, particularly within the kite.}
 \label{fig:model_comparison}
 \end{figure}
 
