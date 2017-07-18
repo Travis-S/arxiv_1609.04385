@@ -15,15 +15,17 @@ def make_bib():
     os.system("cp /Users/tlschol/Documents/bibtex/Model\ Selection\ Paper.bib modelselectionpaper.bib")
     os.system('python bib_mutate.py')
 
-def compile():
+def compile(source='wilkspaper'):
     print('Compiling pdf.')
-    source = 'wilkspaper'
     os.system("pdflatex -interaction=batchmode {0}.tex".format(source))
     os.system("bibtex {0}.aux".format(source))
     os.system("pdflatex -interaction=batchmode {0}.tex".format(source))
     os.system("pdflatex -interaction=batchmode {0}.tex".format(source))
     os.system("bibtex {0}.aux".format(source))
     os.system("pdflatex -interaction=batchmode {0}.tex".format(source))
+
+def diff():
+    compile(source='diff')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Helper file for generating paper.", formatter_class=RawTextHelpFormatter,)
@@ -40,5 +42,7 @@ if __name__ == '__main__':
         compile()
     elif action == 'bib':
         make_bib()
+    elif action == 'diff':
+        diff()
     else:
         print('Action {0} not understood.'.format(action))
