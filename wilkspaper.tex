@@ -48,6 +48,9 @@
 \newcommand{\diff}{\mathrm{d}\!}
 \newcommand{\diffk}[1]{\mathrm{d}_{#1}\!}
 
+\newtheorem{lem}{Lemma}
+\newtheorem{mydef}{Definition}
+
 \begin{document}
 \author{Travis L Scholten}
 \author{Robin Blume-Kohout}
@@ -167,7 +170,9 @@ In this section, we define a framework that will allow us to derive a replacemen
 
 The main definitions and results required for the remainder of the paper are presented in this subsection. Technical details and proofs are presented in the next subsection.
 
-\textbf{Definition - Metric-Projected Local Asymptotic Normality (MP-LAN)}: A statistical model $\M$ satisfies MP-LAN if, and only if, $\M$ is a convex subset of a model $\M'$ that satisfies LAN.
+\begin{mydef}[Metric-Projected Local Asymptotic Normality (MP-LAN)]
+A  model $\M$ satisfies MP-LAN if, and only if, $\M$ is a convex subset of a model $\M'$ that satisfies LAN.
+\end{mydef}
 
 Although the definition of MP-LAN is rather short, its consequences are of importance for model selection in state tomography. As we show below, models which satisfy MP-LAN have several nice properties. These properties are related to the fact that as $N_{\mathrm{samples}}\rightarrow \infty$, the ML estimates $\rhoML{\M}$ become more and more tightly concentrated around $\rho_{0}$. Consequently, to understand the asymptotic behavior of statistics such as $\lambda$, it's sufficient to understand their behavior in an arbitrarily small region of $\M$ around $\rho_{0}$, which we will formalize using the phrase ``the local state space".
 
@@ -218,9 +223,11 @@ The shape of the distribution is entirely determined by $\mathcal{I}$. As $N_{\m
 
 Before doing so, we switch coordinates, by sending $\rho \rightarrow \rho - \rho_{0}$, thereby establishing $\rho_{0}$ as the origin of our coordinate system. In these coordinates, $\rhoML{\M'} \sim \mathcal{N}(0, \Sigma/N_{\mathrm{samples}})$, and we may easily prove the following lemma showing such a ball $B$ exists.
 
-\textbf{Lemma}: Let $\rhoML{\M'} \sim \mathcal{N}(0, \Sigma/N_{\mathrm{samples}})$, and let $\lambda_{\max}(\Sigma)$ denote the largest eigenvalue of $\Sigma$. Define a ball $B = \{\rho \in \M' ~|~\mathrm{Tr}(\rho^{2}) \leq r^{2}\}$, where $r = \sqrt{\lambda_{\max}(\Sigma)}/N_{\mathrm{samples}}^{1/4}$. Then, $\lim_{N_{\mathrm{samples}} \rightarrow \infty} \mathrm{Pr}(\rhoML{\M'} \in B) =1$.
+\begin{lem} Let $\rhoML{\M'} \sim \mathcal{N}(0, \Sigma/N_{\mathrm{samples}})$, and let $\lambda_{\max}(\Sigma)$ denote the largest eigenvalue of $\Sigma$. Define a ball $B = \{\rho \in \M' ~|~\mathrm{Tr}(\rho^{2}) \leq r^{2}\}$, where $r = \sqrt{\lambda_{\max}(\Sigma)}/N_{\mathrm{samples}}^{1/4}$. Then, $\lim_{N_{\mathrm{samples}} \rightarrow \infty} \mathrm{Pr}(\rhoML{\M'} \in B) =1$.
+\end{lem}
 
-\textbf{Proof}: Let $B_{0}$ be an ellipsoidal ball defined by $\{\rho \in \M'~|~\mathrm{Tr}(\rho \Sigma^{-1} \rho) \leq R^{2}/N_{\mathrm{samples}}\}$, where $R^{2} = N^{1/2}_{\mathrm{samples}}$. Change coordinates by defining $\sigma = N_{\mathrm{samples}}^{1/2}\Sigma^{-1/2}\rho$. In these new coordinates
+\begin{proof}
+Let $B_{0}$ be an ellipsoidal ball defined by $\{\rho \in \M'~|~\mathrm{Tr}(\rho \Sigma^{-1} \rho) \leq R^{2}/N_{\mathrm{samples}}\}$, where $R^{2} = N^{1/2}_{\mathrm{samples}}$. Change coordinates by defining $\sigma = N_{\mathrm{samples}}^{1/2}\Sigma^{-1/2}\rho$. In these new coordinates
 \[\hat{\sigma}_{\mathrm{ML},\M'} \sim \mathcal{N}(0, \Id_{d'}),~~~B_{0} = \{\sigma \in \M'~|~\mathrm{Tr}(\sigma^{2}) \leq R^{2}\},\]
 and
 \begin{align*}
@@ -236,18 +243,19 @@ To see that $B$ defined above contains $B_{0}$, we write the equation for $B_{0}
 The standard ellipsoid $\{\mathbf{x}~|~\mathbf{x}^{T}A\mathbf{x} \leq 1\}$ has semi-major axes whose lengths $s_{j}$ are related to the eigenvalues $a_{j}$ of $A$: $s_{j} = 1/\sqrt{a_{j}}$. The matrix $A = N_{\mathrm{samples}}^{1/2}\Sigma^{-1}$ has eigenvalues $N_{\mathrm{samples}}^{1/2}/\lambda_{j}$, where $\lambda_{j}$ are the eigenvalues of $\Sigma$. Thus, the lengths of the semi-major axes of $B_{0}$ are given by $s_{j} = 1/\sqrt{N_{\mathrm{samples}}^{1/2}/\lambda_{j}} = \sqrt{\lambda_{j}}/N_{\mathrm{samples}}^{1/4}$. Letting $\lambda_{\max}(\Sigma)$ denote the largest eigenvalue of $\Sigma$, the longest semi-major axis of $B_{0}$ has length $\sqrt{\lambda_{\max}(\Sigma)}/N_{\mathrm{samples}}^{1/4}$.
 Because $B$ is a ball whose radius is equal to this length, $B$ circumscribes $B_{0}$, meaning $B_{0} \subset B$.
 
-As $B_{0} \subset B$, it follows that $\mathrm{Pr}(\rhoML{\M'} \in B_{0}) \leq \mathrm{Pr}(\rhoML{\M'} \in B)$. As the asymptotic limit of $\mathrm{Pr}(\rhoML{\M'} \in B_{0})$ is 1, and $\mathrm{Pr}(\rhoML{\M'} \in B)$ itself is bounded above by 1, it follows from the squeeze theorem that $\lim_{N_{\mathrm{samples}\rightarrow \infty}}\mathrm{Pr}(\rhoML{\M'} \in B)=1$. \qed
+As $B_{0} \subset B$, it follows that $\mathrm{Pr}(\rhoML{\M'} \in B_{0}) \leq \mathrm{Pr}(\rhoML{\M'} \in B)$. As the asymptotic limit of $\mathrm{Pr}(\rhoML{\M'} \in B_{0})$ is 1, and $\mathrm{Pr}(\rhoML{\M'} \in B)$ itself is bounded above by 1, it follows from the squeeze theorem that $\lim_{N_{\mathrm{samples}\rightarrow \infty}}\mathrm{Pr}(\rhoML{\M'} \in B)=1$.
+\end{proof}
 
 Informally speaking, this lemma implies that ``all the action" about the ML estimates $\rhoML{\M'}$ takes place inside $B$.
 
 \todo[inline]{This feels like a jarring jump}
 We now change coordinates so that $B, \M$, and $\M'$ all grow as $N_{\mathrm{samples}}$ increases. Consider the ``$N_{\mathrm{samples}}$-adjusted" coordinate system defined by $\sigma =  N^{1/4}_{\mathrm{samples}}\rho$. (Notice the origin $(\rho_{0})$ remains unchanged, because of our earlier coordinate transformation that mapped it to 0.) By going to these coordinates, we are able to prove a useful result about the geometry of the region contained in the intersection of the state space and $B$ --  as $N_{\mathrm{samples}} \rightarrow \infty$, it is the \emph{solid tangent cone}. Tangent cones are a general feature of points on the surface of convex sets (see \cite{Rockafellar1998}, Chapter 6, Section A).
 
-\textbf{Definition - Solid Tangent Cone}: For each point $X$ in a convex set $C$, the solid tangent cone $T(X)$ is defined as the following limit:
+\begin{mydef}[Solid Tangent Cone] For each point $X$ in a convex set $C$, the solid tangent cone $T(X)$ is defined as the following limit:
 \[T(X) = \lim_{h\rightarrow \infty} C_{h},\]
 where $C_{h}$ is the \emph{homothetic transformation} of $C$ with respect to $X$, with homothety coefficient $h$:
 \[C_{h} = \{X + hY  |~\forall ~Y \neq X \in C\}.\]
-
+\end{mydef}
 Under this definition, the solid tangent cone is the limit of sets formed by fixing $X$, and then scaling up every other point in $C$ with respect to it. ($X$ itself is known as the \emph{homothetic center} of the solid tangent cone.) 
 
 In ``$N_{\mathrm{samples}}$-adjusted" coordinates, consider the convex set  $C_{N_{\mathrm{samples}}}$ as the intersection of $\M$ and $B$:
@@ -290,10 +298,12 @@ Taking $\mathcal{R} = \rho_{0}$ itself, and assuming $\M$ satisfies MP-LAN, then
 &-  \mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})\mathcal{I}(\rhoML{\M} - \rhoML{\M'})].
 \end{align}
 It turns out $\lambda(\rho_{0}, \M)$ has a simple form.
-~\\
-\textbf{Lemma:} $\lambda(\rho_{0}, \M) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M})\mathcal{I}(\rho_{0} - \rhoML{\M})]$.
-~\\
-\textbf{Proof:}
+
+\begin{lem}
+$\lambda(\rho_{0}, \M) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M})\mathcal{I}(\rho_{0} - \rhoML{\M})]$.
+\end{lem}
+
+\begin{proof}
 We switch to Fisher-adjusted coordinates, through the mapping $\rho \rightarrow \mathcal{I}^{1/2}\rho$. Then, we may replace $\mathcal{I}$ by $\Id$:
 \begin{equation}
 \label{eq:lambdalan2}
@@ -311,7 +321,8 @@ Subtracting $\mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})^{2}]$ from both sides, and c
 \emph{Case 2}: Assume $\rhoML{\M'} \in T(\rho_{0})$. Then, $\rhoML{\M}= \rhoML{\M'}$, and Equation \eqref{eq:lambdalan2} simplifies to the lemma statement in Fisher-adjusted coordinates.
 
 
-Switching back from Fisher-adjusted coordinates, we have $\lambda(\rho_{0}, \M) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M})\mathcal{I}(\rho_{0} - \rhoML{\M})]$. \qed
+Switching back from Fisher-adjusted coordinates, we have $\lambda(\rho_{0}, \M) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M})\mathcal{I}(\rho_{0} - \rhoML{\M})]$.
+\end{proof}
 
 Thus, when MP-LAN is satisfied, asymptotically the loglikelihood ratio statistic is related to \emph{squared error/loss} (as measured by the Fisher metric.) This result may be of independent interest in, for example, considering/defining new information criteria, which attempt to balance goodness of fit (as measured by $\lambda$) against error/loss (generally, as measured by the squared error).
 
@@ -322,9 +333,12 @@ With these technical results in hand, we may proceed to compute $\langle \lambda
 
 With the framework of MP-LAN available to us, we are ready to derive a replacement for the Wilks theorem. We first need to show that the models $\M_{d}$ satisfy MP-LAN. Thankfully, it is straightforward to do so.
 
-\textbf{Lemma}: The models $\M_{d}$, defined in Equation \eqref{eq:modelsd}, satisfy MP-LAN.
+\begin{lem}
+The models $\M_{d}$, defined in Equation \eqref{eq:modelsd}, satisfy MP-LAN.
+\end{lem}
 
-\textbf{Proof}: Let $\M'_{d} = \{\sigma ~|~\mathrm{dim}(\sigma) = d, \sigma = \sigma^{\dagger}\}$. (That is, $\M'_{d}$ is the set of all $d \times d$ Hermitian matrices, but we do not require them to be non-negative, nor trace-1.) It is clear $\M_{d} \subset \M'_{d}$. Next, $\forall \sigma \in \M'_{d}$, the likelihood $\cL(\sigma)$ is twice continuously differentiable, meaning $\M'_{d}$ satisfies LAN. Thus, $\M_{d}$ satisfies MP-LAN. \qed
+\begin{proof} Let $\M'_{d} = \{\sigma ~|~\mathrm{dim}(\sigma) = d, \sigma = \sigma^{\dagger}\}$. (That is, $\M'_{d}$ is the set of all $d \times d$ Hermitian matrices, but we do not require them to be non-negative, nor trace-1.) It is clear $\M_{d} \subset \M'_{d}$. Next, $\forall \sigma \in \M'_{d}$, the likelihood $\cL(\sigma)$ is twice continuously differentiable, meaning $\M'_{d}$ satisfies LAN. Thus, $\M_{d}$ satisfies MP-LAN.
+\end{proof}
 
 It's useful to reduce the problem of computing $\lambda(\M_{d}, \M_{d+1})$ to that of computing $\lambda(\rho_{0}, \M_{k})$ for $k = d, d+1$ using the identity
 \[\lambda(\M_{d}, M_{d+1}) = \lambda(\rho_{0}, \M_{d+1}) - \lambda(\rho_{0}, \M_{d}).\]
