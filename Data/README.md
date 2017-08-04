@@ -3,7 +3,7 @@ Data Files Description
 
 In this directory, we provide several data files that might be of use for others.
 
-The ``Maximum Likelihood Paper - Tomography Data.xlsx`` file contains all the data files (each file as its own sheet), as well as a variant of this ``README``. For your convenience, we have converted the sheets into .csv files, to help make it easier to use the data.
+The ``Maximum Likelihood Paper - Tomography Data.xlsx`` file contains all the data files (each file as its own sheet), as well as a variant of this ``README``. For your convenience, we have converted the sheets into ``.csv`` files, to help make it easier to use the data.
 
 In the table below, we provide descriptions of each file.
 
