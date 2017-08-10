@@ -69,7 +69,15 @@ Quantum state tomography on a $d$-dimensional system demands resources that grow
 
 Determining the quantum state $\rho_{0}$ produced by a specific preparation procedure for a quantum system is a problem almost as old as quantum mechanics itself \cite{Corbett2006, Pauli1933}. This task, known as \emph{quantum state tomography} \cite{Paris2004}, is not only useful in its own right (diagnosing and detecting errors in state preparation), but is also used in other characterization protocols including entanglement verification \cite{Steffen2006, Blume-Kohout2010c, VanEnk2007} and process tomography \cite{Anis2012}. A typical state tomography protocol proceeds as follows: many copies of $\rho_{0}$ are produced, they are measured in diverse ways, and finally the outcomes of those measurements (data) are collated and analyzed to produce an estimate $\rhohat$.  This is a straightforward statistical inference process \cite{Reid2015, Wasserman2004}, where the data are used to fit the parameters of a statistical model. In state tomography, the parameter is $\rho$, and the model is the set of all possible density matrices on a Hilbert space $\cH$ (equipped with the Born rule). However, we don't always know what model to use. It is not always \emph{a priori} obvious what $\cH$ or its dimension is; examples include optical modes \cite{Altepeter2005, Bertrand1987, Lvovsky2009, Breitenbach1997, Leonhardt1995} and leakage levels in AMO and superconducting \cite{Motzoi2009, Fazio1999} qubits. In such situations, we seek to let the data itself determine which of many candidate Hilbert spaces is best suited for reconstructing $\rho_{0}$.
 
-Choosing an appropriate Hilbert space on the fly is an instance of a general statistical problem called \emph{model selection}.  Although model selection has been thoroughly explored in classical statistics \cite{Burnham2004}, its application to quantum tomography encounters some obstacles.  They stem from the fact that quantum states (and therefore, estimates of them) must satisfy a \emph{positivity constraint} ($\rho\geq0$).  A similar constraint (complete positivity) applies to process tomography.  The impact of positivity constraints on state and process tomography is an active area of research \cite{Candes2006, Flammia2012a, Suess2016, Carpentier2015}, and its implications for model selection have also been considered \cite{Schwarz2013a, Guta2012a, VanEnk2013a, Langford2013, Yin2011, Moroder2013, Knips2015}.  In this paper, we address a specific question at the heart of this matter:  \emph{How does the loglikelihood ratio statistic used in many model selection protocols, including (but not limited to) information criteria such as Akaike's AIC \cite{Akaike1974}, behave in the presence of the positivity constraint $\rho\geq0$}? 
+Choosing an appropriate Hilbert space on the fly is an instance of a general statistical problem called \emph{model selection}.  Although model selection has been thoroughly explored in classical statistics \cite{Burnham2004}, its application to quantum tomography encounters some obstacles.  They stem from the fact that quantum states -- and therefore, estimates of them -- must satisfy a \emph{positivity constraint} $\rho\geq0$.  (See Figure \ref{fig:boundaries}.) A similar constraint, complete positivity, applies to process tomography.  The impact of positivity constraints on state and process tomography is an active area of research \cite{Candes2006, Flammia2012a, Suess2016, Carpentier2015}, and its implications for model selection have also been considered \cite{Schwarz2013a, Guta2012a, VanEnk2013a, Langford2013, Yin2011, Moroder2013, Knips2015}.  In this paper, we address a specific question at the heart of this matter:  \emph{How does the loglikelihood ratio statistic used in many model selection protocols, including (but not limited to) information criteria such as Akaike's AIC \cite{Akaike1974}, behave in the presence of the positivity constraint $\rho\geq0$}? 
+
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{Images/Figure_1.pdf}
+ \caption{\textbf{Impact of the positivity constraint ($\rho\geq0$)  on tomographic estimates}:  This figure illustrates how the quantum state space's boundary -- which results from the constraint $\rho\geq0$ -- affects maximum likelihood (ML) tomography for a qutrit state $\rho_{0}$ (star).  Two different 2-dimensional cross-sections of the state space are shown, which correspond to a qubit (left) and a classical 3-outcome distribution (right). \textbf{Top}: Without the positivity constraint, some ML estimates (orange squares) are not valid estimates of a quantum state, because are not positive semidefinite. However, some ML estimates (blue circles) are. Further, the ML estimates are Gaussian distributed.
+\textbf{Bottom}:  Imposing the positivity constraint forces the (previously negative) ML estimates to ``pile up" on the boundary of state space; $\mathrm{Pr}(\rhoML{\M})$ is not Gaussian, and local asymptotic normality is not satisfied. In turn, the assumptions necessary to invoke the Wilks theorem are not satisfied either.}
+\label{fig:boundaries}
+\end{figure}
 
 We begin in Section \ref{sec:intro} by introducing the loglikelihood ratio statistic $\lambda$, and outline how it can be used to choose a Hilbert space.  In Section \ref{sec:qstmodelselection}, we show how and why the classical null theory for its behavior, the Wilks theorem, falls apart in the presence of the positivity constraint, because quantum state space does not generally satisfy \emph{local asymptotic normality} (LAN).  We define a new generalization of LAN, \emph{metric-projected local asymptotic normality} (MP-LAN), in Section \ref{sec:lanreplacement}; this generalization explicitly accounts for the positivity constraint, and is satisfied by quantum state space. Using this generalization, we derive a closed-form approximation for $\lambda$'s expected value in Section \ref{sec:computingllrs}, thereby providing a replacement for the Wilks theorem that \emph{is} applicable in state tomography.  Finally, we test the validity of our approximate theory under the assumptions used in its derivation (Section \ref{sec:theorycomp1}), and under harsh conditions by comparing it to numerical results for the realistic problem of optical heterodyne tomography (Section \ref{sec:heterotomo}).
 
@@ -139,26 +147,15 @@ Usually, $\cH$ is taken for granted or chosen by fiat.  In this paper, we will c
 \end{equation}
 For notational brevity, we will use $\rhoML{d}$ to denote the ML estimate over $\M_{d}$. To select between these models, we need to determine whether one model (say, $\M_{d + 1}$) is ``better'' than another (say, $\M_{d}$).  To evaluate which is better, we typically compute the likelihood of each model, and then use $\lambda(\M_{d}, \M_{d+1})$ to choose between them. As mentioned in the previous section, this requires having a \emph{null theory} for $\lambda$ that describes its behavior when $\rho_{0} \in \M_{d} \subset \M_{d + 1}$.
 
-\begin{figure}
-\includegraphics[width=\columnwidth]{Images/Figure_1.pdf}
- \caption{Two views of the impact of the boundary on maximum likelihood (ML) tomography of a qutrit state $\rho_{0}$ (star). \textbf{Top}: Without the positivity constraint, some ML estimates (orange squares) are not valid estimates of a quantum state, because are not positive semidefinite. However, some ML estimates (blue circles) are. Further, the ML estimates are Gaussian distributed.
-\textbf{Bottom}:  Imposing the positivity constraint forces the (previously negative) ML estimates to ``pile up" on the boundary of state space; $\mathrm{Pr}(\rhoML{\M})$ is not Gaussian, and LAN is not satisfied. In turn, the assumptions necessary to invoke the Wilks theorem are not satisfied either.}
-\label{fig:boundaries}
-\end{figure}
-
-
 The Wilks theorem, which is the classical null theory for $\lambda$, relies on local asymptotic normality (LAN). In classical statistics, it is common to assume that boundaries are not relevant, either because the models of interest have none, or because the true parameter values $\rho_{0}$ lie far away from them.  In the absence of boundaries, and in the asymptotic limit where the curvature of the Fisher metric is also negligible, many calculations can be simplified by changing to \emph{Fisher-adjusted} coordinates in which the Fisher information is isotropic (i.e., $\mathcal{I}\propto\Id$). Under these assumptions and simplifications, the Wilks theorem can be derived.
 
-However, the models used in state tomography \emph{do} have boundaries. Given a model $\M_{d}$, its boundary is the set of rank-deficient states within it. When $\rho_{0}\in \M_{d}$ and is full rank, LAN will hold -- which is to say that, asymptotically, the boundary can indeed be ignored. But when $\rho_{0}$ is rank-deficient, it lies \emph{on} the boundary of the model.  LAN is not satisfied, because positivity constrains $\rhoML{d}$, and so $\mathrm{Pr}(\rhoML{d})$ is not Gaussian (see Figure \ref{fig:boundaries}).  The Wilks theorem does not apply in this case  (see Figure \ref{fig:boundaries2}). Moreover, this is the relevant situation for our analysis, because \emph{even if $\rho_{0}$ is full-rank in $\M_{d}$, it must be rank-deficient in $\M_{d+1}$}.  So we require a replacement for the Wilks theorem, a null theory for $\lambda$ when $\rho_0$ is rank-deficient. We do so by first describing a new framework for reasoning about asymptotic properties of models, by generalizing LAN to deal with constraints.
+However, the models used in state tomography \emph{do} have boundaries. Given a model $\M_{d}$, its boundary is the set of rank-deficient states within it. When $\rho_{0}\in \M_{d}$ and is full rank, LAN will hold -- which is to say that, asymptotically, the boundary can indeed be ignored. But when $\rho_{0}$ is rank-deficient, it lies \emph{on} the boundary of the model.  LAN is not satisfied, because positivity constrains $\rhoML{d}$, and so $\mathrm{Pr}(\rhoML{d})$ is not Gaussian (see Figure \ref{fig:boundaries}). The Wilks theorem does not apply in this case, and its predictions aren't even close (see Figure \ref{fig:boundaries2}). Moreover, this is the relevant situation for our analysis, because \emph{even if $\rho_{0}$ is full-rank in $\M_{d}$, it must be rank-deficient in $\M_{d+1}$}.  So we require a replacement for the Wilks theorem, a null theory for $\lambda$ when $\rho_0$ is rank-deficient. We do so by first describing a new framework for reasoning about asymptotic properties of models, by generalizing LAN to deal with constraints.
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{Images/Figure_2.pdf}
- \caption{Comparison of the Wilks theorem prediction for the expected value of the loglikelihood ratio statistic $\expect{\lambda}$ to numerical data for states $\rho_{0}$ of rank $1,\ldots ,10$.  The Wilks theorem fails badly for low-rank states; our main result (Equation \ref{eq:ourLLRS}) gives a replacement that works correctly (see Figure \ref{fig:modelcomp-iso}).}
+ \caption{\textbf{Predictions of the Wilks theorem vs reality:}  In the context of state tomography on a true state $\rho_0$ in a $d$-dimensional Hilbert space, the Wilks theorem can be used to predict that the expected loglikelihood ratio between the zero-parameter model $\rho = \rho_0$ and the $(d^2-1)$-parameter model $\mathcal{M}_d$ defined in Equation \eqref{eq:modelsd} will be $\expect{\lambda} = d^2-1$.  Here, we compare that prediction to numerical simulations of tomography on states $\rho_0$ in dimension $d=2,\ldots,30$, with ranks $r=1,\ldots,\mathrm{min}(10,d)$.  The Wilks theorem only predicts $\expect{\lambda}$ correctly for full-rank states; when $r \ll d$, the actual expected loglikelihood ratio is much smaller. Our main result (Equation \ref{eq:ourLLRS}) gives a replacement that works correctly (see Figure \ref{fig:modelcomp-iso}).}
 \label{fig:boundaries2}
 \end{figure}
-
-
-
 
 \section{Generalizing LAN to Deal with Constraints}
 \label{sec:lanreplacement}
@@ -216,7 +213,7 @@ The following subsection presents the technical details and definitions necessar
 
 \begin{figure}
 \includegraphics[width=.75\columnwidth]{Images/Figure_3.pdf}
- \caption{For any model $\M_{k}$, $\lambda(\rho_{0}, \M_{k})$ is the difference between the distance from $\rho_{0}$ to $\rhoML{\M'}$ and that from $\rhoML{\M_{k}}$ to $\rhoML{\M'}$ (black lines). When MP-LAN holds, $\lambda$ is equal, in the asymptotic limit, to the distance from $\rhoML{\M_{k}}$ to $\rho_{0}$ (red lines), because $\rho_{0}, \rhoML{\M'}$, and $\rhoML{\M_{k}}$ form a right triangle. This is also true for state spaces with \emph{curved} boundaries because asymptotically, the local state space is the solid tangent cone, whose boundaries are always \emph{flat}.}
+ \caption{\textbf{Equivalence of $\lambda$ and squared error when MP-LAN is satisfied:} For any model $\M_{k}$, $\lambda(\rho_{0}, \M_{k})$ is the difference between the distance from $\rho_{0}$ to $\rhoML{\M'}$ and that from $\rhoML{\M_{k}}$ to $\rhoML{\M'}$ (black lines). If $\M_{k}$ satisfies MP-LAN, then $\lambda$ is equal, in the asymptotic limit, to the distance from $\rhoML{\M_{k}}$ to $\rho_{0}$ (red lines), because $\rho_{0}, \rhoML{\M'}$, and $\rhoML{\M_{k}}$ form a right triangle. This is also true for state spaces with \emph{curved} boundaries because asymptotically, the local state space is the solid tangent cone, whose boundaries are always \emph{flat}.}
 \label{fig:llrs_MP-LAN}
 \end{figure}
 
@@ -318,7 +315,7 @@ That is, $\rhoML{\M}$ is the \emph{metric projection} of $\rhoML{\M'}$ onto the 
 
 \begin{figure}
 \includegraphics[width=.75\columnwidth]{Images/Figure_4.pdf}
- \caption{Example of the solid tangent cone for a rebit. As $N \rightarrow \infty$, the local state space around $\rho_{0}$ is $T(\rho_{0})$. In Fisher-adjusted coordinates, it's easy to show that (a) $\rhoML{\M}$ is the metric projection of $\rhoML{\M'}$ onto $T(\rho_{0})$, and (b) $\lambda(\rho_{0}, \M) = \mathrm{Tr}[(\rhoML{\M} - \rho_{0})^{2}]$.}
+ \caption{\textbf{Example of the solid tangent cone for a rebit:} As $N \rightarrow \infty$, the local state space around $\rho_{0}$ is $T(\rho_{0})$. In Fisher-adjusted coordinates, it's easy to show that (a) $\rhoML{\M}$ is the metric projection of $\rhoML{\M'}$ onto $T(\rho_{0})$, and (b) $\lambda(\rho_{0}, \M) = \mathrm{Tr}[(\rhoML{\M} - \rho_{0})^{2}]$.}
 \label{fig:tangentcone}
 \end{figure}
 
@@ -385,7 +382,7 @@ Because each model satisfies MP-LAN, asymptotically, $\lambda(\rho_{0}, \M_{k})$
 The Fisher information $\mathcal{I}_{k}$ is generally anisotropic,  depending on $\rho_{0}$, the POVM being measured, and the model $\M_{k}$ (see Figure \ref{fig:anisofi}). And while the $\rho\geq0$ constraint  that invalidated LAN in the first place is at least somewhat tractable in standard (Hilbert-Schmidt) coordinates, it becomes completely intractable in Fisher-adjusted coordinates.  So, to obtain a semi-analytic null theory for $\lambda$, we will simplify to the case where   $\mathcal{I}_{k} = \Id_{k}/\epsilon^{2} $ for some $\epsilon$ that scales as $1/\sqrt{N_{\mathrm{samples}}}$. (That is, $\mathcal{I}_{k}$ is proportional to the Hilbert-Schmidt metric.) This simplification permits the derivation of analytic results that capture realistic tomographic scenarios surprisingly well \cite{Smolin2012}.
 \begin{figure}
 \includegraphics[width=.85\columnwidth]{Images/Figure_5.pdf}
- \caption{Anisotropy of the Fisher information for a rebit measured using the POVM $\frac{1}{2}\{|0\rangle\langle 0|, |1\rangle\langle 1|, |+\rangle\langle +|, |-\rangle\langle -|\}$. Depending on $\rho_{0}$ (star), the distribution of the unconstrained estimates $\hat{\rho}_{\mathrm{ML}}$ (ellipses) may be anisotropic. Imposing the positivity constraint $\rho \geq 0$ is difficult in Fisher-adjusted coordinates; in this paper, we simplify these complexities to the case where $\mathcal{I} \propto \Id$, \emph{and is independent of $\rho_{0}$}.}
+ \caption{\textbf{Anisotropy of the Fisher information for a rebit:} Suppose a rebit state $\rho_{0}$ (star) is measured using the POVM $\frac{1}{2}\{|0\rangle\langle 0|, |1\rangle\langle 1|, |+\rangle\langle +|, |-\rangle\langle -|\}$. Depending on $\rho_{0}$, the distribution of the unconstrained estimates $\hat{\rho}_{\mathrm{ML}}$ (ellipses) may be anisotropic. Imposing the positivity constraint $\rho \geq 0$ is difficult in Fisher-adjusted coordinates; in this paper, we simplify these complexities to the case where $\mathcal{I} \propto \Id$, \emph{and is independent of $\rho_{0}$}.}
 \label{fig:anisofi}
 \end{figure}
 
@@ -426,7 +423,7 @@ Performing this division is also supported by numerical simulations (see Figure 
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{Images/Figure_6.pdf}
- \caption{When a rank-2 state is reconstructed in $d=8$ dimensions, the total loglikelihood ratio $\lambda(\rho_0,\mathcal{M}_8)$ is the sum of terms $\lambda_{jk}$ from errors in each matrix element $(\rhoML{d})_{jk}$.  \textbf{Left}:  Numerics show a clear division; some matrix elements have $\expect{\lambda_{jk}}\sim1$ as predicted by the Wilks theorem, while others are either more or less. \textbf{Right}:  The numerical results support our theoretical reasoning for dividing the matrix elements of $\rhoML{\M'_{d}}$ into two parts: the ``kite'' and the ``L''.}
+ \caption{\textbf{Division of the matrix elements of $\rhoML{\M'_{d}}$:} When a rank-2 state is reconstructed in $d=8$ dimensions, the total loglikelihood ratio $\lambda(\rho_0,\mathcal{M}_8)$ is the sum of terms $\lambda_{jk}$ from errors in each matrix element $(\rhoML{d})_{jk}$.  \textbf{Left}:  Numerics show a clear division; some matrix elements have $\expect{\lambda_{jk}}\sim1$ as predicted by the Wilks theorem, while others are either more or less. \textbf{Right}:  The numerical results support our theoretical reasoning for dividing the matrix elements of $\rhoML{\M'_{d}}$ into two parts: the ``kite'' and the ``L''.}
 \label{fig:L}
 \end{figure}
 
@@ -492,7 +489,7 @@ independent, and level avoidance makes the approximation even better.
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{Images/Figure_7.pdf}
-\caption{Typical samples of GUE($N$) eigenvalues are accurately approximated by order statistics of the distribution (average values of a sorted sample).  \textbf{Left}:  The sorted eigenvalues (i.e., order statistics $\kappa_{j}$) of one randomly chosen GUE(100) matrix.  \textbf{Right}:  Approximate expected values of the order statistics, $\bar{\kappa}_{j}$, of the GUE(100) distribution, computed as the average of the sorted eigenvalues of 100 randomly chosen GUE(100) matrices.}
+\caption{\textbf{Approximating typical samples of GUE($N$) eigenvalues by order statistics:} We approximate a typical sample of GUE($N$) eigenvalues by their order statistics (average values of a sorted sample).  \textbf{Left}:  The sorted eigenvalues (i.e., order statistics $\kappa_{j}$) of one randomly chosen GUE(100) matrix.  \textbf{Right}:  Approximate expected values of the order statistics, $\bar{\kappa}_{j}$, of the GUE(100) distribution, computed as the average of the sorted eigenvalues of 100 randomly chosen GUE(100) matrices.}
 \label{fig:orderstatistics1}
 \end{figure}
 
@@ -510,7 +507,7 @@ This is closely related to the observation that the histogram of a sample tends 
 
 \begin{figure}[t]
 \includegraphics[width=\columnwidth]{Images/Figure_8.pdf}
-\caption{Order statistics of the GUE($N$) eigenvalue distribution are very well approximated by the inverse CDF of the Wigner semicircle distribution.  In both figures, we compare the order statistics of a GUE($N$) distribution to the inverse CDF of the Wigner semicircle distribution. \textbf{Top}:  $N=100$.  \textbf{Bottom}:  $N=10$.
+\caption{\textbf{Approximating order statistics by the inverse CDF:} Order statistics of the GUE($N$) eigenvalue distribution are very well approximated by the inverse CDF of the Wigner semicircle distribution.  In both figures, we compare the order statistics of a GUE($N$) distribution to the inverse CDF of the Wigner semicircle distribution. \textbf{Top}:  $N=100$.  \textbf{Bottom}:  $N=10$.
 Agreement in both cases is essentially perfect.}
 \label{fig:orderstatistics2}
 \end{figure}
@@ -556,7 +553,7 @@ where $x = \left(\frac{15 \pi r}{2(d-r)}\right)^{2/5}$.
 
 \begin{figure}
  \includegraphics[width=\columnwidth]{Images/Figure_9.pdf}
- \caption{Numerical results for $\expect{\lambda(\rho_{0}, \M_{d})}$ compared to the prediction of the Wilks theorem (solid line) and our replacement theory as given in Equation \eqref{eq:ourLLRS} (dashed lines).  Our formula depends on the rank $r$ of $\rho_0$ (unlike the Wilks prediction), and is nearly perfect for $r\ll d/2$.  It becomes less accurate as $r$ approaches $d/2$, and is invalid when $r\approx d$.}
+ \caption{\textbf{Improved prediction for $\langle \lambda(\rho_{0}, \M_{d})\rangle$, as compared to the Wilks theorem:} Numerical results for $\expect{\lambda(\rho_{0}, \M_{d})}$ compared to the prediction of the Wilks theorem (solid line) and our replacement theory as given in Equation \eqref{eq:ourLLRS} (dashed lines).  Our formula depends on the rank $r$ of $\rho_0$ (unlike the Wilks prediction), and is nearly perfect for $r\ll d/2$.  It becomes less accurate as $r$ approaches $d/2$, and is invalid when $r\approx d$.}
  \label{fig:modelcomp-iso}
 \end{figure}
 \subsubsection{Expression for $\langle \lambda_{\mathrm{kite}}\rangle$}
@@ -593,10 +590,11 @@ with $d=2,\ldots,30$ and $r=1,\ldots,10$ in Figure \ref{fig:modelcomp-iso}.  The
 \label{sec:heterotomo}
 In practice, the Fisher information is rarely isotropic.  So we tested our idealized result by applying it to a realistic, challenging, and experimentally relevant problem: quantum heterodyne (equivalent to double homodyne) state tomography \cite{Lvovsky2001a, Bertrand1987, Leonhardt1995, Lvovsky2009} of a single optical mode.  (See Figure \ref{fig:fish_condition} for a plot of the \emph{condition number} -- the ratio of the largest eigenvalue to the smallest -- of the estimated Fisher information. It is clear $\mathcal{I} \not \propto \Id$.) States of this continuous-variable system are described by density operators on the infinite-dimensional Hilbert space $L^2(\reals)$.  Fitting these infinitely many parameters to finitely much data demands simpler models.
 
-\begin{figure}[t]
+\begin{figure}
   \includegraphics[width=.9\columnwidth]{Images/Figure_10.pdf}
- \caption{The condition number $\kappa$ -- the ratio of the largest eigenvalue to the smallest -- of the estimated heterodyne Fisher information. (Estimates are the average over 100 Hessians of the loglikelihood function.) $\kappa$ grows with model dimension, meaning anisotropy is increasing.  The dashed lines indicate different states $\rho_{0}$, and the solid line is $\kappa = 1$ (i.e., $\mathcal{I} \propto \Id$.).}
+ \caption{\textbf{Anisotropy of the heterodyne POVM Fisher information:} The condition number $\kappa$ -- the ratio of the largest eigenvalue to the smallest -- of the estimated heterodyne Fisher information. (Estimates are the average over 100 Hessians of the loglikelihood function.) $\kappa$ grows with model dimension, meaning anisotropy is increasing.  The dashed lines indicate different states $\rho_{0}$, and the solid line is $\kappa = 1$ (i.e., $\mathcal{I} \propto \Id$.).}
 \label{fig:fish_condition}
+\todo[inline]{Change title to ``Heterodyne Fisher information not isotropic"}
 \end{figure}
 
 We consider a family of nested models motivated by a low-energy (few-photon) ansatz, and choose   
@@ -607,20 +605,22 @@ coherent state POVM, $\{|\alpha\rangle\langle \alpha| /\pi, ~\alpha=x+ip\in \mat
 We examined the behavior of $\lambda$ for 13 distinct states $\rho_{0}$, both pure and mixed, supported on $\mathcal{H}_{2}, \mathcal{H}_{3}, \mathcal{H}
 _{4}$, and $\mathcal{H}_{5}$.  We used rejection sampling to simulate 100 heterodyne datasets with up to $N_{\mathrm{samples}}=10^5$, and found ML estimates $\rhoML{\M_{d}}$ over each of the 9 models $\M_2, \ldots, M_{10}$ using numerical optimization \footnote{The model $\M_{1}$ is trivial, as $\M_{1} = \{|0\rangle \langle 0|\}$. This model will almost always be wrong, in general.}.  For each $\rho_{0}$ and each $d$, we averaged $\lambda(\rho_{0}, \M_{d})$ over all 100 datasets to obtain an empirical average loglikelihood ratio $\bar{\lambda}(\rho_0,d)$.
 
-Results of this test are shown in Figure \ref{fig:modelcomp}, where we plot the predictions for $\langle \lambda \rangle$ given by the Wilks theorem and Equation \eqref{eq:ourLLRS}, against the empirical average $\bar\lambda$, for a variety of $\rho_{0}$ and $d$. Our formula correlates very well with the empirical average, while the Wilks theorem (unsurprisingly) overestimates $\lambda$ dramatically for low-rank states.  Whereas a model selection procedure based on the Wilks theorem would tend to falsely reject larger Hilbert spaces (by setting the threshold for acceptance too high), our formula provides a reliable null theory.
-
 \begin{figure}
  \includegraphics[width=.9\columnwidth]{Images/Figure_11.pdf}
- \caption{The Wilks theorem (orange dots) dramatically over-estimates $\langle\lambda(\rho_{0}, \M_{d})\rangle$ in optical heterodyne tomography. Our formula, Equation \ref{eq:ourLLRS} (blue squares), is far more accurate. Residual discrepancies occur in large part because $N_{\mathrm{samples}}$ is not yet ``asymptotically large''. The solid red line corresponds to perfect correlation between theory ($\expect{\lambda}$) and practice ($\bar\lambda$).}
+ \caption{\textbf{Applying isotropic formula to heterodyne tomography:} The Wilks theorem (orange dots) dramatically over-estimates $\langle\lambda(\rho_{0}, \M_{d})\rangle$ in optical heterodyne tomography. Our formula, Equation \ref{eq:ourLLRS} (blue squares), is far more accurate. Residual discrepancies occur in large part because $N_{\mathrm{samples}}$ is not yet ``asymptotically large''. The solid red line corresponds to perfect correlation between theory ($\expect{\lambda}$) and practice ($\bar\lambda$).}
  \label{fig:modelcomp}
  \todo[inline]{Check equation number in legend}
 \end{figure}
 
+Results of this test are shown in Figure \ref{fig:modelcomp}, where we plot the predictions for $\langle \lambda \rangle$ given by the Wilks theorem and Equation \eqref{eq:ourLLRS}, against the empirical average $\bar\lambda$, for a variety of $\rho_{0}$ and $d$. Our formula correlates very well with the empirical average, while the Wilks theorem (unsurprisingly) overestimates $\lambda$ dramatically for low-rank states.  Whereas a model selection procedure based on the Wilks theorem would tend to falsely reject larger Hilbert spaces (by setting the threshold for acceptance too high), our formula provides a reliable null theory.
+
+
+
 Interestingly, as $d$ grows, Equation \eqref{eq:ourLLRS} also begins to overpredict. As Figure \ref{fig:totalcontrib} indicates, a more accurate description is that the numerical experiments are \emph{underachieving}, because $\bar\lambda$ is still growing with $N_{\mathrm{samples}}$.  Both the Wilks theorem and our analysis are derived in the limit $N_{\mathrm{samples}} \rightarrow \infty$; for finite but large $N_{\mathrm{samples}}$, both may be invalid.  Figure \ref{fig:totalcontrib} shows that, even at $N_{\mathrm{samples}}\sim 10^{5}$, the behavior of $\bar{\lambda}$ has failed to become asymptotic. This is surprising, and suggests heterodyne tomography is a particularly exceptional and challenging case to model statistically. 
 
-\begin{figure}[t]
+\begin{figure}
   \includegraphics[width=.9\columnwidth]{Images/Figure_12.pdf}
- \caption{The empirical average $\bar{\lambda}$  may have achieved its asymptotic value, or is still 
+ \caption{\textbf{``Underachievement" of $\bar{\lambda}$ in heterodyne tomography:} The empirical average $\bar{\lambda}$  may have achieved its asymptotic value, or is still 
 growing, depending on $\rho_{0}$ and $d$. Solid lines indicate the value of our formula
 for the asymptotic expected value, given in Equation \eqref{eq:ourLLRS}.}
 \label{fig:totalcontrib}
@@ -630,15 +630,15 @@ for the asymptotic expected value, given in Equation \eqref{eq:ourLLRS}.}
 However, our model \emph{does} get some of the qualitative features correct. In Figure \ref{fig:model_comparison}, we present simulated values of $\langle \lambda_{jk}\rangle$ for an isotropic Fisher information and for heterodyne tomography. While the values of $\langle \lambda_{jk} \rangle$ do not agree exactly, they still decompose into two types, the ``L" and the ``kite". (See Figure \ref{fig:individcontrib} for an analysis of the discrepancies.)
  
  
-\begin{figure}[t]
+\begin{figure}
   \includegraphics[width=\columnwidth]{Images/Figure_13.pdf}
- \caption{The values of $\langle \lambda_{jk} \rangle$ for an isotropic Fisher information (left), and for heterodyne tomography (right). \textbf{Top}: $\rho_{0} = |0\rangle\langle 0|$. \textbf{Bottom}: $\rho_{0} = \mathcal{I}_{2}/2$. \textbf{Discussion}: Qualitatively, the behavior is the same, though there are quantitative differences, particularly within the kite.}
+ \caption{\textbf{Detailed comparison of isotropic model and heterodyne tomography:} The values of $\langle \lambda_{jk} \rangle$ for an isotropic Fisher information (left), and for heterodyne tomography (right). \textbf{Top}: $\rho_{0} = |0\rangle\langle 0|$. \textbf{Bottom}: $\rho_{0} = \mathcal{I}_{2}/2$. \textbf{Discussion}: Qualitatively, the behavior is the same, though there are quantitative differences, particularly within the kite.}
 \label{fig:model_comparison}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}
   \includegraphics[width=\columnwidth]{Images/Figure_14.pdf}
- \caption{Examining how our prediction for $\langle \lambda_{jk} \rangle$ disagrees with simulated heterodyne experiments. We take $\rho_{0} = |0\rangle\langle 0|$ and $d=8$. \textbf{Top Left}: The values of  $\langle \lambda_{0k}\rangle$ in the ``L" as a function of $N_{\mathrm{samples}}$.  \textbf{Top Right}:  At the largest $N_{\mathrm{samples}}$ studied, $\langle \lambda_{0k}\rangle$ is less than 1, especially for the higher number states. \textbf{Bottom Left}: The total from the ``kite" versus $N_{\mathrm{samples}}$. It is clear the total is still growing. \textbf{Bottom Right}: The individual ``kite" elements $\langle \lambda_{jk}\rangle$ at the largest $N_{\mathrm{samples}}$ studied;  most are small compared to their values in the isotropic case.}
+ \caption{\textbf{Discrepancies between isotropic model and heterodyne tomography:} Examining how our prediction for $\langle \lambda_{jk} \rangle$ disagrees with simulated heterodyne experiments. We take $\rho_{0} = |0\rangle\langle 0|$ and $d=8$. \textbf{Top Left}: The values of  $\langle \lambda_{0k}\rangle$ in the ``L" as a function of $N_{\mathrm{samples}}$.  \textbf{Top Right}:  At the largest $N_{\mathrm{samples}}$ studied, $\langle \lambda_{0k}\rangle$ is less than 1, especially for the higher number states. \textbf{Bottom Left}: The total from the ``kite" versus $N_{\mathrm{samples}}$. It is clear the total is still growing. \textbf{Bottom Right}: The individual ``kite" elements $\langle \lambda_{jk}\rangle$ at the largest $N_{\mathrm{samples}}$ studied;  most are small compared to their values in the isotropic case.}
 \label{fig:individcontrib}
 \end{figure}
 
