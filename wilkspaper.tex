@@ -120,16 +120,15 @@ Quantum state tomography typically begins with $N_{\mathrm{samples}}$ independen
 
 The likelihood $\mathcal{L}(\rho)$ is
 \begin{equation}
-\mathcal{L}(\rho) = \prod_{j}\mathrm{Tr}(\rho E_{j})^{n_{j}},
+\nonumber \mathcal{L}(\rho) = \prod_{j}\mathrm{Tr}(\rho E_{j})^{n_{j}},
 \end{equation}
 and $\rhoML{\M}$ is the solution to the optimization problem
 \begin{equation}
-\label{eq:mle}
-\rhoML{\M} = \underset{\rho \in \M}{\text{argmax}}~\mathcal{L}(\rho).
+\nonumber \rhoML{\M} = \underset{\rho \in \M}{\text{argmax}}~\mathcal{L}(\rho).
 \end{equation}
 In state tomography, $\M$ is almost always the set of all density matrices over a Hilbert space $\cH$:
 \begin{equation}
-\mathcal{M}_{\cH} = \{\rho~|~\rho \in \mathcal{B}(\mathcal{H}),~\mathrm{Tr}(\rho) =1,~\rho \geq 0\},
+\nonumber \mathcal{M}_{\cH} = \{\rho~|~\rho \in \mathcal{B}(\mathcal{H}),~\mathrm{Tr}(\rho) =1,~\rho \geq 0\},
 \end{equation}
 where $\mathcal{B}(\cH)$ is the space of bounded linear operators on $\cH$.  To determine $\rhoML{\M}$, we can use the following facts: (a) $\M_{\cH}$ is a convex set, and (b) $\rhoML{\M}$ minimizes the value of the convex function $-\log[\mathcal{L}(\rho)]$. Because $\rhoML{\M}$ is the solution to minimizing a convex function  over a convex set, it can be found efficiently via any of several algorithms for convex optimization \cite{Boyd}.
 
@@ -412,9 +411,8 @@ In Section \ref{subsec:dof}, we identify two types of degrees of freedom in $\rh
 \label{subsec:dof}
 We begin by observing that $\lambda(\rho_{0}, \M_{d})$ can be written as a sum over matrix elements,
 \begin{align}
-\label{eq:llrserrors}
 \nonumber \lambda &=\epsilon^{-2}\mathrm{Tr}[(\rhoML{d} - \rho_{0})^{2}] = \epsilon^{-2}\sum_{jk}|(\rhoML{d}- \rho_{0} )_{jk}|^{2}\\
-&= \sum_{jk}\lambda_{jk}~~~~\text{where}~~~~\lambda_{jk} = \epsilon^{-2}|(\rhoML{d} - \rho_{0} )_{jk} |^{2},
+\nonumber &= \sum_{jk}\lambda_{jk}~~~~\text{where}~~~~\lambda_{jk} = \epsilon^{-2}|(\rhoML{d} - \rho_{0} )_{jk} |^{2},
 \end{align}
 and therefore $\langle \lambda \rangle = \sum_{jk}\langle\lambda_{jk}\rangle$.  Each term $\langle \lambda_{jk}\rangle$ quantifies the mean-squared error of a single matrix element of $\rhoML{d}$, and while the Wilks theorem predicts $\expect{\lambda_{jk}}=1$ for all $j,k$, due to positivity constraints, this no longer holds. In particular, the matrix elements of $\rhoML{d}$ now fall into two parts:
 
@@ -522,7 +520,7 @@ We make one further approximation, by assuming that $N\gg1$, so the distribution
 \subsubsection{Deriving an approximation for $q$}
 The approximations of the previous section allow us to use $\{p_j\} \cup \{\overline{\kappa}_j\}$ as the ansatz for the eigenvalues of $\rhoML{\M'_{d}}$, where the $p_j$ are $\mathcal{N}(\rho_{jj},\epsilon^2)$ random variables, and the $\overline{\kappa}_j$ are the (fixed, smoothed) order statistics of a Wigner semicircle distribution.  In turn, the defining equation for $q$ (Equation \eqref{eq:q_eqn}) is well approximated as
 \begin{equation}
-\sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{N}{(\overline{\kappa}_j-q)^+} = 1.
+\nonumber \sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{N}{(\overline{\kappa}_j-q)^+} = 1.
 \end{equation}
 To solve this equation, we observe that the $\overline{\kappa}_j$ are symmetrically distributed around $
 \kappa=0$, so half of them are negative.  Therefore, with high probability, $\Tr
@@ -549,12 +547,12 @@ obtain the equation
 \begin{equation}
 \frac{rq}{\epsilon}  = \frac{4}{15\pi}N^{1/4}\left(2\sqrt{N}-\frac{q}{\epsilon}\right)^{5/2}.
 \end{equation}
-This equation is a quintic polynomial in $q/\epsilon$, so by the Abel-Ruffini theorem, it has no algebraic solution.  However, as $N \rightarrow \infty$, its roots have a well-defined algebraic \emph{approximation} that becomes accurate quite rapidly (e.g., for $N>4$):
+This equation is a quintic polynomial in $q/\epsilon$, so by the Abel-Ruffini theorem, it has no algebraic solution.  However, as $N \rightarrow \infty$, its roots have a well-defined algebraic \emph{approximation} that becomes accurate quite rapidly (e.g., for $d-r>4$):
 \begin{align}
 \label{eq:truncation}
-z &\equiv q/\epsilon \approx 2\sqrt{N}\left(1 -\frac{1}{2}x +\frac{1}{10}x^{2} - \frac{1}{200}x^{3}\right),
+z &\equiv q/\epsilon \approx 2\sqrt{d-r}\left(1 -\frac{1}{2}x +\frac{1}{10}x^{2} - \frac{1}{200}x^{3}\right),
 \end{align}
-where $x = \left(\frac{15 \pi r}{2N}\right)^{2/5}$.
+where $x = \left(\frac{15 \pi r}{2(d-r)}\right)^{2/5}$.
 
 \begin{figure}
  \includegraphics[width=\columnwidth]{Images/Figure_9.pdf}
