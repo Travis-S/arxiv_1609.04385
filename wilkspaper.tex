@@ -67,7 +67,7 @@ Quantum state tomography on a $d$-dimensional system demands resources that grow
 \maketitle
 
 
-Determining the quantum state $\rho_{0}$ produced by a specific preparation procedure for a quantum system is a problem almost as old as quantum mechanics itself \cite{Corbett2006, Pauli1933}. This task, known as \emph{quantum state tomography} \cite{Paris2004}, is not only useful in its own right (diagnosing and detecting errors in state preparation), but is also used in other characterization protocols including entanglement verification \cite{Steffen2006, Blume-Kohout2010c, VanEnk2007} and process tomography \cite{Anis2012}. A typical state tomography protocol proceeds as follows: many copies of $\rho_{0}$ are produced; they are measured in diverse ways; and finally the outcomes of those measurements (data) are collated and analyzed to produce an estimate $\rhohat$.  This is a straightforward statistical inference process \cite{Reid2015, Wasserman2004}, where the data are used to fit the parameters of a statistical model. In state tomography, the parameter is $\rho$, and the model is the set of all possible density matrices on a Hilbert space $\cH$ (equipped with the Born rule). However, we don't always know what model to use. It is not always \emph{a priori} obvious what $\cH$ or its dimension is; examples include optical modes \cite{Altepeter2005, Bertrand1987, Lvovsky2009, Breitenbach1997, Leonhardt1995} and leakage levels in AMO and superconducting \cite{Motzoi2009, Fazio1999} qubits. In such situations, we seek to let the data itself determine which of many candidate Hilbert spaces is best suited for reconstructing $\rho_{0}$.
+Determining the quantum state $\rho_{0}$ produced by a specific preparation procedure for a quantum system is a problem almost as old as quantum mechanics itself \cite{Corbett2006, Pauli1933}. This task, known as \emph{quantum state tomography} \cite{Paris2004}, is not only useful in its own right (diagnosing and detecting errors in state preparation), but is also used in other characterization protocols including entanglement verification \cite{Steffen2006, Blume-Kohout2010c, VanEnk2007} and process tomography \cite{Anis2012}. A typical state tomography protocol proceeds as follows: many copies of $\rho_{0}$ are produced, they are measured in diverse ways, and finally the outcomes of those measurements (data) are collated and analyzed to produce an estimate $\rhohat$.  This is a straightforward statistical inference process \cite{Reid2015, Wasserman2004}, where the data are used to fit the parameters of a statistical model. In state tomography, the parameter is $\rho$, and the model is the set of all possible density matrices on a Hilbert space $\cH$ (equipped with the Born rule). However, we don't always know what model to use. It is not always \emph{a priori} obvious what $\cH$ or its dimension is; examples include optical modes \cite{Altepeter2005, Bertrand1987, Lvovsky2009, Breitenbach1997, Leonhardt1995} and leakage levels in AMO and superconducting \cite{Motzoi2009, Fazio1999} qubits. In such situations, we seek to let the data itself determine which of many candidate Hilbert spaces is best suited for reconstructing $\rho_{0}$.
 
 Choosing an appropriate Hilbert space on the fly is an instance of a general statistical problem called \emph{model selection}.  Although model selection has been thoroughly explored in classical statistics \cite{Burnham2004}, its application to quantum tomography encounters some obstacles.  They stem from the fact that quantum states (and therefore, estimates of them) must satisfy a \emph{positivity constraint} ($\rho\geq0$).  A similar constraint (complete positivity) applies to process tomography.  The impact of positivity constraints on state and process tomography is an active area of research \cite{Candes2006, Flammia2012a, Suess2016, Carpentier2015}, and its implications for model selection have also been considered \cite{Schwarz2013a, Guta2012a, VanEnk2013a, Langford2013, Yin2011, Moroder2013, Knips2015}.  In this paper, we address a specific question at the heart of this matter:  \emph{How does the loglikelihood ratio statistic used in many model selection protocols, including (but not limited to) information criteria such as Akaike's AIC \cite{Akaike1974}, behave in the presence of the positivity constraint $\rho\geq0$}? 
 
@@ -81,19 +81,19 @@ Suppose we have data $D$ obtained from an unknown state $\rho_{0}$, and two cand
 
 Then, the models can be compared using the \emph{loglikelihood ratio statistic} \cite{Neyman1933, Blume-Kohout2010, Moroder2013}:
 \begin{align}
-\lambda(\M_{1}, \M_{2}) &\equiv -2 \log \left(\frac{\cL(\M_{1})}{\cL(\M_{2})}\right)\\
-&= -2 \log \left(\frac{\cL(\rhoML{\M_{1}})}{\cL(\rhoML{\M_{2}})}\right)\\
+\nonumber \lambda(\M_{1}, \M_{2}) &\equiv -2 \log \left(\frac{\cL(\M_{1})}{\cL(\M_{2})}\right)\\
+\nonumber &= -2 \log \left(\frac{\cL(\rhoML{\M_{1}})}{\cL(\rhoML{\M_{2}})}\right)\\
 &= -2 \log \left(\frac{\underset{\rho \in \M_{1}}{\max}~\cL(\rho)}{\underset{\rho \in \M_{2}}{\max}~\cL(\rho)}\right).
 \end{align}
 All else being equal, a positive $\lambda$ favors $\M_2$ -- i.e., the model with the higher likelihood is more plausible, because it fits the data better.  However, all else is rarely equal.  If both models are equally valid -- e.g., they both contain $\rho_0$ -- but $\M_2$ has more parameters, then $\M_2$ will very probably fit the data better.  Models with more adjustable parameters do a better job of fitting \emph{noise} (e.g., finite sample fluctuations) in the data.  This becomes strictly true when the models are \emph{nested}, so that $\M_{1} \subset \M_{2}$.  In this case, the likelihood of $\M_{2}$ is at least as high as that of $\M_{1}$;  not only is $\lambda \geq 0$, but almost surely $\lambda > 0$.
 
-Remarkably, the same effect also makes $\M_{2}$'s fit less accurate (almost surely), because the fit incorporates more of the noise in the data.  These two effects constitute \emph{overfitting}, which can be summed up as ``Extra parameters make the fit look better, but perform worse.''  An overfitted model would fit \emph{current} data extremely well,  but would fail to accurately predict \emph{future} data well. This provides strong motivation to correct for overfitting by penalizing or handicapping larger models, to prevent them from being chosen over smaller models that are no less valid, and may even yield better estimates in practice \cite{Akaike1974}.
+Remarkably, the same effect also makes $\M_{2}$'s fit less accurate (almost surely), because the fit incorporates more of the noise in the data.  These two effects constitute \emph{overfitting}, which can be summed up as ``Extra parameters make the fit look better, but perform worse.''  An overfitted model would fit \emph{current} data extremely well,  but would fail to accurately predict \emph{future} data. This provides strong motivation to correct for overfitting by penalizing or handicapping larger models, to prevent them from being chosen over smaller models that are no less valid, and may even yield better estimates in practice \cite{Akaike1974}.
 
 For this reason, any model selection method/criterion that relies (explicitly or implicitly) on a statistic to quantify ``how well model $\M$ fits the data'' also relies on a \emph{null theory} to predict how that statistic will behave if $\rho_{0} \in \M$.  A model selection criterion based on an invalid null theory (or a criterion used in a context where its null theory does not apply) will tend to choose the wrong model.
 
 The null theory can be used to formulate a \emph{decision rule} for choosing between models. If we know how the statistic behaves when both models are equally valid, then we can evaluate the observed value of the statistic under the null theory. If the observed value is very improbable under the null theory, then that constitutes evidence against the smaller model, and justifies rejecting it. On the other hand, if the observed value is \emph{consistent} with the null theory, there is no reason to reject the smaller model.
 
-The standard null theory for $\lambda$ is the \emph{Wilks theorem} \cite{Wilks1938}. It relies on \emph{local asymptotic normality} (LAN) \cite{LeCam1970, LeCam1956}. LAN is a property of a statistical model $\M$. If $\M$ satisfies LAN, then as $N_{\mathrm{samples}}\rightarrow \infty$:
+The standard null theory for $\lambda$ is the \emph{Wilks theorem} \cite{Wilks1938}. It relies on \emph{local asymptotic normality} (LAN) \cite{LeCam1970, LeCam1956}. LAN is a property of $\M$; if $\M$ satisfies LAN, then as $N_{\mathrm{samples}}\rightarrow \infty$:
 \begin{itemize}[nosep]
 \item The ML estimate $\rhoML{\M}$ is normally distributed around $\rho_{0}$ with covariance matrix $\Fi^{-1}$:
 \begin{equation}
@@ -108,7 +108,7 @@ The standard null theory for $\lambda$ is the \emph{Wilks theorem} \cite{Wilks19
 \end{itemize}
 Here, $\Fi$ is the (classical) \emph{Fisher information matrix} associated with the POVM. It quantifies how much information the data carry about a parameter in the model.  (Note that in expressions involving $\mathcal{I}$, states $\rho$ are treated as vectors in state space, and $\mathcal{I}$ is a matrix or 2-index tensor acting on that state space.) Generally speaking, the Fisher information depends strongly on $\rho_{0}$ and the POVM being measured (see Figure \ref{fig:anisofi}). However, as the next section explains, it's common in classical statistics to assume \emph{regularity conditions} that make it possible to change to \emph{Fisher-adjusted} coordinates in which $\mathcal{I}$ is isotropic (i.e., $\mathcal{I} \propto \Id$).
 
-Most statistical models satisfy LAN.  When LAN holds \emph{and} $N_{\mathrm{samples}}$ is large enough to reach the ``asymptotic" regime, we can invoke the Wilks theorem to determine the behavior of $\lambda$. This theorem says that under suitable regularity conditions, if $\rho_{0}\in \M_{1}\subset \M_{2}$, where $\M_{2}$ has $K$ more parameters than $\M_{1}$, then $\lambda$ is a $\chi^{2}_{K}$ random variable.  This is a complete null theory for $\lambda$ (under the specified conditions), and implies that $\langle \lambda \rangle = K$ and $(\Delta \lambda)^{2} = 2K$.
+Most statistical models satisfy LAN.  When LAN is satisfied \emph{and} $N_{\mathrm{samples}}$ is large enough to reach the ``asymptotic" regime, we can invoke the Wilks theorem to determine the behavior of $\lambda$. This theorem says that under suitable regularity conditions, if $\rho_{0}\in \M_{1}\subset \M_{2}$, where $\M_{2}$ has $K$ more parameters than $\M_{1}$, then $\lambda$ is a $\chi^{2}_{K}$ random variable.  This is a complete null theory for $\lambda$ (under the specified conditions), and implies that $\langle \lambda \rangle = K$ and $(\Delta \lambda)^{2} = 2K$.
 
 Therefore, in the ``Wilks regime", a simple criterion for model selection would be to compare the observed value of $\lambda$ to $\lambda_{\mathrm{thresh}} = \langle \lambda \rangle + n\Delta \lambda$, for some $n \approx 1$, and reject the smaller model if $\lambda > \lambda_{\mathrm{thresh}}$.  While model selection rules can be more subtle and complex than this \cite{Akaike1974, Schwarz1978, Kass1995, Spiegelhalter2002}, they usually take the general form of a threshold in which $\expect{\lambda}$ plays a key role.  Rather than attempting to define a specific rule, our purpose in this paper is to understand the behavior of $\expect{\lambda}$ and derive an approximate expression for it in the context of state tomography.
 
@@ -142,7 +142,7 @@ For notational brevity, we will use $\rhoML{d}$ to denote the ML estimate over $
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{Images/Figure_1.pdf}
- \caption{Two views of the impact of the boundary on maximum likelihood (ML) tomography of a qutrit state $\rho_{0}$ (star). \textbf{Top}: Without the positivity constraint, some ML estimates (orange squares) are not valid estimates of a quantum state, because are not positive semidefinite. However, some ML estimates (blue circles) are.
+ \caption{Two views of the impact of the boundary on maximum likelihood (ML) tomography of a qutrit state $\rho_{0}$ (star). \textbf{Top}: Without the positivity constraint, some ML estimates (orange squares) are not valid estimates of a quantum state, because are not positive semidefinite. However, some ML estimates (blue circles) are. Further, the ML estimates are Gaussian distributed.
 \textbf{Bottom}:  Imposing the positivity constraint forces the (previously negative) ML estimates to ``pile up" on the boundary of state space; $\mathrm{Pr}(\rhoML{\M})$ is not Gaussian, and LAN is not satisfied. In turn, the assumptions necessary to invoke the Wilks theorem are not satisfied either.}
 \label{fig:boundaries}
 \end{figure}
@@ -172,7 +172,7 @@ In Section \ref{sec:computingllrs}, we show that the models $\M_{d}$ satisfy MP-
 The reader should note that to enhance readability, in this section (and only this section) we use $N$ to denote the number of samples, previously denoted as $N_{\mathrm{samples}}$. (Later in the paper, we will use $N$ to denote a different quantity.)
 
 
-\subsection{Definitions; Overview of Results}
+\subsection{Definitions and Overview of Results}
 \label{sec:lanoverview}
 The main definitions and results required for the remainder of the paper are presented in this subsection. Technical details and proofs are presented in the next subsection.
 
@@ -192,7 +192,7 @@ Models that satisfy MP-LAN have the following \emph{asymptotic} properties.
 \item The ML estimate $\rhoML{\M}$ is given by the \emph{metric projection} of $\rhoML{\M'}$ onto $T(\rho_{0})$:
 \begin{equation}
 \label{eq:MP-LANmle}
-\rhoML{\M} = \underset{\sigma \in T(\rho_{0})}{\text{argmin}}~(\sigma  -\rhoML{\M'})\mathcal{I}(\sigma  -\rhoML{\M'}).
+\rhoML{\M} = \underset{\rho \in T(\rho_{0})}{\text{argmin}}~(\rho  -\rhoML{\M'})\mathcal{I}(\rho  -\rhoML{\M'}).
 \end{equation}
 (We first encountered the term ``metric projection" in the convex optimization literature \cite{McCoy2014, Amelunxen2014}, and inspires our choice for the acronym ``MP-LAN". However, it should be noted that in the problem setting considered in those references, $\mathcal{I} = \Id$.)
 
@@ -201,7 +201,7 @@ Models that satisfy MP-LAN have the following \emph{asymptotic} properties.
 \label{eq:llrs_lan_2}
 \lambda(\rho_{0}, \M) = -2 \log \left(\frac{\cL(\rho_{0})}{\underset{\rho \in \M}{\max}~\cL(\rho)}\right),
 \end{equation}
-takes the following simple form
+takes the following simple form:
 \begin{equation}
 \label{eq:llrs_lan}
 \lambda(\rho_{0}, \M) =  \mathrm{Tr}[(\rho_{0} - \rhoML{\M})\mathcal{I}(\rho_{0} - \rhoML{\M})].
@@ -211,19 +211,19 @@ takes the following simple form
 
 
 
-Even when a model $\M$ satisfies MP-LAN, these properties may not be true when $N$ is finite; they are guaranteed only in the asymptotic limit. But, when $N$ is sufficiently large, we can (and will!) use results derived in the asymptotic limit.
+Even when $\M$ satisfies MP-LAN, these properties may not be true when $N$ is finite; they are guaranteed only in the asymptotic limit. When $N$ is sufficiently large, we can (and will!) use results derived in the asymptotic limit.
 
 The following subsection presents the technical details and definitions necessary to show the above results. The reader may skip it without loss of continuity, and proceed to Section \ref{sec:computingllrs}.
 
 \begin{figure}
 \includegraphics[width=.75\columnwidth]{Images/Figure_3.pdf}
- \caption{For any model $\M_{k}$, $\lambda(\rho_{0}, \M_{k})$ is the difference between the distance from $\rho_{0}$ to $\rhoML{\M'}$ and that from $\rhoML{\M_{k}}$ to $\rhoML{\M'}$ (black lines). When MP-LAN holds, $\lambda$ is equal, in the asymptotic limit, to the distance from $\rhoML{\M_{k}}$ to $\rho_{0}$ (red lines), because $\rho_{0}, \rhoML{\M'}$, and $\rhoML{\M_{k}}$ form a right triangle. This is also true for state spaces with \emph{curved} boundaries because asymptotically, the local state space converges to the solid tangent cone, whose boundaries are always \emph{flat}.}
+ \caption{For any model $\M_{k}$, $\lambda(\rho_{0}, \M_{k})$ is the difference between the distance from $\rho_{0}$ to $\rhoML{\M'}$ and that from $\rhoML{\M_{k}}$ to $\rhoML{\M'}$ (black lines). When MP-LAN holds, $\lambda$ is equal, in the asymptotic limit, to the distance from $\rhoML{\M_{k}}$ to $\rho_{0}$ (red lines), because $\rho_{0}, \rhoML{\M'}$, and $\rhoML{\M_{k}}$ form a right triangle. This is also true for state spaces with \emph{curved} boundaries because asymptotically, the local state space is the solid tangent cone, whose boundaries are always \emph{flat}.}
 \label{fig:llrs_MP-LAN}
 \end{figure}
 
 \subsection{Technical Details}
 
-We now prove the properties of $\M$ asserted in Section \ref{sec:lanoverview}. Consider a statistical model $\M$ that satisfies MP-LAN. 
+Assume a statistical model $\M$ that satisfies MP-LAN. Below, we prove the properties of $\M$ asserted in Section \ref{sec:lanoverview}. 
 
 \subsubsection{Convergence of the Local State Space to the Solid Tangent Cone}
 
@@ -232,7 +232,7 @@ Because $\M$ satisfies MP-LAN, there exists a model $\M' \supset \M$ of dimensio
 where $\xrightarrow[]{\text{d}}$ means ``converges in distribution to", and $\Sigma = \mathcal{I}^{-1}$.
 The shape of the distribution is entirely determined by $\mathcal{I}$. As $N \rightarrow \infty$, this Gaussian distribution becomes more and more tightly concentrated around $\rho_{0}$. Although there is always a non-zero probability that $\rhoML{\M'}$ will be arbitrarily far away from $\rho_{0}$, it is possible to define a sequence of balls $B_{N}$ that shrink with $N$, yet contain every $\rhoML{\M'}$ with probability 1 as $N \rightarrow \infty$.
 
-First, we switch coordinates by sending $\rho \rightarrow \rho - \rho_{0}$, so that $\rho_{0}$ is the origin of the coordinate system. In these coordinates, $\rhoML{\M'} \sim \mathcal{N}(0, \Sigma/N)$, and the following lemma constructs $B_{N}$.
+First, we switch coordinates by sending $\rho \rightarrow \rho - \rho_{0}$, establishing $\rho_{0}$ is the origin of the coordinate system. In these coordinates, $\rhoML{\M'} \sim \mathcal{N}(0, \Sigma/N)$, and the following lemma constructs $B_{N}$.
 
 \begin{lem}
 \label{eq:lem}
@@ -251,7 +251,7 @@ Switching back to the original coordinates, we have
 \[B^{0}_{N} = \{\rho \in \M'~|~\mathrm{Tr}(\rho \Sigma^{-1} \rho) \leq 1/N^{1/2}\},\]
 and $\lim_{N \rightarrow \infty}~\mathrm{Pr}(\rhoML{\M'} \in B^{0}_{N}) = 1$.
 
-Now that we know $B^{0}_{N}$ contains all the $\rhoML{\M'}$ as $N\rightarrow \infty$, we can now show the same holds true for $B_{N}$. It suffices to show $B^{0}_{N} \subset B_{N}$. To see that this is the case, start by writing the equation for $B^{0}_{N}$ in the standard quadratic form for an ellipsoid:
+Now that we know $B^{0}_{N}$ contains all  $\rhoML{\M'}$ as $N\rightarrow \infty$, we can now show the same holds true for $B_{N}$. It suffices to show $B^{0}_{N} \subset B_{N}$. To see that this is the case, write the equation for $B^{0}_{N}$ in the standard quadratic form for an ellipsoid:
 \[B^{0}_{N} = \{\rho \in \M'~|~\mathrm{Tr}(\rho ( N^{1/2}\Sigma^{-1} ) \rho) \leq 1\}.\]
 The standard ellipsoid $\{\mathbf{x}~|~\mathbf{x}^{T}A\mathbf{x} \leq 1\}$ has semi-major axes whose lengths $s_{j}$ are related to the eigenvalues $a_{j}$ of $A$: $s_{j} = 1/\sqrt{a_{j}}$. The matrix $A = N^{1/2}\Sigma^{-1}$ has eigenvalues $N^{1/2}/\lambda_{j}$, where $\lambda_{j}$ are the eigenvalues of $\Sigma$. Thus, the lengths of the semi-major axes of $B^{0}_{N}$ are given by $s_{j} = 1/\sqrt{N^{1/2}/\lambda_{j}} = \sqrt{\lambda_{j}}/N^{1/4}$. Letting $\lambda_{\max}(\Sigma)$ denote the largest eigenvalue of $\Sigma$, the longest semi-major axis of $B^{0}_{N}$ has length $\sqrt{\lambda_{\max}(\Sigma)}/N^{1/4}$.
 Because $B_{N}$ is a ball whose radius is equal to this length, $B_{N}$ circumscribes $B^{0}_{N}$, and $B^{0}_{N} \subset B_{N}$.
@@ -259,22 +259,22 @@ Because $B_{N}$ is a ball whose radius is equal to this length, $B_{N}$ circumsc
 As $B^{0}_{N} \subset B_{N}$, it follows from the monotonicity of probability that $\mathrm{Pr}(\rhoML{\M'} \in B^{0}_{N}) \leq \mathrm{Pr}(\rhoML{\M'} \in B_{N})$. As the asymptotic limit of $\mathrm{Pr}(\rhoML{\M'} \in B^{0}_{N})$ is 1, and $\mathrm{Pr}(\rhoML{\M'} \in B_{N})$ itself is bounded above by 1, it follows from the squeeze theorem that $\lim_{N\rightarrow \infty}\mathrm{Pr}(\rhoML{\M'} \in B_{N})=1$.
 \end{proof}
 
-Informally speaking, Lemma \ref{eq:lem} implies that as $N\rightarrow \infty$ ``all the action" about the ML estimates $\rhoML{\M'}$ takes place inside $B_{N}$. Accordingly, to understand the behavior of quantities which depend on $\rhoML{\M'}$ (such as $\rhoML{\M}$ and $\lambda$), it is sufficient to consider their behavior within $B_{N}$. In fact, we can show that, asymptotically, all the $\rhoML{\M}$ are contained within the region $C_{N} \equiv B_{N} \cap \M$:
+Informally speaking, Lemma \ref{eq:lem} implies that as $N\rightarrow \infty$ ``all the action" about $\rhoML{\M'}$ takes place inside $B_{N}$. Accordingly, to understand the behavior of quantities which depend on $\rhoML{\M'}$ (such as $\rhoML{\M}$ and $\lambda$), it is sufficient to consider their behavior within $B_{N}$. In fact, we can show that, asymptotically, all the $\rhoML{\M}$ are contained within the region $C_{N} \equiv B_{N} \cap \M$:
 
 \begin{lem}
 \label{eq:rhoMLlem}
 $\lim_{N\rightarrow \infty}\mathrm{Pr}(\rhoML{\M} \in C_{N}) = 1$.
 \end{lem}
 \begin{proof}
-Using the law of total probability, we can express $\mathrm{Pr}(\rhoML{\M} \in C_{N})$ as a sum of two terms, depending on whether $\rhoML{\M'} \in B_{N}$. Letting $p$ denote $\mathrm{Pr}(\rhoML{\M'} \in B_{N})$, we have
+Using the law of total probability, write $\mathrm{Pr}(\rhoML{\M} \in C_{N})$ as a sum of two terms, depending on whether $\rhoML{\M'} \in B_{N}$. Letting $p$ denote $\mathrm{Pr}(\rhoML{\M'} \in B_{N})$, we have
 \begin{align*}
 \mathrm{Pr}(\rhoML{\M} \in C_{N}) &= p\mathrm{Pr}(\rhoML{\M} \in C_{N} | \rhoML{\M'} \in B_{N})\\
 &+(1-p)\mathrm{Pr}(\rhoML{\M} \in C_{N} | \rhoML{\M'} \not\in B_{N})\\
-& \geq p\mathrm{Pr}(\rhoML{\M} \in C_{N} | \rhoML{\M'} \in B_{N})
+& \geq p\mathrm{Pr}(\rhoML{\M} \in C_{N} | \rhoML{\M'} \in B_{N}).
 \end{align*}
 For any $\rhoML{\M'} \in B_{N}$, the corresponding $\rhoML{\M}$ is somewhere in $\M$. To show $\rhoML{\M} \in C_{N}$, we use a proof by contradiction. Suppose that $\rhoML{\M}$ is the ML estimate in $\M$ for $\rhoML{\M'}$, and that $\rhoML{\M} \not \in C_{N}$. Let $\rho_{C}$ denote the closest point in $C_{N}$ to $\rhoML{\M}$. Because $B_{N} \supset C_{N}$, it follows that $\rho_{C}$ is closer to $\rhoML{\M'}$ than $\rhoML{\M}$, contradicting the assumption $\rhoML{\M}$ was the ML estimate in $\M$ for $\rhoML{\M'}$. Therefore, if $\rhoML{\M'} \in B_{N}$, it must be the case that $\rhoML{\M} \in C_{N}$.
 
-Therefore, $\mathrm{Pr}(\rhoML{\M} \in C_{N} | \rhoML{\M'} \in B_{N}) = 1$, implying $\mathrm{Pr}(\rhoML{\M} \in C_{N}) \geq \mathrm{Pr}(\rhoML{\M'} \in B_{N})$. Applying the squeeze theorem, plus Lemma \ref{eq:lem}, we conclude $\lim_{N\rightarrow \infty}\mathrm{Pr}(\rhoML{\M} \in C_{N}) = 1$.
+Consequently, $\mathrm{Pr}(\rhoML{\M} \in C_{N} | \rhoML{\M'} \in B_{N}) = 1$, implying $\mathrm{Pr}(\rhoML{\M} \in C_{N}) \geq \mathrm{Pr}(\rhoML{\M'} \in B_{N})$. Applying the squeeze theorem, plus Lemma \ref{eq:lem}, we conclude $\lim_{N\rightarrow \infty}\mathrm{Pr}(\rhoML{\M} \in C_{N}) = 1$.
 \end{proof}
 
 In the original coordinates, both $B_{N}$ and the distribution of $\rhoML{\M'}$ shrink with $N$, but $B_N$ shrinks more slowly.  Suppose, instead, that we switch to $N$-dependent coordinates that shrink with the distribution of $\rhoML{\M'}$.  In these coordinates, $\M$ and $\M'$ grow with $N$, and $B_{N}$ also grows (but more slowly).  This  \emph{homothetic transformation} of $\M$, $\M'$, and $B_{N}$ scales all of them up.  As $N \rightarrow \infty$, $B_{N} \rightarrow \mathbb{R}^{d'}$,  and the local state space is the \emph{solid tangent cone} of $\M$ at $\rho_0$.
@@ -289,10 +289,10 @@ In the original coordinates, both $B_{N}$ and the distribution of $\rhoML{\M'}$ 
 
 Tangent cones are a general feature of convex sets; see \cite{Rockafellar1998}, Chapter 6, Section A for more information about them and their properties.
 
-Now, we show that the local state space converges to the solid tangent cone. Let $C_{N} = \M \cap B_{N}$ in Hilbert-Schmidt coordinates. 
-We show that, an $N$-dependent coordinate system, $C_{N}$ converges to the solid tangent cone, and is the local state space.
+Let $C_{N} = B_{N} \cap \M$ in Hilbert-Schmidt coordinates. 
+We show that, in an $N$-dependent coordinate system, $C_{N}$ converges to the solid tangent cone, and is the local state space.
 
-\begin{lem}Consider the set $C_{N} = \M \cap B_{N}$ in Hilbert-Schmidt coordinates, and define $C'_{N} = \{N^{1/2}\rho~\forall~\rho \in C_{N}\}$. Then:
+\begin{lem}Consider the set $C_{N} = B_{N} \cap \M$ in Hilbert-Schmidt coordinates, and define $C'_{N} = \{N^{1/2}\rho~\forall~\rho \in C_{N}\}$. Then:
 \begin{itemize}
 \item [1)] $\lim_{N\rightarrow \infty}C'_{N}$ is the solid tangent cone at $\rho_{0}$.
 \item [2)] $\lim_{N\rightarrow \infty}C'_{N}$ is the local state space.
@@ -300,7 +300,7 @@ We show that, an $N$-dependent coordinate system, $C_{N}$ converges to the solid
 \end{lem}
 \begin{proof}~\\
 \begin{itemize}
-\item [1)] By definition, $C'_{N}$ is a homothetic transformation of $C_{N}$, with homothety coefficient $N^{1/2}$. (The homothetic center is $\rho_{0}$; in these coordinates, it is 0.) Thus, by definition, $\lim_{N\rightarrow \infty}C'_{N}$ is the solid tangent cone at $\rho_{0}$.
+\item [1)] By definition, $C'_{N}$ is a homothetic transformation of $C_{N}$, with homothety coefficient $N^{1/2}$. (The homothetic center is $\rho_{0}$; in these coordinates, it is 0.) By definition, $\lim_{N\rightarrow \infty}C'_{N}$ is the solid tangent cone at $\rho_{0}$.
 \item [2)] The original sets $C_{N}$ are convex subsets of $\M$, and from Lemma \ref{eq:rhoMLlem}, $\lim_{N\rightarrow \infty}\mathrm{Pr}(\rhoML{\M} \in C_{N}) = 1$.  Further, the coordinate system defined by the mapping $\rho \rightarrow N^{1/2}\rho$ turns the (previously $N$-dependent) Fisher information $\mathcal{I}$ into a constant. Thus, $\lim_{N\rightarrow \infty}C'_{N}$ is the local state space.
 \end{itemize}
 \end{proof}
@@ -310,9 +310,9 @@ The geometry of $T(\rho_{0})$ depends strongly on $\rho_{0}$. If $\rho_{0}$ is r
 
 \subsubsection{MLE as Metric Projection}
 
-As $N \rightarrow \infty$, all the $\rhoML{\M'}$ are contained within the ball $B_{N}$, and the local state space converges to the solid tangent cone. Because $\M'$ satisfies LAN, the likelihood function around each $\rhoML{\M'}$ is Gaussian, meaning the optimization problem defining $\rhoML{\M}$ is given by \begin{equation}
+As $N \rightarrow \infty$, all the $\rhoML{\M'}$ are contained within the ball $B_{N}$, and the local state space is the solid tangent cone. Because $\M'$ satisfies LAN, the likelihood function around each $\rhoML{\M'}$ is Gaussian, meaning the optimization problem defining $\rhoML{\M}$ is given by \begin{equation}
 \label{eq:MP-LANmle2}
-\rhoML{\M} = \underset{\sigma \in T(\rho_{0})}{\text{argmin}}~\mathrm{Tr}[(\sigma  -\rhoML{\M'})\mathcal{I}(\sigma  -\rhoML{\M'})].
+\rhoML{\M} = \underset{\rho \in T(\rho_{0})}{\text{argmin}}~\mathrm{Tr}[(\rho  -\rhoML{\M'})\mathcal{I}(\rho  -\rhoML{\M'})].
 \end{equation}
 
 That is, $\rhoML{\M}$ is the \emph{metric projection} of $\rhoML{\M'}$ onto the tangent cone. See Figure \ref{fig:tangentcone} for a rebit example. (Notice that if $\rhoML{\M'} \in T(\rho_{0})$, then $\rhoML{\M} = \rhoML{\M'}$.) What makes this  nontrivial is the replacement of the original state space $\M$, whose geometry can be arbitrarily complicated, with its tangent cone $T(\rho_{0})$. As shown in the next section, cones can be much simpler and tractable.
@@ -333,7 +333,7 @@ Let us take $\mathcal{R} = \rho_{0}$. Because as $N \rightarrow \infty$ the like
 \begin{align}
 \label{eq:lambdalan}
 \nonumber \lambda(\rho_{0}, \M)&= -2 \log \left(\frac{\cL(\rho_{0})}{\underset{\rho \in \M}{\max}~\cL(\rho)}\right)\\
-\nonumber &\underset{N\rightarrow \infty}{=}~\mathrm{Tr}[(\rho_{0} - \rhoML{\M'})\mathcal{I}(\rho_{0} - \rhoML{\M'})]\\
+\nonumber &\xrightarrow[N \rightarrow \infty]{}~\mathrm{Tr}[(\rho_{0} - \rhoML{\M'})\mathcal{I}(\rho_{0} - \rhoML{\M'})]\\
 &-  \mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})\mathcal{I}(\rhoML{\M} - \rhoML{\M'})].
 \end{align}
 Using the fact $\rhoML{\M}$ is a metric projection, we can prove that $\lambda(\rho_{0}, \M)$ has a simple form.
@@ -363,7 +363,7 @@ Subtracting $\mathrm{Tr}[(\rhoML{\M} - \rhoML{\M'})^{2}]$ from both sides, and c
 Switching back from Fisher-adjusted coordinates, we have $\lambda(\rho_{0}, \M) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M})\mathcal{I}(\rho_{0} - \rhoML{\M})]$.
 \end{proof}
 
-So if $\M$ satisfies MP-LAN then as $N\rightarrow \infty$ the loglikelihood ratio statistic becomes related to \emph{squared error/loss} (as measured by the Fisher metric.) This result may be of independent interest in, for example, considering/defining new information criteria, which attempt to balance goodness of fit (as measured by $\lambda$) against error/loss (generally, as measured by the squared error).
+So if $\M$ satisfies MP-LAN then as $N\rightarrow \infty$ the loglikelihood ratio statistic becomes related to \emph{squared error/loss} (as measured by the Fisher metric.) This result may be of independent interest in, for example, defining new information criteria, which attempt to balance goodness of fit (as measured by $\lambda$) against error/loss (generally, as measured by squared error).
 
 With these technical results in hand, we can proceed to compute $\langle \lambda(\M_{d}, \M_{d+1})\rangle$ in the next section.
 
@@ -375,15 +375,15 @@ To derive a replacement for the Wilks theorem, we start by showing  the models $
 The models $\M_{d}$, defined in Equation \eqref{eq:modelsd}, satisfy MP-LAN.
 \end{lem}
 
-\begin{proof} Let $\M'_{d} = \{\sigma ~|~\mathrm{dim}(\sigma) = d, \sigma = \sigma^{\dagger}\}$. (That is, $\M'_{d}$ is the set of all $d \times d$ Hermitian matrices, but we do not require them to be non-negative, nor trace-1.) It is clear $\M_{d} \subset \M'_{d}$. Next, $\forall ~\sigma \in \M'_{d}$, the likelihood $\cL(\sigma)$ is twice continuously differentiable, meaning $\M'_{d}$ satisfies LAN. Thus, $\M_{d}$ satisfies MP-LAN.
+\begin{proof} Let $\M'_{d} = \{\sigma ~|~\mathrm{dim}(\sigma) = d, \sigma = \sigma^{\dagger}\}$. (That is, $\M'_{d}$ is the set of all $d \times d$ Hermitian matrices, but we do not require them to be non-negative, nor trace-1.) It is clear $\M_{d} \subset \M'_{d}$. Now, $\forall ~\sigma \in \M'_{d}$, the likelihood $\cL(\sigma)$ is twice continuously differentiable, meaning $\M'_{d}$ satisfies LAN. Thus, $\M_{d}$ satisfies MP-LAN.
 \end{proof}
 
 We can reduce the problem of computing $\lambda(\M_{d}, \M_{d+1})$ to that of computing $\lambda(\rho_{0}, \M_{k})$ for $k = d, d+1$ using the identity
 \[\lambda(\M_{d}, M_{d+1}) = \lambda(\rho_{0}, \M_{d+1}) - \lambda(\rho_{0}, \M_{d}).\]
 where $\lambda(\rho_{0}, \M_{k})$ is given in Equation \eqref{eq:llrs_lan_2}.
-Because each model satisfies MP-LAN, it is possible to write $\lambda(\rho_{0}, \M_{k})$ in a very simple form, via Equation \eqref{eq:llrs_lan}:
+Because each model satisfies MP-LAN, asymptotically, $\lambda(\rho_{0}, \M_{k})$ takes a very simple form, via Equation \eqref{eq:llrs_lan}:
 \[\lambda(\rho_{0}, \M_{k}) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M_{k}})\mathcal{I}_{k}(\rho_{0} - \rhoML{\M_{k}})].\]
-The Fisher information $\mathcal{I}_{k}$ is generally anisotropic,  depending on $\rho_{0}$, the POVM being measured, and the model $\M_{k}$. (see Figure \ref{fig:anisofi}). And while the $\rho\geq0$ constraint  that invalidated LAN in the first place is at least somewhat tractable in standard (Hilbert-Schmidt) coordinates, it becomes completely intractable in Fisher-adjusted coordinates.  So, to obtain a semi-analytic null theory for $\lambda$, we will simplify to the case where   $\mathcal{I}_{k} = \Id_{k}/\epsilon $ for some $\epsilon$ that scales as $1/\sqrt{N_{\mathrm{samples}}}$. (That is, $\mathcal{I}_{k}$ is proportional to the Hilbert-Schmidt metric for model $\M_{k}$.) This simplification permits the derivation of analytic results that capture realistic tomographic scenarios surprisingly well \cite{Smolin2012}.
+The Fisher information $\mathcal{I}_{k}$ is generally anisotropic,  depending on $\rho_{0}$, the POVM being measured, and the model $\M_{k}$ (see Figure \ref{fig:anisofi}). And while the $\rho\geq0$ constraint  that invalidated LAN in the first place is at least somewhat tractable in standard (Hilbert-Schmidt) coordinates, it becomes completely intractable in Fisher-adjusted coordinates.  So, to obtain a semi-analytic null theory for $\lambda$, we will simplify to the case where   $\mathcal{I}_{k} = \Id_{k}/\epsilon^{2} $ for some $\epsilon$ that scales as $1/\sqrt{N_{\mathrm{samples}}}$. (That is, $\mathcal{I}_{k}$ is proportional to the Hilbert-Schmidt metric.) This simplification permits the derivation of analytic results that capture realistic tomographic scenarios surprisingly well \cite{Smolin2012}.
 \begin{figure}
 \includegraphics[width=.85\columnwidth]{Images/Figure_5.pdf}
  \caption{Anisotropy of the Fisher information for a rebit measured using the POVM $\frac{1}{2}\{|0\rangle\langle 0|, |1\rangle\langle 1|, |+\rangle\langle +|, |-\rangle\langle -|\}$. Depending on $\rho_{0}$ (star), the distribution of the unconstrained estimates $\hat{\rho}_{\mathrm{ML}}$ (ellipses) may be anisotropic. Imposing the positivity constraint $\rho \geq 0$ is difficult in Fisher-adjusted coordinates; in this paper, we simplify these complexities to the case where $\mathcal{I} \propto \Id$, \emph{and is independent of $\rho_{0}$}.}
@@ -422,9 +422,9 @@ and therefore $\langle \lambda \rangle = \sum_{jk}\langle\lambda_{jk}\rangle$.  
 \item Those for which the corresponding matrix elements of $\rhoML{\M'_{d}}$ \emph{are constrained}.
 \item Those for which the corresponding matrix elements of $\rhoML{\M'_{d}}$ \emph{are not constrained}, as they correspond to directions on the surface of the tangent cone $T(\rho_{0})$. (Recall Figure \ref{fig:tangentcone} - as a component of $\rhoML{\M'}$ along $T(\rho_{0})$ changes, the component of $\rhoML{\M}$ changes by the same amount. These elements are unconstrained.)
 \end{enumerate}
-The former, which lie in what we call the ``L", comprise all off-diagonal elements on the support of $\rho_0$ \emph{and} between the support and the kernel, while the latter, which lie in what we call the ``kite", are all diagonal elements \emph{and} all elements on the kernel (null space) of $\rho_0$.
+The latter, which lie in what we call the ``L", comprise all off-diagonal elements on the support of $\rho_0$ \emph{and} between the support and the kernel, while the former, which lie in what we call the ``kite", are all diagonal elements \emph{and} all elements on the kernel (null space) of $\rho_0$.
 
-Performing this division is also supported by numerical simulations (see Figure \ref{fig:L}). Matrix elements in the ``L" appear to contribute $\langle \lambda_{jk}\rangle = 1$, consistent with the Wilks theorem, while those in the ``kite" contribute more (if they are within the support of $\rho_{0}$) or less (if they are in the kernel).  Having performed the division of the matrix elements of $\rhoML{\M'_{d}}$, we observe that $\langle\lambda\rangle = \expect{\lambda_{\mathrm{L}}} + \expect{\lambda_{\mathrm{kite}}}$. Because each $\langle \lambda_{jk}\rangle$ is not necessarily equal to one (as in the Wilks theorem), and because many of them are less than 1, it's clear that their total $\langle \lambda \rangle$ is dramatically lower than that predicted by the Wilks theorem. (Recall Figure \ref{fig:boundaries2}.)
+Performing this division is also supported by numerical simulations (see Figure \ref{fig:L}). Matrix elements in the ``L" appear to contribute $\langle \lambda_{jk}\rangle = 1$, consistent with the Wilks theorem, while those in the ``kite" contribute more (if they are within the support of $\rho_{0}$) or less (if they are in the kernel).  Having performed the division of the matrix elements of $\rhoML{\M'_{d}}$, we observe that $\langle\lambda\rangle = \expect{\lambda_{\mathrm{L}}} + \expect{\lambda_{\mathrm{kite}}}$. Because each $\langle \lambda_{jk}\rangle$ is not necessarily equal to one (as in the Wilks theorem), and because many of them are less than 1, it is clear that their total $\langle \lambda \rangle$ is dramatically lower than the prediction of the Wilks theorem. (Recall Figure \ref{fig:boundaries2}.)
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{Images/Figure_6.pdf}
@@ -439,7 +439,7 @@ In doing so, it is helpful to think about the matrix $\delta \equiv \rhoML{\M'_{
 \label{subsec:L}
 The value of each $\delta_{jk}$ in the ``L" is invariant under projection onto the boundary (the surface of the tangent cone $T(\rho_{0})$), meaning that it is also equal to the error $(\rhoML{d} - \rho_{0})_{jk}$. Therefore,  $\langle \lambda_{jk} \rangle = \langle \delta_{jk}^{2}\rangle /\epsilon^{2}$. Because $\M'$ satisfies LAN, it follows that each $\delta_{jk}$ is an i.i.d. Gaussian random variable with mean zero and variance $\epsilon^{2}$. Thus, $\langle \lambda_{jk}\rangle = 1~\forall~(j,k)$ in the ``L". The dimension of the surface of the tangent cone is equal to the dimension of the manifold of rank-$r$ states in a $d$-dimensional space. A direct calculation of that quantity yields $2rd - r(r+1)$, so $\expect{\lambda_{\mathrm{L}}} = 2rd - r(r+1)$.
 
-Another way of viewing this result is to observe that the $\delta_{jk}$ in the ``L'' can be seen as errors that arise due to small unitary perturbations of $\rho_{0}$. Writing $\rhoML{\M'_{d}} = U^{\dagger}\rho_{0}U$, where $U=e^{i\epsilon H}$, we have
+Another way of obtaining this result is to view the $\delta_{jk}$ in the ``L'' as errors arising due to small unitary perturbations of $\rho_{0}$. Writing $\rhoML{\M'_{d}} = U^{\dagger}\rho_{0}U$, where $U=e^{i\epsilon H}$, we have
 \[\rhoML{\M'_{d}} \approx \rho_{0} + i\epsilon [\rho_{0},H]+\mathcal{O}(\epsilon^{2}),\]
 and $\delta \approx i\epsilon [\rho_{0},H]$.
 If $j = k$, then $\delta_{jj} = 0$. Thus, small unitaries cannot create errors in the diagonal matrix elements, at $\mathcal{O}(\epsilon)$. If $j \neq k$, then $\delta_{jk} \neq 0$, in general. (Small unitaries \emph{can} introduce errors on off-diagonal elements.)
@@ -508,7 +508,7 @@ function $\mathrm{Pr}(\kappa)$, then a good approximation for the $j^{\mathrm{th
 \begin{equation}
 \overline{\kappa}_j \approx \mathrm{CDF}^{-1}\left(\frac{j-1/2}{N}\right).
 \end{equation}
-This is closely related to the observation that the histogram of a sample tends to look similar to the underlying probability density function.  (More precisely, it is equivalent to the observation that the empirical distribution function (the CDF of the histogram) tends to be (even more) similar to the underlying CDF.  For i.i.d. samples, this is the content of the Glivenko-Cantelli theorem \cite{VanderVaart2000}).  Figure \ref{fig:orderstatistics2} compares the order statistics of GUE(100) and GUE(10) eigenvalues (computed as numerical averages over 100 random samples) to the inverse CDF for the Wigner semicircle distribution.  Even though the Wigner semicircle model of GUE eigenvalues is only exact as $N\to\infty$, it provides a nearly-perfect model for $\overline{\bvec{\kappa}}$ even at $N=10$ (and remains surprisingly good all the way down to $N=2$).
+This is closely related to the observation that the histogram of a sample tends to look similar to the underlying probability density function.  More precisely, it is equivalent to the observation that the empirical distribution function (the CDF of the histogram) tends to be (even more) similar to the underlying CDF.  For i.i.d. samples, this is the content of the Glivenko-Cantelli theorem \cite{VanderVaart2000}.  Figure \ref{fig:orderstatistics2} compares the order statistics of GUE(100) and GUE(10) eigenvalues (computed as numerical averages over 100 random samples) to the inverse CDF for the Wigner semicircle distribution.  Even though the Wigner semicircle model of GUE eigenvalues is only exact as $N\to\infty$, it provides a nearly-perfect model for $\overline{\bvec{\kappa}}$ even at $N=10$ (and remains surprisingly good all the way down to $N=2$).
 
 \begin{figure}[t]
 \includegraphics[width=\columnwidth]{Images/Figure_8.pdf}
@@ -520,32 +520,29 @@ Agreement in both cases is essentially perfect.}
 We make one further approximation, by assuming that $N\gg1$, so the distribution of the $\overline{\kappa}_j$ is effectively continuous and identical to $\mathrm{Pr}(\kappa)$. For the quantities that we compute, this is equivalent to replacing the empirical distribution function (which is a step function) by the CDF of the Wigner semicircle distribution.  So, whereas for any given sample the partial sum of all $\kappa_j > q$ jumps discontinuously when $q=\kappa_j$ for any $j$, in this approximation it changes smoothly.  This accurately models the \emph{average} behavior of partial sums.
 
 \subsubsection{Deriving an approximation for $q$}
-The approximations of the previous section allow us to use the following ansatz for the eigenvalues of $\rhoML{\M'_{d}}$; namely, $\{p_j\} \cup \{\overline{\kappa}_j\}$, where the $p_j$ are $\mathcal{N}(\rho_{jj},\epsilon^2)$ random variables, and the $\overline{\kappa}_j$ are the (fixed, smoothed) order statistics of a Wigner semicircle distribution.  In turn, the defining equation for $q$ (Equation \eqref{eq:q_eqn}) is well approximated as
+The approximations of the previous section allow us to use $\{p_j\} \cup \{\overline{\kappa}_j\}$ as the ansatz for the eigenvalues of $\rhoML{\M'_{d}}$, where the $p_j$ are $\mathcal{N}(\rho_{jj},\epsilon^2)$ random variables, and the $\overline{\kappa}_j$ are the (fixed, smoothed) order statistics of a Wigner semicircle distribution.  In turn, the defining equation for $q$ (Equation \eqref{eq:q_eqn}) is well approximated as
 \begin{equation}
-\sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{N}{(\overline{\kappa}_j-q)^+} \approx 1.
+\sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{N}{(\overline{\kappa}_j-q)^+} = 1.
 \end{equation}
 To solve this equation, we observe that the $\overline{\kappa}_j$ are symmetrically distributed around $
 \kappa=0$, so half of them are negative.  Therefore, with high probability, $\Tr
 \left[\mathrm{Trunc}(\rhoML{\M'_{d}})\right]>1$, and so we will need to subtract $q\Id$ from $\rhoML{\M'_{d}}$ before truncating.
 
-Because we have assumed $N_{\mathrm{samples}}$ is sufficiently large ($N_{\mathrm{samples}} >> \min_{j}1/\rho_{jj}^{2}$), it follows that the eigenvalues of $\rho_{0}$ are large compared to the perturbations $\delta_{jj}$ and $q$. This implies $(p_{j} - q)^{+} = p_{j} - q$. Under this assumption, $q$ is the solution to
+Because we have assumed $N_{\mathrm{samples}}$ is sufficiently large ($N_{\mathrm{samples}} >> \min_{j}1/\rho_{jj}^{2}$), the eigenvalues of $\rho_{0}$ are large compared to the perturbations $\delta_{jj}$ and $q$. This implies $(p_{j} - q)^{+} = p_{j} - q$. Under this assumption, $q$ is the solution to
 \begin{align}
-\nonumber 1 &\approx \sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{N}{(\overline{\kappa}_j-q)^+}\\
-\nonumber &\approx 1 - rq + \Delta + N\int_{\kappa=q}^{2\epsilon\sqrt{N}}{(\kappa-q)\mathrm{Pr}(\kappa)\mathrm{d}\kappa}\\
-\label{eq:q_eqn2}\implies 0 &= - rq + \Delta + \frac{\epsilon}{12\pi}\left[
-\begin{array}{l} (q^2+8N)\sqrt{-q^2+4N} \\
--12qN\left(\frac{\pi}{2}-\sin^{-1}\left(\frac{q}{2\sqrt{N}}\right)\right)
-\end{array}\right],\nonumber\\
-~
+\nonumber \sum_{j=1}^{r}(p_j - q) + \sum_{j=1}^{N}{(\overline{\kappa}_j-q)^+} & = 1\\
+\nonumber \implies - rq + \Delta + N\int_{\kappa=q}^{2\epsilon\sqrt{N}}{(\kappa-q)\mathrm{Pr}(\kappa)\mathrm{d}\kappa} & = 0\\
+\nonumber \label{eq:q_eqn2}\implies - rq + \Delta + \frac{\epsilon}{12\pi}\left[(q^2+8N)\sqrt{-q^2+4N} \right.\\
+\left. -12qN\left(\frac{\pi}{2}-\sin^{-1}\left(\frac{q}{2\sqrt{N}}\right)\right)   \right]&=0,
 \end{align}
 where $\Delta = \sum_{j=1}^{r}\delta_{jj}$ is a $\mathcal{N}(0,r\epsilon^2)$ random variable.  We choose to replace a discrete 
 sum (line 1) with an integral (line 2). This approximation is valid when $N\gg1$, as we can accurately approximate a discrete collection of closely spaced real numbers by a smooth density or distribution over the real numbers that has approximately the same CDF.  It is also remarkably accurate in practice.
   
 In yet another approximation, we replace $\Delta$ with its average value, which is zero.  We could obtain an even more accurate expression 
- by treating the fluctuations in $\Delta$ more carefully, but this crude approximation turns out to be quite accurate already.
+ by treating $\Delta$ more carefully, but this crude approximation turns out to be quite accurate already.
 
 To solve Equation \eqref{eq:q_eqn2}, it is necessary to further simplify the complicated expression resulting from the integral (line 3).  To do so, we 
-assume  $\rho_0$ is relatively low-rank, so $r \ll N$.  In this case, the sum of the positive $\overline{\kappa}_j$ is large compared 
+assume  $\rho_0$ is relatively low-rank, so $r \ll d/2$.  In this case, the sum of the positive $\overline{\kappa}_j$ is large compared 
 with $r$, almost all of them need to be subtracted away, and therefore $q$ is close to $2\epsilon\sqrt{N}$.  We therefore replace 
 the complicated expression with its leading order Taylor expansion around $q=2\epsilon\sqrt{N}$, substitute into Equation \eqref{eq:q_eqn2}, and 
 obtain the equation
@@ -561,7 +558,7 @@ where $x = \left(\frac{15 \pi r}{2N}\right)^{2/5}$.
 
 \begin{figure}
  \includegraphics[width=\columnwidth]{Images/Figure_9.pdf}
- \caption{Numerical results for $\expect{\lambda}$ compared to the prediction of the Wilks theorem (solid line) and our replacement theory as given in Equation \eqref{eq:ourLLRS} (dashed lines).  Our formula depends on the rank $r$ of $\rho_0$ (unlike the Wilks prediction), and is nearly perfect for $r\ll d$.  It becomes less accurate as $r$ approaches $d/2$, and is invalid when $r\approx d$.}
+ \caption{Numerical results for $\expect{\lambda(\rho_{0}, \M_{d})}$ compared to the prediction of the Wilks theorem (solid line) and our replacement theory as given in Equation \eqref{eq:ourLLRS} (dashed lines).  Our formula depends on the rank $r$ of $\rho_0$ (unlike the Wilks prediction), and is nearly perfect for $r\ll d/2$.  It becomes less accurate as $r$ approaches $d/2$, and is invalid when $r\approx d$.}
  \label{fig:modelcomp-iso}
 \end{figure}
 \subsubsection{Expression for $\langle \lambda_{\mathrm{kite}}\rangle$}
@@ -591,12 +588,12 @@ where $z$ is given in Equation \eqref{eq:truncation}, $N=d-r$, and $r = \mathrm{
 \label{sec:theorycomp1}
 
 Equation \eqref{eq:ourLLRS} is our main result.  To test its validity, we compare it to numerical simulations for the case of an isotropic Fisher information
-with $d=2,\ldots,30$ and $r=1,\ldots,10$ in Figure \ref{fig:modelcomp-iso}.  The prediction of the Wilks theorem is wildly incorrect for $r\ll d$. In contrast, Equation \eqref{eq:ourLLRS} is almost perfectly accurate when $r \ll d$, but it does begin to break down (albeit fairly gracefully) as $r$ becomes comparable to $d$.  We conclude that our analysis (and Equation \eqref{eq:ourLLRS}) correctly models tomography \emph{if} the Fisher information is isotropic ($\Fi \propto \Id$).
+with $d=2,\ldots,30$ and $r=1,\ldots,10$ in Figure \ref{fig:modelcomp-iso}.  The prediction of the Wilks theorem is wildly incorrect for $r\ll d$. In contrast, Equation \eqref{eq:ourLLRS} is almost perfectly accurate when $r \ll d/2$, but it does begin to break down (albeit fairly gracefully) as $r$ becomes comparable to $d$.  We conclude that our analysis (and Equation \eqref{eq:ourLLRS}) correctly models tomography \emph{if} the Fisher information is isotropic ($\Fi \propto \Id$).
 
 
 \subsection{Comparison to Heterodyne Tomography}
 \label{sec:heterotomo}
-In practice, the Fisher information is rarely isotropic.  So we tested our idealized result by applying it to a realistic, challenging, and experimentally relevant problem: quantum heterodyne (equivalent to double homodyne) state tomography \cite{Lvovsky2001a, Bertrand1987, Leonhardt1995, Lvovsky2009} of a single optical mode.  (See Figure \ref{fig:fish_condition} for a plot of the \emph{condition number} -- the ratio of the largest eigenvalue to the smallest -- of the estimated Fisher information. It is clear that $\mathcal{I} \not \propto \Id$.) States of this continuous-variable system are described by density operators on the infinite-dimensional Hilbert space $L^2(\reals)$.  Fitting these infinitely many parameters to finitely much data demands simpler models.
+In practice, the Fisher information is rarely isotropic.  So we tested our idealized result by applying it to a realistic, challenging, and experimentally relevant problem: quantum heterodyne (equivalent to double homodyne) state tomography \cite{Lvovsky2001a, Bertrand1987, Leonhardt1995, Lvovsky2009} of a single optical mode.  (See Figure \ref{fig:fish_condition} for a plot of the \emph{condition number} -- the ratio of the largest eigenvalue to the smallest -- of the estimated Fisher information. It is clear $\mathcal{I} \not \propto \Id$.) States of this continuous-variable system are described by density operators on the infinite-dimensional Hilbert space $L^2(\reals)$.  Fitting these infinitely many parameters to finitely much data demands simpler models.
 
 \begin{figure}[t]
   \includegraphics[width=.9\columnwidth]{Images/Figure_10.pdf}
@@ -610,7 +607,7 @@ Heterodyne tomography reconstructs $\rho_{0}$ using data from repeated measureme
 coherent state POVM, $\{|\alpha\rangle\langle \alpha| /\pi, ~\alpha=x+ip\in \mathbb{C}\}$, which corresponds to sampling directly from the Husimi $Q$-function of $\rho_{0}$ \cite{Husimi1940}.
 
 We examined the behavior of $\lambda$ for 13 distinct states $\rho_{0}$, both pure and mixed, supported on $\mathcal{H}_{2}, \mathcal{H}_{3}, \mathcal{H}
-_{4}$, and $\mathcal{H}_{5}$.  We used rejection sampling to simulate 100 heterodyne datasets with up to $N_{\mathrm{samples}}=10^5$, and found MLEs over each of the 9 models $\M_2, \ldots, M_{10}$ using numerical optimization \footnote{The model $\M_{1}$ is trivial, as $\M_{1} = \{|0\rangle \langle 0|\}$. This model will almost always be wrong, in general.}.  For each $\rho_{0}$ and each $d$, we averaged $\lambda(\rho_{0}, \M_{d})$ over all 100 datasets to obtain an empirical average loglikelihood ratio $\bar{\lambda}(\rho_0,d)$.
+_{4}$, and $\mathcal{H}_{5}$.  We used rejection sampling to simulate 100 heterodyne datasets with up to $N_{\mathrm{samples}}=10^5$, and found ML estimates $\rhoML{\M_{d}}$ over each of the 9 models $\M_2, \ldots, M_{10}$ using numerical optimization \footnote{The model $\M_{1}$ is trivial, as $\M_{1} = \{|0\rangle \langle 0|\}$. This model will almost always be wrong, in general.}.  For each $\rho_{0}$ and each $d$, we averaged $\lambda(\rho_{0}, \M_{d})$ over all 100 datasets to obtain an empirical average loglikelihood ratio $\bar{\lambda}(\rho_0,d)$.
 
 Results of this test are shown in Figure \ref{fig:modelcomp}, where we plot the predictions for $\langle \lambda \rangle$ given by the Wilks theorem and Equation \eqref{eq:ourLLRS}, against the empirical average $\bar\lambda$, for a variety of $\rho_{0}$ and $d$. Our formula correlates very well with the empirical average, while the Wilks theorem (unsurprisingly) overestimates $\lambda$ dramatically for low-rank states.  Whereas a model selection procedure based on the Wilks theorem would tend to falsely reject larger Hilbert spaces (by setting the threshold for acceptance too high), our formula provides a reliable null theory.
 
@@ -618,20 +615,21 @@ Results of this test are shown in Figure \ref{fig:modelcomp}, where we plot the 
  \includegraphics[width=.9\columnwidth]{Images/Figure_11.pdf}
  \caption{The Wilks theorem (orange dots) dramatically over-estimates $\langle\lambda(\rho_{0}, \M_{d})\rangle$ in optical heterodyne tomography. Our formula, Equation \ref{eq:ourLLRS} (blue squares), is far more accurate. Residual discrepancies occur in large part because $N_{\mathrm{samples}}$ is not yet ``asymptotically large''. The solid red line corresponds to perfect correlation between theory ($\expect{\lambda}$) and practice ($\bar\lambda$).}
  \label{fig:modelcomp}
+ \todo[inline]{Check equation number in legend}
 \end{figure}
 
-Interestingly, as $d$ grows, Equation \eqref{eq:ourLLRS} also begins to overpredict. As Figure \ref{fig:totalcontrib} indicates, a more accurate description is that the numerical experiments are \emph{underachieving}, because $\bar\lambda$ is still growing with $N_{\mathrm{samples}}$.  Both the Wilks theorem and our analysis are derived in the asymptotic limit $N_{\mathrm{samples}} \rightarrow \infty$; for finite but large $N_{\mathrm{samples}}$, both may be invalid.  Figure \ref{fig:totalcontrib} shows that, even at $N_{\mathrm{samples}}\sim 10^{5}$, the behavior of $\bar{\lambda}$ has failed to become asymptotic. This is surprising, and suggests heterodyne tomography is a particularly exceptional and challenging case to model statistically. 
+Interestingly, as $d$ grows, Equation \eqref{eq:ourLLRS} also begins to overpredict. As Figure \ref{fig:totalcontrib} indicates, a more accurate description is that the numerical experiments are \emph{underachieving}, because $\bar\lambda$ is still growing with $N_{\mathrm{samples}}$.  Both the Wilks theorem and our analysis are derived in the limit $N_{\mathrm{samples}} \rightarrow \infty$; for finite but large $N_{\mathrm{samples}}$, both may be invalid.  Figure \ref{fig:totalcontrib} shows that, even at $N_{\mathrm{samples}}\sim 10^{5}$, the behavior of $\bar{\lambda}$ has failed to become asymptotic. This is surprising, and suggests heterodyne tomography is a particularly exceptional and challenging case to model statistically. 
 
 \begin{figure}[t]
   \includegraphics[width=.9\columnwidth]{Images/Figure_12.pdf}
  \caption{The empirical average $\bar{\lambda}$  may have achieved its asymptotic value, or is still 
-growing, depending on the true state $\rho_{0}$ and the model dimension $d$. Solid lines indicate the value of our formula
+growing, depending on $\rho_{0}$ and $d$. Solid lines indicate the value of our formula
 for the asymptotic expected value, given in Equation \eqref{eq:ourLLRS}.}
 \label{fig:totalcontrib}
 \end{figure}
 
 
-However, our model \emph{does} get some of the qualitative features correct. In Figure \ref{fig:model_comparison}, we look at $\langle \lambda_{jk}\rangle$ for an isotropic Fisher information and for simulated heterodyne tomography. While the values of $\langle \lambda_{jk} \rangle$ do not agree exactly, they still decompose into two types, the ``L" and the ``kite". (See Figure \ref{fig:individcontrib} for an analysis of the discrepancies.)
+However, our model \emph{does} get some of the qualitative features correct. In Figure \ref{fig:model_comparison}, we present simulated values of $\langle \lambda_{jk}\rangle$ for an isotropic Fisher information and for heterodyne tomography. While the values of $\langle \lambda_{jk} \rangle$ do not agree exactly, they still decompose into two types, the ``L" and the ``kite". (See Figure \ref{fig:individcontrib} for an analysis of the discrepancies.)
  
  
 \begin{figure}[t]
@@ -648,13 +646,13 @@ However, our model \emph{does} get some of the qualitative features correct. In 
 
 ~\\
 \section{Conclusions and Discussion}
-Quantum state spaces violate local asymptotic normality, a key property satisfied by classical statistical models. Through the introduction of metric-projected local asymptotic normality, we have provided a new framework for reasoning about classical statistical results for models that don't satisfy LAN because of convex constraints.
+Quantum state space violates local asymptotic normality, a key property satisfied by classical statistical models. Through the introduction of metric-projected local asymptotic normality, we have provided a new framework for reasoning about classical statistical results for models that don't satisfy LAN because of convex constraints.
 
 We explicitly investigated one such result, the Wilks theorem, found it is not generally reliable in quantum state tomography, and provided  a much more broadly applicable replacement that can be used in model selection methods (Equation \eqref{eq:ourLLRS}).  This includes information criteria such as the AIC and BIC \cite{Akaike1974, Schwarz1978, Kass1995, Burnham2004} that do not explicitly use the Wilks theorem, but rely on the same assumptions (local asymptotic normality, equivalence between loglikelihood and squared error, etc.).  Null theories of loglikelihood ratios have many other applications, including hypothesis testing \cite{Blume-Kohout2010,Moroder2013} and confidence regions \cite{Glancy2012a}, and our result is directly applicable to them.  Refs. \cite{Moroder2013,Glancy2012a} both point out explicitly that their methods are unreliable near boundaries and therefore cannot be applied to rank-deficient states; our result fixes this outstanding problem.
 
 However, our numerical experiments with heterodyne tomography show unexpected behavior, indicating that quantum tomography can still surprise, and may violate \emph{all} asymptotic statistics results.  In such cases, bootstrapping \cite{Efron1979, Higgins2004} may be the only reliable way to construct null theories for $\lambda$. 
 
-Finally, the \emph{methods} presented here have application beyond the analysis of loglikelihoods.  Metric-projected local asymptotic normality provides a new and rigorous framework for describing the behavior of the maximum likelihood estimator in the presence of constraints. This framework helps shed light on the behavior of $\rhoML{d}$ for rank-deficient states, and can be used to predict other derived properties such as the average rank of the estimate, which is independently interesting for (e.g.) quantum compressed sensing \cite{Flammia2012a, Steffens2016, Kalev2015, Kalev2015a}.
+Finally, the \emph{methods} presented here have application beyond the analysis of loglikelihoods.  Metric-projected local asymptotic normality provides a new and rigorous framework for describing the behavior of the maximum likelihood estimator in the presence of convex constraints. This framework helps shed light on the behavior of $\rhoML{d}$ for rank-deficient states, and can be used to predict other derived properties such as the average rank of the estimate, which is independently interesting for (e.g.) quantum compressed sensing \cite{Flammia2012a, Steffens2016, Kalev2015, Kalev2015a}.
 
 \section{Acknowledgements:}
 TLS thanks Jonathan A Gross for helpful discussions on software design, coding, and statistics, John King Gamble for useful insights on parallelized
