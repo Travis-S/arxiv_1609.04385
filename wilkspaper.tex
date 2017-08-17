@@ -553,11 +553,6 @@ z &\equiv q/\epsilon \approx 2\sqrt{d-r}\left(1 -\frac{1}{2}x +\frac{1}{10}x^{2}
 \end{align}
 where $x = \left(\frac{15 \pi r}{2(d-r)}\right)^{2/5}$.
 
-\begin{figure}
- \includegraphics[width=\columnwidth]{Images/Figure_9.pdf}
- \caption{\textbf{Improved prediction for $\langle \lambda(\rho_{0}, \M_{d})\rangle$, as compared to the Wilks theorem:} Numerical results for $\expect{\lambda(\rho_{0}, \M_{d})}$ compared to the prediction of the Wilks theorem (solid line) and our replacement theory as given in Equation \eqref{eq:ourLLRS} (dashed lines).  Our formula depends on the rank $r$ of $\rho_0$ (unlike the Wilks prediction), and is nearly perfect for $r\ll d/2$.  It becomes less accurate as $r$ approaches $d/2$, and is invalid when $r\approx d$.}
- \label{fig:modelcomp-iso}
-\end{figure}
 \subsubsection{Expression for $\langle \lambda_{\mathrm{kite}}\rangle$}
 Now that we know how much to subtract off in the truncation process, we can approximate $\expect{\lambda_{\mathrm{kite}}}$, originally given in Equation \eqref{eq:llrs_kite}:
 \begin{align}
@@ -587,6 +582,11 @@ where $z$ is given in Equation \eqref{eq:truncation}, $N=d-r$, and $r = \mathrm{
 Equation \eqref{eq:ourLLRS} is our main result.  To test its validity, we compare it to numerical simulations for the case of an isotropic Fisher information
 with $d=2,\ldots,30$ and $r=1,\ldots,10$ in Figure \ref{fig:modelcomp-iso}.  The prediction of the Wilks theorem is wildly incorrect for $r\ll d$. In contrast, Equation \eqref{eq:ourLLRS} is almost perfectly accurate when $r \ll d/2$, but it does begin to break down (albeit fairly gracefully) as $r$ becomes comparable to $d$.  We conclude that our analysis (and Equation \eqref{eq:ourLLRS}) correctly models tomography \emph{if} the Fisher information is isotropic ($\Fi \propto \Id$).
 
+\begin{figure}
+ \includegraphics[width=\columnwidth]{Images/Figure_9.pdf}
+ \caption{\textbf{Improved prediction for $\langle \lambda(\rho_{0}, \M_{d})\rangle$, as compared to the Wilks theorem:} Numerical results for $\expect{\lambda(\rho_{0}, \M_{d})}$ compared to the prediction of the Wilks theorem (solid line) and our replacement theory as given in Equation \eqref{eq:ourLLRS} (dashed lines).  Our formula depends on the rank $r$ of $\rho_0$ (unlike the Wilks prediction), and is nearly perfect for $r\ll d/2$.  It becomes less accurate as $r$ approaches $d/2$, and is invalid when $r\approx d$.}
+ \label{fig:modelcomp-iso}
+\end{figure}
 
 \subsection{Comparison to Heterodyne Tomography}
 \label{sec:heterotomo}
@@ -626,15 +626,16 @@ for the asymptotic expected value, given in Equation \eqref{eq:ourLLRS}.}
 \label{fig:totalcontrib}
 \end{figure}
 
-
-However, our model \emph{does} get some of the qualitative features correct. In Figure \ref{fig:model_comparison}, we present simulated values of $\langle \lambda_{jk}\rangle$ for an isotropic Fisher information and for heterodyne tomography. While the values of $\langle \lambda_{jk} \rangle$ do not agree exactly, they still decompose into two types, the ``L" and the ``kite". (See Figure \ref{fig:individcontrib} for an analysis of the discrepancies.)
- 
- 
 \begin{figure}
   \includegraphics[width=\columnwidth]{Images/Figure_13.pdf}
  \caption{\textbf{Detailed comparison of isotropic model and heterodyne tomography:} The values of $\langle \lambda_{jk} \rangle$ for an isotropic Fisher information (left), and for heterodyne tomography (right). \textbf{Top}: $\rho_{0} = |0\rangle\langle 0|$. \textbf{Bottom}: $\rho_{0} = \mathcal{I}_{2}/2$. \textbf{Discussion}: Qualitatively, the behavior is the same, though there are quantitative differences, particularly within the kite.}
 \label{fig:model_comparison}
 \end{figure}
+
+However, our model \emph{does} get some of the qualitative features correct. In Figure \ref{fig:model_comparison}, we present simulated values of $\langle \lambda_{jk}\rangle$ for an isotropic Fisher information and for heterodyne tomography. While the values of $\langle \lambda_{jk} \rangle$ do not agree exactly, they still decompose into two types, the ``L" and the ``kite". (See Figure \ref{fig:individcontrib} for an analysis of the discrepancies.)
+ 
+ 
+
 
 \begin{figure}
   \includegraphics[width=\columnwidth]{Images/Figure_14.pdf}
