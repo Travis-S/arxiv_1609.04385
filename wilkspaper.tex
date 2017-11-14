@@ -74,7 +74,7 @@ Choosing an appropriate Hilbert space on the fly is an instance of a general sta
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{Images/Figure_1.pdf}
- \caption{\textbf{Impact of the positivity constraint ($\rho\geq0$)  on tomographic estimates}:  This figure illustrates how the quantum state space's boundary -- which results from the constraint $\rho\geq0$ -- affects maximum likelihood (ML) tomography for a qutrit state $\rho_{0}$ (star).  Two different 2-dimensional cross-sections of the state space are shown, which correspond to a qubit (left) and a classical 3-outcome distribution (right). \textbf{Top}: Without the positivity constraint, some ML estimates (orange squares) are not valid estimates of a quantum state, because are not positive semidefinite. However, some ML estimates (blue circles) are. Further, the ML estimates are Gaussian distributed.
+ \caption{\textbf{Impact of the positivity constraint ($\rho\geq0$)  on tomographic estimates}:  This figure illustrates how the quantum state space's boundary -- which results from the constraint $\rho\geq0$ -- affects maximum likelihood (ML) tomography for a qutrit state $\rho_{0}$ (star).  Two different 2-dimensional cross-sections of the state space are shown, which correspond to a qubit (left) and a classical 3-outcome distribution (right). \textbf{Top}: Without the positivity constraint, some ML estimates (orange squares) are not valid estimates of a quantum state, because they are not positive semidefinite. However, some ML estimates (blue circles) are. Further, the ML estimates are Gaussian distributed.
 \textbf{Bottom}:  Imposing the positivity constraint forces the (previously negative) ML estimates to ``pile up" on the boundary of state space; the distribution $\mathrm{Pr}(\hat{\rho}_{\mathrm{ML}})$ is not Gaussian, and local asymptotic normality is not satisfied. In turn, the assumptions necessary to invoke the Wilks theorem are not satisfied either.}
 \label{fig:boundaries}
 \end{figure}
@@ -97,7 +97,7 @@ All else being equal, a positive $\lambda$ favors $\M_2$ -- i.e., the model with
 
 Remarkably, the same effect also makes $\M_{2}$'s fit less accurate (almost surely), because the fit incorporates more of the noise in the data.  These two effects constitute \emph{overfitting}, which can be summed up as ``Extra parameters make the fit look better, but perform worse.''.  An overfitted model would fit \emph{current} data extremely well,  but would fail to accurately predict \emph{future} data. This provides strong motivation to correct for overfitting by penalizing or handicapping larger models, to prevent them from being chosen over smaller models that are no less valid, and may even yield better estimates in practice \cite{Akaike1974}.
 
-For this reason, any model selection method/criterion that relies (explicitly or implicitly) on a statistic to quantify ``how well model $\M$ fits the data'' also relies on a \emph{null theory} to predict how that statistic will behave if $\rho_{0} \in \M$.  A model selection criterion based on an invalid null theory (or a criterion used in a context where its null theory does not apply) will tend to choose the wrong model.
+For this reason, any model selection method/criterion that relies (explicitly or implicitly) on a statistic to quantify ``how well model $\M$ fits the data'' also relies on a \emph{null theory} to predict how that statistic will behave if $\rho_{0} \in \M$.  A model selection criterion based on an invalid null theory (or a criterion used in a context where its null theory does not apply) will tend to choose a poor (i.e., inaccurate) model.
 
 The null theory can be used to formulate a \emph{decision rule} for choosing between models. If we know how the test statistic behaves when both models are equally valid, then we can evaluate the observed value of the statistic under the null theory. If the observed value is very improbable under the null theory, then that constitutes evidence against the smaller model, and justifies rejecting it. On the other hand, if the observed value is \emph{consistent} with the null theory, there is no reason to reject the smaller model.
 
@@ -114,7 +114,7 @@ The standard null theory for $\lambda$ is the \emph{Wilks theorem} \cite{Wilks19
 \mathcal{L}(\rho) \propto \exp\left[-\mathrm{Tr}[(\rho - \rhoML{\M})\mathcal{I}(\rho - \rhoML{\M})]/2\right].
 \end{equation}
 \end{itemize}
-Here, $\Fi$ is the (classical) \emph{Fisher information matrix} associated with the POVM. It quantifies how much information the data carry about a parameter in the model.  (Note that in expressions involving $\mathcal{I}$, states $\rho$ are treated as vectors in state space, and $\mathcal{I}$ is a matrix or 2-index tensor acting on that state space.) Generally speaking, the Fisher information depends strongly on $\rho_{0}$ and the POVM being measured (see Figure \ref{fig:anisofi}). However, as the next section explains, it's common in classical statistics to assume \emph{regularity conditions} that make it possible to change to \emph{Fisher-adjusted} coordinates in which $\mathcal{I}$ is isotropic (i.e., $\mathcal{I} \propto \Id$).
+Here, $\Fi$ is the (classical) \emph{Fisher information matrix} associated with the POVM. It quantifies how much information the data carry about a parameter in the model.  (Note that in expressions involving $\mathcal{I}$, states $\rho$ are treated as vectors in state space, and $\mathcal{I}$ is a matrix or 2-index tensor acting on that state space.) Generally speaking, the Fisher information depends strongly on $\rho_{0}$ and the POVM being measured (see Figure \ref{fig:anisofi}). However, as the next section explains, it's common in classical statistics to assume \emph{regularity conditions} that make it possible to change to \emph{Fisher-adjusted} coordinates in which $\mathcal{I}$ is isotropic (i.e., $\mathcal{I} \propto \Id$). (Because such regularity conditions do not hold for the models we will consider, later in Section \ref{sec:computingllrs} we will explicitly assume the Fisher information is isotropic.)
 
 Most statistical models satisfy LAN.  When LAN is satisfied \emph{and} $N_{\mathrm{samples}}$ is large enough to reach the ``asymptotic" regime, we can invoke the Wilks theorem to determine the behavior of $\lambda$. This theorem says that under suitable regularity conditions, if $\rho_{0}\in \M_{1}\subset \M_{2}$, where $\M_{2}$ has $K$ more parameters than $\M_{1}$, then $\lambda$ is a $\chi^{2}_{K}$ random variable.  This is a complete null theory for $\lambda$ (under the specified conditions), and implies that $\langle \lambda \rangle = K$ and $(\Delta \lambda)^{2} = 2K$.
 
@@ -153,7 +153,7 @@ However, the models used in state tomography \emph{do} have boundaries. Given a 
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{Images/Figure_2.pdf}
- \caption{\textbf{Predictions of the Wilks theorem vs reality:}  In the context of state tomography on a true state $\rho_0$ in a $d$-dimensional Hilbert space, the Wilks theorem can be used to predict that, when comparing the zero-parameter model $\M = \{\rho_0\}$ and the $(d^2-1)$-parameter model $\mathcal{M}_d$ defined in Equation \eqref{eq:modelsd}, the expected loglikelihood ratio $\langle \lambda(\rho_{0}, \M_{d})\rangle$ will be $d^2-1$.  Here, we compare that prediction to numerical simulations of tomography on states $\rho_0$ in dimension $d=2,\ldots,30$, with ranks $r=1,\ldots,\mathrm{min}(10,d)$.  The Wilks theorem only predicts $\expect{\lambda}$ correctly for full-rank states; when $r \ll d$, the actual expected loglikelihood ratio is much smaller. Our main result (Equation \ref{eq:ourLLRS}) gives a replacement that works correctly (see Figure \ref{fig:modelcomp-iso}).}
+ \caption{\textbf{Predictions of the Wilks theorem vs reality:}  In the context of state tomography on a true state $\rho_0$ in a $d$-dimensional Hilbert space, the Wilks theorem can be used to predict that, when comparing the zero-parameter model $\M_{0} = \{\rho_0\}$ and the $(d^2-1)$-parameter model $\mathcal{M}_d$ defined in Equation \eqref{eq:modelsd}, the expected loglikelihood ratio $\langle \lambda(\M_{0}, \M_{d})\rangle$ will be $d^2-1$.  Here, we compare that prediction to numerical simulations of tomography on states $\rho_0$ in dimension $d=2,\ldots,30$, with ranks $r=1,\ldots,\mathrm{min}(10,d)$.  The Wilks theorem only predicts $\expect{\lambda}$ correctly for full-rank states; when $r \ll d$, the actual expected loglikelihood ratio is much smaller. Our main result (Equation \ref{eq:ourLLRS}) gives a replacement that works correctly (see Figure \ref{fig:modelcomp-iso}).}
 \label{fig:boundaries2}
 \end{figure}
 
@@ -165,7 +165,7 @@ In this section, we develop a framework that will allow us to derive a replaceme
 In Section \ref{sec:computingllrs}, we show that the models $\M_{d}$ satisfy MP-LAN, and derive an approximation for $\expect{\lambda}$  (Equation \eqref{eq:ourLLRS}, on  page \pageref{eq:ourLLRS}).  Section \ref{sec:theorycomp1} compares our theory to numerical results, and Section \ref{sec:heterotomo} applies our theory to the problem of heterodyne tomography.
 
 
-The reader should note that to enhance readability, in this section (and only this section) we use $N$ to denote the number of samples, previously denoted as $N_{\mathrm{samples}}$. Later in the paper, we will use $N$ to denote a different quantity.
+The reader should note that to enhance readability, in this section (and only this section) we use $N$ to denote the number of samples, previously denoted as $N_{\mathrm{samples}}$. Later in Section \ref{subsec:kite}, we will use $N$ to denote a different quantity (namely, $d-r$).
 
 
 \subsection{Definitions and Overview of Results}
@@ -173,8 +173,10 @@ The reader should note that to enhance readability, in this section (and only th
 The main definitions and results required for the remainder of the paper are presented in this subsection. Technical details and proofs are presented in the next subsection.
 
 \begin{mydef}[Metric-projected local asymptotic normality, or MP-LAN]
-A  model $\M$ satisfies MP-LAN if, and only if, $\M$ is a convex subset of a model $\M'$ that satisfies LAN.
+A  model $\M$ satisfies MP-LAN if $\M$ is a convex subset of a model $\M'$ that satisfies LAN.
 \end{mydef}
+
+While there are many possible choices for the unconstrained model $\M'$, we will find it useful to let $\M'$ be a model whose dimension is the same as $\M$, but where any of the constraints that define $\M$ are lifted. (For example, in Lemma \ref{lem:qlan}, we will take $\M'$ to be Hermitian matrices of dimension $d$.) Other choices of $\M'$ are possible, but we do not explore those here.
 
 Although the definition of MP-LAN is rather short, it implies some very useful properties. These properties follow from the fact that, as $N \rightarrow \infty$, the behavior of $\rhoML{\M}$ and $\lambda$ is entirely determined by their behavior in an arbitrarily small region of $\M$ around $\rho_{0}$, which we call the \emph{local state space}.
 
@@ -213,7 +215,7 @@ The following subsection presents the technical details and definitions necessar
 
 \begin{figure}
 \includegraphics[width=.75\columnwidth]{Images/Figure_3.pdf}
- \caption{\textbf{Equivalence of $\lambda$ and squared error when MP-LAN is satisfied:} For any model $\M_{k}$, $\lambda(\rho_{0}, \M_{k})$ is the difference between the distance from $\rho_{0}$ to $\rhoML{\M'}$ and that from $\rhoML{\M_{k}}$ to $\rhoML{\M'}$ (black lines). If $\M_{k}$ satisfies MP-LAN, then $\lambda$ is equal, in the asymptotic limit, to the distance from $\rhoML{\M_{k}}$ to $\rho_{0}$ (red lines), because $\rho_{0}, \rhoML{\M'}$, and $\rhoML{\M_{k}}$ form a right triangle. This is also true for models with \emph{curved} boundaries (such as quantum state space) because asymptotically, the local state space is the solid tangent cone, whose boundaries are always \emph{flat}.}
+ \caption{\textbf{Equivalence of $\lambda$ and squared error when MP-LAN is satisfied:} For any model $\M_{k}$, $\lambda(\rho_{0}, \M_{k})$ is the difference between the distance from $\rho_{0}$ to $\rhoML{\M'}$ and that from $\rhoML{\M_{k}}$ to $\rhoML{\M'}$ (black lines). If $\M_{k}$ satisfies MP-LAN, then (a) $\M_{k} \subset \M'$ for an \emph{unconstrained model} $\M'$, and (b) $\lambda$ is equal, in the asymptotic limit, to the distance from $\rhoML{\M_{k}}$ to $\rho_{0}$ (red lines), because $\rho_{0}, \rhoML{\M'}$, and $\rhoML{\M_{k}}$ form a right triangle. This is also true for models with \emph{curved} boundaries (such as quantum state space) because asymptotically, the local state space is the solid tangent cone, whose boundaries are always \emph{flat}.}
 \label{fig:llrs_MP-LAN}
 \end{figure}
 
@@ -325,7 +327,7 @@ The loglikelihood ratio statistic between any two models $\lambda(\M_{1}, \M_{2}
 \[\lambda(\M_{1}, \M_{2}) = \lambda(\mathcal{R},\M_{2}) - \lambda(\mathcal{R},\M_{1}),\]
 where
 \[\lambda(\mathcal{R}, \M) = -2 \log \left(\frac{\cL(\mathcal{R})}{\cL(\M)}\right) =  -2 \log \left(\frac{\underset{\rho \in \mathcal{R}}{\max}~\cL(\rho)}{\underset{\rho \in \M}{\max}~\cL(\rho)}\right).\]
-Let us take $\mathcal{R} = \rho_{0}$. Because as $N \rightarrow \infty$ the likelihood $\mathcal{L}(\rho)$ is Gaussian around $\rhoML{\M'}$, we have
+Let us take $\mathcal{R} = \rho_{0}$. Because $\M'$ satisfies LAN, asymptotically $\mathcal{L}(\rho)$ is Gaussian, and $\lambda$ relates to a difference in squared distances:
 \begin{align}
 \label{eq:lambdalan}
 \nonumber \lambda(\rho_{0}, \M)&= -2 \log \left(\frac{\cL(\rho_{0})}{\underset{\rho \in \M}{\max}~\cL(\rho)}\right)\\
@@ -368,6 +370,7 @@ With these technical results in hand, we can proceed to compute $\langle \lambda
 
 To derive a replacement for the Wilks theorem, we start by showing  the models $\M_{d}$ satisfy MP-LAN.
 \begin{lem}
+\label{lem:qlan}
 The models $\M_{d}$, defined in Equation \eqref{eq:modelsd}, satisfy MP-LAN.
 \end{lem}
 
