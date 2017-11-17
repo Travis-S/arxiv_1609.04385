@@ -118,7 +118,7 @@ Here, $\Fi$ is the (classical) \emph{Fisher information matrix} associated with 
 
 Most statistical models satisfy LAN.  When LAN is satisfied \emph{and} $N_{\mathrm{samples}}$ is large enough to reach the ``asymptotic" regime, we can invoke the Wilks theorem to determine the behavior of $\lambda$. This theorem says that under suitable regularity conditions, if $\rho_{0}\in \M_{1}\subset \M_{2}$, where $\M_{2}$ has $K$ more parameters than $\M_{1}$, then $\lambda$ is a $\chi^{2}_{K}$ random variable.  This is a complete null theory for $\lambda$ (under the specified conditions), and implies that $\langle \lambda \rangle = K$ and $(\Delta \lambda)^{2} = 2K$.
 
-Therefore, in the ``Wilks regime", a simple criterion for model selection would be to compare the observed value of $\lambda$ to $\lambda_{\mathrm{thresh}} = \langle \lambda \rangle + n\Delta \lambda$, for some $n \approx 1$, and reject the smaller model if $\lambda > \lambda_{\mathrm{thresh}}$.  While model selection rules can be more subtle and complex than this \cite{Akaike1974, Schwarz1978, Kass1995, Spiegelhalter2002}, they usually take the general form of a threshold in which $\expect{\lambda}$ plays a key role.  Rather than attempting to define a specific rule, our purpose in this paper is to understand the behavior of $\expect{\lambda}$ and derive an approximate expression for it in the context of state tomography.
+Therefore, in the ``Wilks regime", a simple criterion for model selection would be to compare the observed value of $\lambda$ to $\lambda_{\mathrm{thresh}} = \langle \lambda \rangle + k\Delta \lambda$, for some $k \approx 1$, and reject the smaller model if $\lambda > \lambda_{\mathrm{thresh}}$.  While model selection rules can be more subtle and complex than this \cite{Akaike1974, Schwarz1978, Kass1995, Spiegelhalter2002}, they usually take the general form of a threshold in which $\expect{\lambda}$ plays a key role.  Rather than attempting to define a specific rule, our purpose in this paper is to understand the behavior of $\expect{\lambda}$ and derive an approximate expression for it in the context of state tomography.
 
 The first step in doing so is to explain how and why the Wilks theorem breaks down in that context.
 
@@ -165,8 +165,7 @@ In this section, we develop a framework that will allow us to derive a replaceme
 In Section \ref{sec:computingllrs}, we show that the models $\M_{d}$ satisfy MP-LAN, and derive an approximation for $\expect{\lambda}$  (Equation \eqref{eq:ourLLRS}, on  page \pageref{eq:ourLLRS}).  Section \ref{sec:theorycomp1} compares our theory to numerical results, and Section \ref{sec:heterotomo} applies our theory to the problem of heterodyne tomography.
 
 
-The reader should note that to enhance readability, in this section (and only this section) we use $N$ to denote the number of samples, previously denoted as $N_{\mathrm{samples}}$. Later in Section \ref{subsec:kite}, we will use $N$ to denote a different quantity (namely, $d-r$).
-
+The reader should note that to enhance readability, in this section (and only this section) we use $N$ to denote the number of samples, previously denoted as $N_{\mathrm{samples}}$.
 
 \subsection{Definitions and Overview of Results}
 \label{sec:lanoverview}
@@ -467,25 +466,25 @@ $ is the projector onto the kernel of $\rho_0$.
 Changing to this basis diagonalizes the ``kite'' portion of $\delta$, and leaves all elements of the ``L'' unchanged (at $\mathcal{O}(\epsilon)$).  The diagonal elements fall into two categories:
 \begin{enumerate}[noitemsep]
 \item $r$ elements corresponding to the eigenvalues of $\rho_0$, which are given by $p_{j} = \rho_{jj} + \delta_{jj}$ where  $\rho_{jj}$ is the $j^{\mathrm{th}}$ eigenvalue of $\rho_{0}$, and $\delta_{jj} \sim \mathcal{N}(0,\epsilon^2)$.
-\item $N \equiv d-r$ elements that are eigenvalues of $\delta_{\mathrm{ker}}$, which we denote by $\bvec{\kappa} = \{\kappa_j:~j = 1\ldots 
-N\}$.
+\item $n \equiv d-r$ elements that are eigenvalues of $\delta_{\mathrm{ker}}$, which we denote by $\bvec{\kappa} = \{\kappa_j:~j = 1,\ldots, 
+n\}$.
 \end{enumerate}
 In turn, $q$ is the solution to
 \begin{equation}
 \label{eq:q_eqn}
- \sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{N}{(\kappa_j-q)^+} = 1,
+ \sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{n}{(\kappa_j-q)^+} = 1,
 \end{equation}
 where $(x)^{+} = \max(x, 0)$, and $\lambda_{\mathrm{kite}}$ is
 \begin{equation}
 \label{eq:llrs_kite}
-\epsilon^{2}\lambda_{\mathrm{kite}} = \sum_{j=1}^{r}[\rho_{jj}- (p_j-q)^{+}]^2 + \sum_{j=1}^{N}\left[(\kappa_j-q)^+\right]^2.
+\epsilon^{2}\lambda_{\mathrm{kite}} = \sum_{j=1}^{r}[\rho_{jj}- (p_j-q)^{+}]^2 + \sum_{j=1}^{n}\left[(\kappa_j-q)^+\right]^2.
 \end{equation}
  
 To solve Equation \eqref{eq:q_eqn}, and derive an approximation for \eqref{eq:llrs_kite}, we use the fact that we are interested in computing the \emph{average value} of $\lambda_{\mathrm{kite}}$, which justifies approximating the random variable $q$ by a closed-form, deterministic value. To do so, we need to understand the behavior of $\bvec{\kappa}$. Developing such an understanding, and a theory of its \emph{typical value}, is the subject of the next section.
 
-\subsubsection{Approximating the eigenvalues of a GUE($N$) matrix}
-We first observe that while the $\kappa_j$ are random variables, they are \emph{not} normally distributed.  Instead, because $\delta_{\mathrm{ker}}$ is proportional to a $\mathrm{GUE}(N)$ matrix, for $N\gg1$, the distribution of any eigenvalue $\kappa_{j}$
-converges to a Wigner semicircle distribution \cite{Wigner1958}, given by $\mathrm{Pr}(\kappa) = \frac{2}{\pi R^{2}}\sqrt{R^{2}-\kappa^{2}}$ for $|\kappa| \leq R$, with $R = 2\epsilon\sqrt{N}$.  The eigenvalues are not independent; they tend to avoid collisions (``level avoidance'' \cite{Tao2013}), 
+\subsubsection{Approximating the eigenvalues of a GUE($n$) matrix}
+We first observe that while the $\kappa_j$ are random variables, they are \emph{not} normally distributed.  Instead, because $\delta_{\mathrm{ker}}$ is proportional to a $\mathrm{GUE}(n)$ matrix, for $n\gg1$, the distribution of any eigenvalue $\kappa_{j}$
+converges to a Wigner semicircle distribution \cite{Wigner1958}, given by $\mathrm{Pr}(\kappa) = \frac{2}{\pi R^{2}}\sqrt{R^{2}-\kappa^{2}}$ for $|\kappa| \leq R$, with $R = 2\epsilon\sqrt{n}$.  The eigenvalues are not independent; they tend to avoid collisions (``level avoidance'' \cite{Tao2013}), 
 and typically form a surprisingly regular array over the support of the Wigner semicircle.  Since our goal is to compute $\expect{\lambda_{\mathrm{kite}}}$, we can capitalize on this behavior by replacing each random sample of $\bvec{\kappa}$ with a 
 \emph{typical sample} given by its order statistics $\bar{\bvec{\kappa}}$.  These are the average values of the \emph{sorted} 
 $\bvec{\kappa}$, so $\overline{\kappa}_j$ is the average value of the $j^{\mathrm{th}}$ largest value of $\bvec{\kappa}$.  Large random samples 
@@ -494,35 +493,35 @@ independent, and level avoidance makes the approximation even better.
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{Images/Figure_7.pdf}
-\caption{\textbf{Approximating typical samples of GUE($N$) eigenvalues by order statistics:} We approximate a typical sample of GUE($N$) eigenvalues by their order statistics (average values of a sorted sample).  \textbf{Left}:  The sorted eigenvalues (i.e., order statistics $\kappa_{j}$) of one randomly chosen GUE(100) matrix.  \textbf{Right}:  Approximate expected values of the order statistics, $\bar{\kappa}_{j}$, of the GUE(100) distribution, computed as the average of the sorted eigenvalues of 100 randomly chosen GUE(100) matrices.}
+\caption{\textbf{Approximating typical samples of GUE($n$) eigenvalues by order statistics:} We approximate a typical sample of GUE($n$) eigenvalues by their order statistics (average values of a sorted sample).  \textbf{Left}:  The sorted eigenvalues (i.e., order statistics $\kappa_{j}$) of one randomly chosen GUE(100) matrix.  \textbf{Right}:  Approximate expected values of the order statistics, $\bar{\kappa}_{j}$, of the GUE(100) distribution, computed as the average of the sorted eigenvalues of 100 randomly chosen GUE(100) matrices.}
 \label{fig:orderstatistics1}
 \end{figure}
 
-Suppose that $\bvec{\kappa}$ are the eigenvalues of a GUE($N$) matrix, sorted from highest to lowest.  Figure \ref{fig:orderstatistics1} illustrates such a sample for $N=100$.  It also shows the \emph{average} values of 100 such samples (all sorted).  These are the \emph{order statistics} $\overline{\bvec{\kappa}}$ of the distribution (more precisely, what is shown is a good \emph{estimate} of the order statistics; the actual order statistics would be given by the average over infinitely many samples).  As the figure shows, while the order statistics \emph{are} slightly more smoothly and predictably distributed than a single (sorted) sample, the two are remarkably similar.  A single sample $\bvec{\kappa}$ will fluctuate around the order statistics, but these fluctuations are relatively small, partly because the sample is large, and partly because the GUE eigenvalues experience level repulsion.  Thus, the ``typical'' behavior of a sample -- by which we mean the mean value of a statistic of the sample -- is well captured by the order statistics (which have no fluctuations at all).
+Suppose that $\bvec{\kappa}$ are the eigenvalues of a GUE($n$) matrix, sorted from highest to lowest.  Figure \ref{fig:orderstatistics1} illustrates such a sample for $n=100$.  It also shows the \emph{average} values of 100 such samples (all sorted).  These are the \emph{order statistics} $\overline{\bvec{\kappa}}$ of the distribution (more precisely, what is shown is a good \emph{estimate} of the order statistics; the actual order statistics would be given by the average over infinitely many samples).  As the figure shows, while the order statistics \emph{are} slightly more smoothly and predictably distributed than a single (sorted) sample, the two are remarkably similar.  A single sample $\bvec{\kappa}$ will fluctuate around the order statistics, but these fluctuations are relatively small, partly because the sample is large, and partly because the GUE eigenvalues experience level repulsion.  Thus, the ``typical'' behavior of a sample -- by which we mean the mean value of a statistic of the sample -- is well captured by the order statistics (which have no fluctuations at all).
 
 We now turn to the problem of modeling $\bvec{\kappa}$ quantitatively.  We note up front that we are only going to be interested in certain properties of $\bvec{\kappa}$:  specifically, partial sums of all $\kappa_j$ greater or less than the threshold $q$, or partial sums of functions of the $\kappa_j$ (e.g., $(\kappa_j-q)^2$).  We require only that an ansatz be accurate for such quantities.  We do not use this fact explicitly, but it motivates our approach -- and we do not claim that our ansatz is accurate for \emph{all} conceivable functions.
 
-In general, if a sample $\bvec{\kappa}$ of size $N$ is drawn so that each $\kappa$ has the same probability density 
+In general, if a sample $\bvec{\kappa}$ of size $n$ is drawn so that each $\kappa$ has the same probability density 
 function $\mathrm{Pr}(\kappa)$, then a good approximation for the $j^{\mathrm{th}}$ order statistic is given by the inverse 
 \emph{cumulative} distribution function (CDF):
 \begin{equation}
-\overline{\kappa}_j \approx \mathrm{CDF}^{-1}\left(\frac{j-1/2}{N}\right).
+\overline{\kappa}_j \approx \mathrm{CDF}^{-1}\left(\frac{j-1/2}{n}\right).
 \end{equation}
-This is closely related to the observation that the histogram of a sample tends to look similar to the underlying probability density function.  More precisely, it is equivalent to the observation that the empirical distribution function (the CDF of the histogram) tends to be (even more) similar to the underlying CDF.  For i.i.d. samples, this is the content of the Glivenko-Cantelli theorem \cite{VanderVaart2000}.  Figure \ref{fig:orderstatistics2} compares the order statistics of GUE(100) and GUE(10) eigenvalues (computed as numerical averages over 100 random samples) to the inverse CDF for the Wigner semicircle distribution.  Even though the Wigner semicircle model of GUE eigenvalues is only exact as $N\to\infty$, it provides a nearly-perfect model for $\overline{\bvec{\kappa}}$ even at $N=10$ (and remains surprisingly good all the way down to $N=2$).
+This is closely related to the observation that the histogram of a sample tends to look similar to the underlying probability density function.  More precisely, it is equivalent to the observation that the empirical distribution function (the CDF of the histogram) tends to be (even more) similar to the underlying CDF.  For i.i.d. samples, this is the content of the Glivenko-Cantelli theorem \cite{VanderVaart2000}.  Figure \ref{fig:orderstatistics2} compares the order statistics of GUE(100) and GUE(10) eigenvalues (computed as numerical averages over 100 random samples) to the inverse CDF for the Wigner semicircle distribution.  Even though the Wigner semicircle model of GUE eigenvalues is only exact as $n\to\infty$, it provides a nearly-perfect model for $\overline{\bvec{\kappa}}$ even at $n=10$ (and remains surprisingly good all the way down to $n=2$).
 
 \begin{figure}[t]
 \includegraphics[width=\columnwidth]{Images/Figure_8.pdf}
-\caption{\textbf{Approximating order statistics by the inverse CDF:} Order statistics of the GUE($N$) eigenvalue distribution are very well approximated by the inverse CDF of the Wigner semicircle distribution.  In both figures, we compare the order statistics of a GUE($N$) distribution to the inverse CDF of the Wigner semicircle distribution. \textbf{Top}:  $N=100$.  \textbf{Bottom}:  $N=10$.
+\caption{\textbf{Approximating order statistics by the inverse CDF:} Order statistics of the GUE($n$) eigenvalue distribution are very well approximated by the inverse CDF of the Wigner semicircle distribution.  In both figures, we compare the order statistics of a GUE($n$) distribution to the inverse CDF of the Wigner semicircle distribution. \textbf{Top}:  $n=100$.  \textbf{Bottom}:  $n=10$.
 Agreement in both cases is essentially perfect.}
 \label{fig:orderstatistics2}
 \end{figure}
 
-We make one further approximation, by assuming that $N\gg1$, so the distribution of the $\overline{\kappa}_j$ is effectively continuous and identical to $\mathrm{Pr}(\kappa)$. For the quantities that we compute, this is equivalent to replacing the empirical distribution function (which is a step function) by the CDF of the Wigner semicircle distribution.  So, whereas for any given sample the partial sum of all $\kappa_j > q$ jumps discontinuously when $q=\kappa_j$ for any $j$, in this approximation it changes smoothly.  This accurately models the \emph{average} behavior of partial sums.
+We make one further approximation, by assuming that $n\gg1$, so the distribution of the $\overline{\kappa}_j$ is effectively continuous and identical to $\mathrm{Pr}(\kappa)$. For the quantities that we compute, this is equivalent to replacing the empirical distribution function (which is a step function) by the CDF of the Wigner semicircle distribution.  So, whereas for any given sample the partial sum of all $\kappa_j > q$ jumps discontinuously when $q=\kappa_j$ for any $j$, in this approximation it changes smoothly.  This accurately models the \emph{average} behavior of partial sums.
 
 \subsubsection{Deriving an approximation for $q$}
 The approximations of the previous section allow us to use $\{p_j\} \cup \{\overline{\kappa}_j\}$ as the ansatz for the eigenvalues of $\rhoML{\M'_{d}}$, where the $p_j$ are $\mathcal{N}(\rho_{jj},\epsilon^2)$ random variables, and the $\overline{\kappa}_j$ are the (fixed, smoothed) order statistics of a Wigner semicircle distribution.  In turn, the defining equation for $q$ (Equation \eqref{eq:q_eqn}) is well approximated as
 \begin{equation}
-\nonumber \sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{N}{(\overline{\kappa}_j-q)^+} = 1.
+\nonumber \sum_{j=1}^{r}(p_j - q)^{+} + \sum_{j=1}^{n}{(\overline{\kappa}_j-q)^+} = 1.
 \end{equation}
 To solve this equation, we observe that the $\overline{\kappa}_j$ are symmetrically distributed around $
 \kappa=0$, so half of them are negative.  Therefore, with high probability, $\Tr
@@ -530,40 +529,40 @@ To solve this equation, we observe that the $\overline{\kappa}_j$ are symmetrica
 
 Because we have assumed $N_{\mathrm{samples}}$ is sufficiently large ($N_{\mathrm{samples}} >> \min_{j}1/\rho_{jj}^{2}$), the eigenvalues of $\rho_{0}$ are large compared to the perturbations $\delta_{jj}$ and $q$. This implies $(p_{j} - q)^{+} = p_{j} - q$. Under this assumption, $q$ is the solution to
 \begin{align}
-\nonumber \sum_{j=1}^{r}(p_j - q) + \sum_{j=1}^{N}{(\overline{\kappa}_j-q)^+} & = 1\\
-\nonumber \implies - rq + \Delta + N\int_{\kappa=q}^{2\epsilon\sqrt{N}}{(\kappa-q)\mathrm{Pr}(\kappa)\mathrm{d}\kappa} & = 0\\
-\nonumber \label{eq:q_eqn2}\implies - rq + \Delta + \frac{\epsilon}{12\pi}\left[(q^2+8N)\sqrt{-q^2+4N} \right.\\
-\left. -12qN\left(\frac{\pi}{2}-\sin^{-1}\left(\frac{q}{2\sqrt{N}}\right)\right)   \right]&=0,
+\nonumber \sum_{j=1}^{r}(p_j - q) + \sum_{j=1}^{n}{(\overline{\kappa}_j-q)^+} & = 1\\
+\nonumber \implies - rq + \Delta + n\int_{\kappa=q}^{2\epsilon\sqrt{n}}{(\kappa-q)\mathrm{Pr}(\kappa)\mathrm{d}\kappa} & = 0\\
+\nonumber \label{eq:q_eqn2}\implies - rq + \Delta + \frac{\epsilon}{12\pi}\left[(q^2+8n)\sqrt{-q^2+4n} \right.\\
+\left. -12qn\left(\frac{\pi}{2}-\sin^{-1}\left(\frac{q}{2\sqrt{n}}\right)\right)   \right]&=0,
 \end{align}
 where $\Delta = \sum_{j=1}^{r}\delta_{jj}$ is a $\mathcal{N}(0,r\epsilon^2)$ random variable.  We choose to replace a discrete 
-sum (line 1) with an integral (line 2). This approximation is valid when $N\gg1$, as we can accurately approximate a discrete collection of closely spaced real numbers by a smooth density or distribution over the real numbers that has approximately the same CDF.  It is also remarkably accurate in practice.
+sum (line 1) with an integral (line 2). This approximation is valid when $n\gg1$, as we can accurately approximate a discrete collection of closely spaced real numbers by a smooth density or distribution over the real numbers that has approximately the same CDF.  It is also remarkably accurate in practice.
   
 In yet another approximation, we replace $\Delta$ with its average value, which is zero.  We could obtain an even more accurate expression 
  by treating $\Delta$ more carefully, but this crude approximation turns out to be quite accurate already.
 
 To solve Equation \eqref{eq:q_eqn2}, it is necessary to further simplify the complicated expression resulting from the integral (line 3).  To do so, we 
 assume  $\rho_0$ is relatively low-rank, so $r \ll d/2$.  In this case, the sum of the positive $\overline{\kappa}_j$ is large compared 
-with $r$, almost all of them need to be subtracted away, and therefore $q$ is close to $2\epsilon\sqrt{N}$.  We therefore replace 
-the complicated expression with its leading order Taylor expansion around $q=2\epsilon\sqrt{N}$, substitute into Equation \eqref{eq:q_eqn2}, and 
+with $r$, almost all of them need to be subtracted away, and therefore $q$ is close to $2\epsilon\sqrt{n}$.  We therefore replace 
+the complicated expression with its leading order Taylor expansion around $q=2\epsilon\sqrt{n}$, substitute into Equation \eqref{eq:q_eqn2}, and 
 obtain the equation
 \begin{equation}
-\frac{rq}{\epsilon}  = \frac{4}{15\pi}N^{1/4}\left(2\sqrt{N}-\frac{q}{\epsilon}\right)^{5/2}.
+\frac{rq}{\epsilon}  = \frac{4}{15\pi}n^{1/4}\left(2\sqrt{n}-\frac{q}{\epsilon}\right)^{5/2}.
 \end{equation}
-This equation is a quintic polynomial in $q/\epsilon$, so by the Abel-Ruffini theorem, it has no algebraic solution.  However, as $N \rightarrow \infty$, its roots have a well-defined algebraic \emph{approximation} that becomes accurate quite rapidly (e.g., for $d-r>4$):
+This equation is a quintic polynomial in $q/\epsilon$, so by the Abel-Ruffini theorem, it has no algebraic solution.  However, as $n \rightarrow \infty$, its roots have a well-defined algebraic \emph{approximation} that becomes accurate quite rapidly (e.g., for $n>4$):
 \begin{align}
 \label{eq:truncation}
-z &\equiv q/\epsilon \approx 2\sqrt{d-r}\left(1 -\frac{1}{2}x +\frac{1}{10}x^{2} - \frac{1}{200}x^{3}\right),
+z &\equiv q/\epsilon \approx 2\sqrt{n}\left(1 -\frac{1}{2}x +\frac{1}{10}x^{2} - \frac{1}{200}x^{3}\right),
 \end{align}
-where $x = \left(\frac{15 \pi r}{2(d-r)}\right)^{2/5}$.
+where $x = \left(\frac{15 \pi r}{2n}\right)^{2/5}$.
 
 \subsubsection{Expression for $\langle \lambda_{\mathrm{kite}}\rangle$}
 Now that we know how much to subtract off in the truncation process, we can approximate $\expect{\lambda_{\mathrm{kite}}}$, originally given in Equation \eqref{eq:llrs_kite}:
 \begin{align}
-\nonumber \expect{\lambda_{\mathrm{kite}}} &\approx  \frac{1}{\epsilon^{2}}\left\langle\sum_{j=1}^{r}[\rho_{jj}- (p_j-q)^{+}]^2 + \sum_{j=1}^{N}\left[(\bar{\kappa}_j-q)^+\right]^2 \right\rangle\\
-\nonumber &\approx \frac{1}{\epsilon^{2}} \left\langle\sum_{j=1}^{r}[-\delta_{jj} +  q ]^2 + \sum_{j=1}^{N}\left[(\bar{\kappa}_j-q)^+\right]^2 \right\rangle\\
-\nonumber  &\approx r + rz^2 + \frac{N}{\epsilon^{2}}\int_{\kappa=q}^{2\epsilon\sqrt{N}}{ \mathrm{Pr}(\kappa)(\kappa-q)^2 d\kappa} \\
-\nonumber &=r + rz^{2} + \frac{N(N+z^{2})}{\pi}\left(\frac{\pi}{2} - \sin^{-1}\left(\frac{z}{2\sqrt{N}}\right)\right) \\
-& - \frac{z(z^{2}+26N)}{24\pi}\sqrt{4N-z^{2}}.
+\nonumber \expect{\lambda_{\mathrm{kite}}} &\approx  \frac{1}{\epsilon^{2}}\left\langle\sum_{j=1}^{r}[\rho_{jj}- (p_j-q)^{+}]^2 + \sum_{j=1}^{n}\left[(\bar{\kappa}_j-q)^+\right]^2 \right\rangle\\
+\nonumber &\approx \frac{1}{\epsilon^{2}} \left\langle\sum_{j=1}^{r}[-\delta_{jj} +  q ]^2 + \sum_{j=1}^{n}\left[(\bar{\kappa}_j-q)^+\right]^2 \right\rangle\\
+\nonumber  &\approx r + rz^2 + \frac{n}{\epsilon^{2}}\int_{\kappa=q}^{2\epsilon\sqrt{n}}{ \mathrm{Pr}(\kappa)(\kappa-q)^2 d\kappa} \\
+\nonumber &=r + rz^{2} + \frac{n(n+z^{2})}{\pi}\left(\frac{\pi}{2} - \sin^{-1}\left(\frac{z}{2\sqrt{n}}\right)\right) \\
+& - \frac{z(z^{2}+26n)}{24\pi}\sqrt{4n-z^{2}}.
 \end{align}
 
 \subsection{Complete Expression for $\langle \lambda \rangle$}
@@ -572,10 +571,10 @@ The total expected value, $\expect{\lambda} = \expect{\lambda_{\mathrm{L}}} + \e
 \begin{align}
 \label{eq:ourLLRS}
 \nonumber \langle \lambda(\rho_{0}, \M_{d}) \rangle &\approx 2rd - r^{2}+rz^{2}\\
-\nonumber & + \frac{N(N+z^{2})}{\pi}\left(\frac{\pi}{2} - \sin^{-1}\left(\frac{z}{2\sqrt{N}}\right)\right) \\
-& - \frac{z(z^{2}+26N)}{24\pi}\sqrt{4N-z^{2}}.
+\nonumber & + \frac{n(n+z^{2})}{\pi}\left(\frac{\pi}{2} - \sin^{-1}\left(\frac{z}{2\sqrt{n}}\right)\right) \\
+& - \frac{z(z^{2}+26n)}{24\pi}\sqrt{4n-z^{2}}.
 \end{align}
-where $z$ is given in Equation \eqref{eq:truncation}, $N=d-r$, and $r = \mathrm{Rank}(\rho_{0})$.
+where $z$ is given in Equation \eqref{eq:truncation}, $n=d-r$, and $r = \mathrm{Rank}(\rho_{0})$.
 
 \section{Comparison to Numerical Experiments}
 
