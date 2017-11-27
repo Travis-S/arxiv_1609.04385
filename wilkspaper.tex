@@ -584,13 +584,20 @@ The total expected value, $\expect{\lambda} = \expect{\lambda_{\mathrm{L}}} + \e
 \end{align}
 where $z$ is given in Equation \eqref{eq:truncation}, $n=d-r$, and $r = \mathrm{Rank}(\rho_{0})$.
 
+This null theory is much more complicated than the Wilks theorem, but as Figure \ref{fig:modelcomp-iso} shows, it is very accurate when $2r << d$. (In contrast, the prediction of the Wilks theorem is wildly incorrect for $r\ll d$.) Although our null theory does break down as $r \rightarrow d$, it does so fairly gracefully. We conclude that our analysis (and Equation \eqref{eq:ourLLRS}) correctly models tomography \emph{if} the Fisher information is isotropic ($\Fi \propto \Id$), a point we turn to in the following subsections.
+
+In the asymptotic limit $d\rightarrow \infty$, while keeping $r$ fixed, it may be shown that $\langle \lambda \rangle \approx 5rd - 8r^{2}$  \footnote{See supplemental information for a derivation of this asymptotic result.}. That $\langle \lambda \rangle$ scales as $\mathcal{O}(rd)$ in this regime is to be expected, as a rank-$r$ density matrix has $\mathcal{O}(rd)$ free parameters. Curiously though, this asymptotic result is not equal to $\langle \lambda_{\mathrm{kite}}\rangle$, meaning that the ``kite" elements continue to contribute to the behavior of the statistic (even though most of them will be set to zero in the projection step when computing $\rhoML{\M}$).
+
 \section{Comparison to Numerical Experiments}
 
-\subsection{Isotropic Fisher Information}
+To evaluate our null theory for $\langle \lambda \rangle$, we compare it to numerical experiments, described below.
+
+\subsection{Comparison to Idealized Tomography (Isotropic Fisher Information)}
 \label{sec:theorycomp1}
 
-Equation \eqref{eq:ourLLRS} is our main result.  To test its validity, we compare it to numerical simulations for the case of an isotropic Fisher information
-with $d=2,\ldots,30$ and $r=1,\ldots,10$ in Figure \ref{fig:modelcomp-iso}.  The prediction of the Wilks theorem is wildly incorrect for $r\ll d$. In contrast, Equation \eqref{eq:ourLLRS} is almost perfectly accurate when $r \ll d/2$, but it does begin to break down (albeit fairly gracefully) as $r$ becomes comparable to $d$.  We conclude that our analysis (and Equation \eqref{eq:ourLLRS}) correctly models tomography \emph{if} the Fisher information is isotropic ($\Fi \propto \Id$).
+In our derivation of Equation \eqref{eq:ourLLRS}, we assumed both that the Fisher information is isotropic and that the number of samples is asymptotically infinite. For a variety of true states $\rho_{0}$ with dimension  $d=2,\ldots,30$ and rank $r=1,\ldots,10$ we: (a) generated $N=500$ i.i.d. $\mathcal{N}(\rho_{0}, \epsilon^{2}\mathcal{I})$ unconstrained ML estimates $\{\rhoML{\M'_{d, j}}\}_{j=1}^{N}$, thereby simulating the unconstrained ML estimates \emph{at} the $N_{\mathrm{samples}} = \infty$ limit, (b) numerically solved Equation \eqref{eq:MP-LANmle2} for each $\rhoML{\M'_{d, j}}$ to obtain the constrained ML estimate $\rhoML{\M_{d, j}}$, and (c) estimated $\langle \lambda \rangle$ as $\frac{1}{N}\sum_{j=1}^{N}\mathrm{Tr}[(\rho_{0} - \rhoML{\M_{d,j}})^{2}]/\epsilon^{2}$. We took $\epsilon = 10^{-4}$, to ensure that all of the unconstrained ML estimates are close to $\rho_{0}$, and that we are not erroneously generating estimates which are too far away. (Recall that our derivation used the fact that, asymptotically, we can ``zoom in" on $\rho_{0}$ to understand the behavior of $\lambda$. Consequently, if $\epsilon$ is too large, then some of the unconstrained ML estimates may almost be orthogonal to $\rho_{0}$, which clearly violates the conditions used in our derivation.)
+
+In Figure \ref{fig:modelcomp-iso}, we compare our theory (dashed lines) to these numerical results (solid dots).  It is clear Equation \eqref{eq:ourLLRS} is almost perfectly accurate when $r \ll d/2$, but it does begin to break down as $r$ becomes comparable to $d$.
 
 \begin{figure}
  \includegraphics[width=\columnwidth]{Images/Figure_9.pdf}
