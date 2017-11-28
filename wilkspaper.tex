@@ -586,6 +586,12 @@ where $z$ is given in Equation \eqref{eq:truncation}, $n=d-r$, and $r = \mathrm{
 
 This null theory is much more complicated than the Wilks theorem, but as Figure \ref{fig:modelcomp-iso} shows, it is very accurate when $2r << d$. (In contrast, the prediction of the Wilks theorem is wildly incorrect for $r\ll d$.) Although our null theory does break down as $r \rightarrow d$, it does so fairly gracefully. We conclude that our analysis (and Equation \eqref{eq:ourLLRS}) correctly models tomography \emph{if} the Fisher information is isotropic ($\Fi \propto \Id$), a point we turn to in the following subsections.
 
+\begin{figure}
+ \includegraphics[width=\columnwidth]{Images/Figure_9.pdf}
+ \caption{\textbf{Improved prediction for $\langle \lambda(\rho_{0}, \M_{d})\rangle$, as compared to the Wilks theorem:} Numerical results for $\expect{\lambda(\rho_{0}, \M_{d})}$ compared to the prediction of the Wilks theorem (solid line) and our replacement theory as given in Equation \eqref{eq:ourLLRS} (dashed lines).  Our formula depends on the rank $r$ of $\rho_0$ (unlike the Wilks prediction), and is nearly perfect for $r\ll d/2$.  It becomes less accurate as $r$ approaches $d/2$, and is invalid when $r\approx d$.}
+ \label{fig:modelcomp-iso}
+\end{figure}
+
 In the asymptotic limit $d\rightarrow \infty$, while keeping $r$ fixed, $\langle \lambda \rangle$ takes the following form:
 \begin{equation}
 \langle \lambda \rangle \xrightarrow[d \rightarrow \infty]{} rd\left[6- \frac{20c}{7}\left(\frac{r}{d}\right)^{2/5} +\frac{20c^{2}}{21}\left(\frac{r}{d}\right)^{4/5}\right] - 5r^{2}
@@ -604,11 +610,6 @@ In our derivation of Equation \eqref{eq:ourLLRS}, we assumed both that the Fishe
 
 In Figure \ref{fig:modelcomp-iso}, we compare our theory (dashed lines) to these numerical results (solid dots).  It is clear Equation \eqref{eq:ourLLRS} is almost perfectly accurate when $r \ll d/2$, but it does begin to break down as $r$ becomes comparable to $d$.
 
-\begin{figure}
- \includegraphics[width=\columnwidth]{Images/Figure_9.pdf}
- \caption{\textbf{Improved prediction for $\langle \lambda(\rho_{0}, \M_{d})\rangle$, as compared to the Wilks theorem:} Numerical results for $\expect{\lambda(\rho_{0}, \M_{d})}$ compared to the prediction of the Wilks theorem (solid line) and our replacement theory as given in Equation \eqref{eq:ourLLRS} (dashed lines).  Our formula depends on the rank $r$ of $\rho_0$ (unlike the Wilks prediction), and is nearly perfect for $r\ll d/2$.  It becomes less accurate as $r$ approaches $d/2$, and is invalid when $r\approx d$.}
- \label{fig:modelcomp-iso}
-\end{figure}
 
 \subsection{Comparison to Heterodyne Tomography}
 \label{sec:heterotomo}
