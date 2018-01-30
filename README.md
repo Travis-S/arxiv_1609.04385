@@ -29,12 +29,10 @@ This paper investigates a problem in _quantum state tomography_, which is the ta
 
 To help remedy this, we (a) constructed a new framework for reasoning about the asymptotic properties of models, by generalizing [Local Asymptotic Normality](https://en.wikipedia.org/wiki/Local_asymptotic_normality) to the case of models with convex constraints, which we call "Metric-Projected Local Asymptotic Normality" (MP-LAN), and (b) used the new framework to develop a new theory for the loglikelihood ratio statistic and its behavior in state tomography. Numerical simulations verify our theory works reasonably well, and dramatically improves upon the Wilks Theorem. We applied our result to a particular kind of  state tomography (that of states of light), and found our result performs well in predicting some of the properties of the loglikelihood ratio statistic. This work lays the foundation for developing a model selection technique based on the loglikelihood ratio statistic which is accurate in state tomography.
 
-![Our main result - a replacement for the Wilks Theorem](arxiv_1609.04385/Images/Figure_3.pdf)
-
 Use of Code/Data
 ---------
 
-**Paper Source**
+**Paper source**
 
 If you'd like to download and use the text of our paper, you may do so. If you find typos or other improvements,
 feel free to [email me](mailto:travisscholten@protonmail.com) or open an issue on this repository. As of now, I anticipate adding acknowledgments to each person who helps improve the paper.
