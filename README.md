@@ -19,8 +19,6 @@ If you find this work useful to you, please consider citing
 }
 ```
 
-NOTE: The current version of the files in this repository is behind the version on the arXiv. I am working to update these files as soon as possible.
-
 Abstract
 -----------
 Quantum state tomography on a $d$-dimensional system demands resources that grow rapidly with $d$. They may be reduced by using model selection to tailor the number of parameters in the model (i.e., the size of the density matrix).  Most model selection methods typically rely on a test statistic and a null theory that describes its behavior when two models are equally good. Here, we consider the loglikelihood ratio.  Because of the positivity constraint $\rho \geq 0$, quantum state space does not generally satisfy local asymptotic normality, meaning the classical null theory for the loglikelihood ratio (the Wilks theorem) should not be used.  Thus, understanding and quantifying how positivity affects the null behavior of this test statistic is necessary for its use in model selection for state tomography.  We define a new generalization of local asymptotic normality, metric-projected local asymptotic normality, show that quantum state space satisfies it, and derive a replacement for the Wilks theorem. In addition to enabling reliable model selection, our results shed more light on the qualitative effects of the positivity constraint on state tomography.
@@ -47,15 +45,19 @@ In the ``Data`` directory, you'll find several csv files which contain some of t
 
 The data files in that directory are sufficient to reproduce Figures 1 through 13.
 
-**Figure Generation Code**
+**Generating the figures**
 
 The Jupyter notebook ``Supplemental_NB-I.ipynb`` contains code necessary to reproduce Figures 1 through 13.
+
+**Derivation of solution to Equation 16**
+
+The Jupyter notebook ``Supplemental_NB-II.ipynb`` contains a derivation of the solution to Equation 16 (given by Equation 17).
 
 **Images**
 
 Within the ``Images`` directory you will find PDF files for each image in the paper. If you find them useful, please let me know.
 
-**Making the Paper**
+**Making the paper**
 
 Included in this repository is a Makefile which automates compiling the paper. Typing ``make`` in your command line should trigger the compilation process.
 
