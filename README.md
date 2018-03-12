@@ -11,14 +11,16 @@ This paper is available on the arXiv, at ID [1609.04385](http://arxiv.org/abs/16
 If you find this work useful to you, please consider citing
 
 ```
-@article{[citation key],
-  title={Behavior of the Maximum Likelihood in Quantum State Tomography},
-  author={Scholten, Travis L and Blume-Kohout, Robin},
-  arxivId = {1609.04385},
-  journal={New Journal of Physics}
-  year={2018}
-  volume={20}
-  issue = {023050}
+@article{1367-2630-20-2-023050,
+  author={Travis L Scholten and Robin Blume-Kohout},
+  title={Behavior of the maximum likelihood in quantum state tomography},
+  journal={New Journal of Physics},
+  volume={20},
+  number={2},
+  pages={023050},
+  url={http://stacks.iop.org/1367-2630/20/i=2/a=023050},
+  year={2018},
+  abstract={Quantum state tomography on a d -dimensional system demands resources that grow rapidly with d . They may be reduced by using model selection to tailor the number of parameters in the model (i.e., the size of the density matrix). Most model selection methods typically rely on a test statistic and a null theory that describes its behavior when two models are equally good. Here, we consider the loglikelihood ratio. Because of the positivity constraint ρ ≥ 0, quantum state space does not generally satisfy local asymptotic normality (LAN), meaning the classical null theory for the loglikelihood ratio (the Wilks theorem) should not be used. Thus, understanding and quantifying how positivity affects the null behavior of this test statistic is necessary for its use in model selection for state tomography. We define a new generalization of LAN, metric-projected LAN, show that quantum state space satisfies it, and derive a replacement for the Wilks theorem. In addition to enabling reliable model selection, our results shed more light on the qualitative effects of the positivity constraint on state tomography.},
   doi={https://doi.org/10.1088/1367-2630/aaa7e2}
 }
 ```
