@@ -188,7 +188,9 @@ While there are many possible choices for the unconstrained model $\M'$, we will
 Although the definition of MP-LAN is rather short, it implies some very useful properties. These properties follow from the fact that, as $N \rightarrow \infty$, the behavior of $\rhoML{\M}$ and $\lambda$ is entirely determined by their behavior in an arbitrarily small region of $\M$ around $\rho_{0}$, which we call the \emph{local state space}.
 
 \begin{mydef}[Local state space]
-Given a model $\M$, the local state space around a point $\rho_{0}$ is the limit, as $N \rightarrow \infty$, of any sequence of convex subsets $\M_{N}$ of $\M$ such that $\lim_{N\rightarrow \infty}\mathrm{Pr}(\rhoML{\M} \in \M_{N}) =1$, described in coordinates with $\mathcal{I} = \mathcal{O}(1)$.
+For each natural number $N$, let $I_N$ be the Fisher information matrix of $\mathcal{M}$ at $\rho_0$, and let $
+\mathcal{M}_N$ be the set obtained by re-scaling each point in $\mathcal{M}$ by $I_{N}^{-1/2}$. For each $N$, let
+ $C_N$ be a convex subset of $\mathcal{M}_N$, chosen so that (a) $C_{N+1}$ contains $C_N$, and (b) $\lim_{N\rightarrow \infty} \mathrm{Pr}(\rhoML{\mathcal{M}} \in C_N) = 1$. Then the sequence $\{C_N: N=1,2...\}$ converges to the local state space around $\rho_0$.
 \end{mydef}
 
 Models that satisfy MP-LAN have the following \emph{asymptotic} properties:
