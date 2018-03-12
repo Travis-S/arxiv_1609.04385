@@ -15,7 +15,11 @@ If you find this work useful to you, please consider citing
   title={Behavior of the Maximum Likelihood in Quantum State Tomography},
   author={Scholten, Travis L and Blume-Kohout, Robin},
   arxivId = {1609.04385},
-  year={2016}
+  journal={New Journal of Physics}
+  year={2018}
+  volume={20}
+  issue = {023050}
+  doi={https://doi.org/10.1088/1367-2630/aaa7e2}
 }
 ```
 
