@@ -387,7 +387,7 @@ The models $\M_{d}$, defined in Equation \eqref{eq:modelsd}, satisfy MP-LAN.
 \end{proof}
 
 We can reduce the problem of computing $\lambda(\M_{d}, \M_{d+1})$ to that of computing $\lambda(\rho_{0}, \M_{k})$ for $k = d, d+1$ using the identity
-\[\lambda(\M_{d}, M_{d+1}) = \lambda(\rho_{0}, \M_{d+1}) - \lambda(\rho_{0}, \M_{d}).\]
+\[\lambda(\M_{d}, \M_{d+1}) = \lambda(\rho_{0}, \M_{d+1}) - \lambda(\rho_{0}, \M_{d}).\]
 where $\lambda(\rho_{0}, \M_{k})$ is given in Equation \eqref{eq:llrs_lan_2}.
 Because each model satisfies MP-LAN, asymptotically, $\lambda(\rho_{0}, \M_{k})$ takes a very simple form, via Equation \eqref{eq:llrs_lan}:
 \[\lambda(\rho_{0}, \M_{k}) = \mathrm{Tr}[(\rho_{0} - \rhoML{\M_{k}})\mathcal{I}_{k}(\rho_{0} - \rhoML{\M_{k}})].\]
@@ -628,7 +628,7 @@ Heterodyne tomography reconstructs $\rho_{0}$ using data from repeated measureme
 coherent state POVM, $\{|\alpha\rangle\langle \alpha| /\pi, ~\alpha=x+ip\in \mathbb{C}\}$, which corresponds to sampling directly from the Husimi $Q$-function of $\rho_{0}$ \cite{Husimi1940}.
 
 We examined the behavior of $\lambda$ for 13 distinct states $\rho_{0}$, both pure and mixed, supported on $\mathcal{H}_{2}, \mathcal{H}_{3}, \mathcal{H}
-_{4}$, and $\mathcal{H}_{5}$.  We used rejection sampling to simulate 100 heterodyne datasets with up to $N_{\mathrm{samples}}=10^5$, and found ML estimates $\rhoML{\M_{d}}$ over each of the 9 models $\M_2, \ldots, M_{10}$ using numerical optimization \footnote{The model $\M_{1}$ is trivial, as $\M_{1} = \{|0\rangle \langle 0|\}$. This model will almost always be wrong, in general.}.  For each $\rho_{0}$ and each $d$, we averaged $\lambda(\rho_{0}, \M_{d})$ over all 100 datasets to obtain an empirical average loglikelihood ratio $\bar{\lambda}(\rho_0,d)$.
+_{4}$, and $\mathcal{H}_{5}$.  We used rejection sampling to simulate 100 heterodyne datasets with up to $N_{\mathrm{samples}}=10^5$, and found ML estimates $\rhoML{\M_{d}}$ over each of the 9 models $\M_2, \ldots, \M_{10}$ using numerical optimization \footnote{The model $\M_{1}$ is trivial, as $\M_{1} = \{|0\rangle \langle 0|\}$. This model will almost always be wrong, in general.}.  For each $\rho_{0}$ and each $d$, we averaged $\lambda(\rho_{0}, \M_{d})$ over all 100 datasets to obtain an empirical average loglikelihood ratio $\bar{\lambda}(\rho_0,d)$.
 
 \begin{figure}
  \includegraphics[width=.9\columnwidth]{Images/Figure_11.pdf}
